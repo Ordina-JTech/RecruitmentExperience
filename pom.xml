@@ -7,6 +7,8 @@
     <modules>
         <module>recruitment-experience-app</module>
         <module>recruitment-experience-api</module>
+        <module>recruitment-experience-core</module>
+        <module>recruitment-experience-data</module>
     </modules>
 
     <parent>
@@ -25,6 +27,9 @@
     <properties>
         <java.version>1.8</java.version>
         <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
+        <lombok.version>1.18.8</lombok.version>
+        <postgresql.version>42.2.5</postgresql.version>
+        <project.version>0.0.1-SNAPSHOT</project.version>
     </properties>
 
     <dependencyManagement>
@@ -32,7 +37,17 @@
             <dependency>
                 <groupId>nl.ordina</groupId>
                 <artifactId>recruitment-experience-api</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>nl.ordina</groupId>
+                <artifactId>recruitment-experience-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>nl.ordina</groupId>
+                <artifactId>recruitment-experience-data</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -45,6 +60,29 @@
                 <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring.boot.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jdbc</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

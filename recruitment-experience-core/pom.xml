@@ -9,22 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>recruitment-experience-api</artifactId>
+    <artifactId>recruitment-experience-core</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>nl.ordina</groupId>
-            <artifactId>recruitment-experience-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <artifactId>recruitment-experience-data</artifactId>
         </dependency>
     </dependencies>
 </project>

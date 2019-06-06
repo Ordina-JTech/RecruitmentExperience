@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: n6pB4D9xqDyg7A3M
+      POSTGRES_USER: RecruitmentExperience
+      POSTGRES_DB: RecruitmentExperience
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8085:8080

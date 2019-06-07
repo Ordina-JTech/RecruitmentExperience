@@ -1,0 +1,5 @@
+<div class="container">
+  <mat-nav-list class="menu">
+    <a *ngFor="let url of urls" routerLink=<a mat-list-item [routerLink]="'applications/' + url">{{url | formatState}}</a>
+  </mat-nav-list>
+</div>

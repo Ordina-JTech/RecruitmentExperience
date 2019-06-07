@@ -1,0 +1,5 @@
+<mat-card *ngIf='application' class="container">
+  <h2 class="name">{{application.applicant | formatName}}</h2>
+  <mat-progress-bar mode="determinate" value="30"></mat-progress-bar>
+  <p>{{application.state | formatState}}</p>
+</mat-card>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ApplicationService } from '../application.service';
+import { ApplicationService } from '../services/application.service';
 import { Application } from '../interfaces/application';
 import { ActivatedRoute } from '@angular/router';
+import { ApplicationStates } from '../interfaces/application-states.enum';
 
 @Component({
   selector: 'app-application-detail',
@@ -22,6 +23,11 @@ export class ApplicationDetailComponent implements OnInit {
     this._applicationId = value;
 
     this.loadApplication();
+  }
+
+  getApplicationProgress(): number {
+    const states = Object.values(ApplicationStates);
+    return (states.findIndex(state => state === this.application.state)) / (states.length - 1) * 100;
   }
 
   ngOnInit() {

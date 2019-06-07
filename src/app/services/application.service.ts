@@ -1,18 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Application } from './interfaces/application';
-import APPLICATIONS from '../mock-data/applications';
-
-function mockPromise<T>(func: () => any): Promise<T> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      try {
-        resolve(func());
-      } catch (err) {
-        reject(err);
-      }
-    }, 100)
-  });
-}
+import { Application } from '../interfaces/application';
+import APPLICATIONS from '../../mock-data/applications';
+import { mockPromise } from './helpers';
 
 @Injectable({
   providedIn: 'root'

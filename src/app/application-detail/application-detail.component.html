@@ -1,5 +1,33 @@
 <mat-card *ngIf='application' class="container">
   <h2 class="name">{{application.applicant | formatName}}</h2>
-  <mat-progress-bar mode="determinate" value="30"></mat-progress-bar>
-  <p>{{application.state | formatState}}</p>
+  <div class="progress">
+    <mat-progress-bar mode="determinate" [value]="getApplicationProgress()"></mat-progress-bar>
+    <p>{{application.state | formatState}}</p>
+  </div>
+  <div class="details">
+    <table>
+      <tbody>
+        <tr>
+          <td><i>Naam</i></td>
+          <td>{{application.applicant | formatName}}</td>
+        </tr>
+        <tr>
+          <td><i>Regio</i></td>
+          <td>{{application.region}}</td>
+        </tr>
+        <tr>
+          <td><i>Functie</i></td>
+          <td>{{application.title}}</td>
+        </tr>
+        <tr>
+          <td><i>Gekoppelde BUM</i></td>
+          <td>{{application.bum | formatName}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-tab-group class="tabs">
+    <mat-tab label="Documenten"><app-application-documents [application]="application"></app-application-documents></mat-tab>
+    <mat-tab label="Opmerkingen"><app-application-notes class="notes" [application]="application"></app-application-notes></mat-tab>
+  </mat-tab-group>
 </mat-card>

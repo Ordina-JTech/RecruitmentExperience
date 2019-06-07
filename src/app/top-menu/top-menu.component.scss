@@ -1,8 +1,8 @@
 .container {
   height: 50px;
-  background-color: lightgray;
   display: flex;
   align-items: center;
   padding: 0 20px;
   justify-content: space-between;
+  border-bottom: 1px lightgray solid;
 }

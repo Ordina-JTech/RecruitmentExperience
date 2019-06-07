@@ -1,4 +1,5 @@
 import { Person } from './person';
 
-export interface BUM extends Person{
+export interface BUM extends Person {
+  id: number;
 }

@@ -1,4 +1,5 @@
 <div class="container">
+  <h2>{{filterState | formatState}}</h2>
   <table mat-table [dataSource]="applications" class="mat-elevation-z8">
     <ng-container matColumnDef="applicant">
       <th class="name-col" mat-header-cell *matHeaderCellDef> Naam </th>

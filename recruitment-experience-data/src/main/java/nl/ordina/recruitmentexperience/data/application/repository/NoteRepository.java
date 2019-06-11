@@ -1,10 +1,13 @@
 package nl.ordina.recruitmentexperience.data.application.repository;
 
 import nl.ordina.recruitmentexperience.data.application.model.NoteEntity;
-import nl.ordina.recruitmentexperience.data.application.model.RegionEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface NoteRepository extends CrudRepository<NoteEntity, Long> {
+public interface NoteRepository extends JpaRepository<NoteEntity, Long> {
+
+    List<NoteEntity> findAll();
 }

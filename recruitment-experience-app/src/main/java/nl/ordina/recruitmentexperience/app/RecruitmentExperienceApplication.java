@@ -1,8 +1,18 @@
 package nl.ordina.recruitmentexperience.app;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.data.application.model.*;
-import nl.ordina.recruitmentexperience.data.application.repository.*;
+import nl.ordina.recruitmentexperience.data.application.model.ApplicantEntity;
+import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
+import nl.ordina.recruitmentexperience.data.application.model.BusinessUnitEntity;
+import nl.ordina.recruitmentexperience.data.application.model.BusinessUnitManagerEntity;
+import nl.ordina.recruitmentexperience.data.application.model.NoteEntity;
+import nl.ordina.recruitmentexperience.data.application.model.RegionEntity;
+import nl.ordina.recruitmentexperience.data.application.repository.ApplicantRepository;
+import nl.ordina.recruitmentexperience.data.application.repository.ApplicationRepository;
+import nl.ordina.recruitmentexperience.data.application.repository.BusinessUnitManagerRepository;
+import nl.ordina.recruitmentexperience.data.application.repository.BusinessUnitRepository;
+import nl.ordina.recruitmentexperience.data.application.repository.NoteRepository;
+import nl.ordina.recruitmentexperience.data.application.repository.RegionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

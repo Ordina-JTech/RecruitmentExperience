@@ -15,6 +15,7 @@
         <dependency>
             <groupId>nl.ordina</groupId>
             <artifactId>recruitment-experience-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -41,6 +42,24 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>nl.ordina.recruitmentexperience.app.RecruitmentExperienceApplication</mainClass>
+                    <addResources>true</addResources>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
 
 </project>

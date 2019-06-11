@@ -10,17 +10,25 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>recruitment-experience-core</artifactId>
-
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
         <dependency>
             <groupId>nl.ordina</groupId>
             <artifactId>recruitment-experience-data</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>nl.ordina</groupId>
             <artifactId>recruitment-experience-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
+
 </project>

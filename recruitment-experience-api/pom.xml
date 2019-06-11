@@ -15,6 +15,7 @@
         <dependency>
             <groupId>nl.ordina</groupId>
             <artifactId>recruitment-experience-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

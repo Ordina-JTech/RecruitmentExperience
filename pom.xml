@@ -23,7 +23,7 @@
     <artifactId>recruitment-experience</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>recruitment-experience</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Recruitment Experience Backend service</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -34,21 +34,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>nl.ordina</groupId>
-                <artifactId>recruitment-experience-api</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>nl.ordina</groupId>
-                <artifactId>recruitment-experience-core</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>nl.ordina</groupId>
-                <artifactId>recruitment-experience-data</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
@@ -86,17 +71,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>nl.ordina.recruitmentexperience.app.RecruitmentExperienceApplication</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

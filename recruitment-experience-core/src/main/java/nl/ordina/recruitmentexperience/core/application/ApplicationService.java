@@ -3,6 +3,8 @@ package nl.ordina.recruitmentexperience.core.application;
 import lombok.RequiredArgsConstructor;
 import nl.ordina.recruitmentexperience.core.application.mapper.FromApplicationEntityMapper;
 import nl.ordina.recruitmentexperience.core.application.model.Application;
+import nl.ordina.recruitmentexperience.core.application.model.ApplicationState;
+import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicationRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,15 @@ public class ApplicationService {
 
     private final FromApplicationEntityMapper fromApplicationEntityMapper;
 
-    public List<Application> getApplications() {
-        return fromApplicationEntityMapper.map(applicationRepository.findAll());
+    public List<Application> getApplications(final ApplicationState stateFilter) {
+        final List<ApplicationEntity> applicationEntities;
+
+        if(stateFilter != null) {
+            applicationEntities = applicationRepository.findAllByState(stateFilter.name());
+        } else {
+            applicationEntities = applicationRepository.findAll();
+        }
+
+        return fromApplicationEntityMapper.map(applicationEntities);
     }
 }

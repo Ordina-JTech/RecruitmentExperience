@@ -9,8 +9,8 @@ public class ToApplicationStateModelMapper extends EnumMap<ApplicationState, App
 
     public ToApplicationStateModelMapper(Class<ApplicationState> keyType) {
         super(keyType);
-        put(ApplicationState.RESUME_SENT, ApplicationStateModel.RESUME_SENT);
-        put(ApplicationState.INTERVIEW_INVITED, ApplicationStateModel.INTERVIEW_INVITED);
+        put(ApplicationState.NEW, ApplicationStateModel.NEW);
+        put(ApplicationState.INVITED, ApplicationStateModel.INVITED);
         put(ApplicationState.FIRST_INTERVIEW, ApplicationStateModel.FIRST_INTERVIEW);
         put(ApplicationState.SECOND_INTERVIEW, ApplicationStateModel.SECOND_INTERVIEW);
         put(ApplicationState.ASSESSMENT, ApplicationStateModel.ASSESSMENT);

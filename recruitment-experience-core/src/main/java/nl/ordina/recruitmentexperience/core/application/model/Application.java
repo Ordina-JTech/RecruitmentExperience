@@ -15,7 +15,7 @@ public class Application {
     private BusinessUnit businessUnit;
     private BusinessUnitManager businessUnitManager;
     private Region region;
-    private ApplicationState applicationState;
+    private ApplicationState state;
     private String motivationLetterLink;
     private LocalDateTime firstInterviewDateTime;
     private LocalDateTime secondInterviewDateTime;

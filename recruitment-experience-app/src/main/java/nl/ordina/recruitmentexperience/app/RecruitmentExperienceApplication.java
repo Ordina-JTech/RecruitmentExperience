@@ -70,7 +70,7 @@ public class RecruitmentExperienceApplication {
                     .build();
 
             final ApplicationEntity applicationEntity = ApplicationEntity.builder()
-                    .applicationState("CONTRACT")
+                    .state("CONTRACT")
                     .firstInterviewDateTime(LocalDateTime.now())
                     .secondInterviewDateTime(LocalDateTime.now())
                     .motivationLetterLink("link")

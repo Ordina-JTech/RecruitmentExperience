@@ -11,4 +11,6 @@ import java.util.List;
 public interface ApplicationRepository extends JpaRepository<ApplicationEntity, Long> {
 
     List<ApplicationEntity> findAll();
+
+    List<ApplicationEntity> findAllByState(final String state);
 }

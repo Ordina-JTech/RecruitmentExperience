@@ -28,7 +28,7 @@ public class ApplicationEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "region_id")
     private RegionEntity region;
-    private String applicationState;
+    private String state;
     private String motivationLetterLink;
     private LocalDateTime firstInterviewDateTime;
     private LocalDateTime secondInterviewDateTime;

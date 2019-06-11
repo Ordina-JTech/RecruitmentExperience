@@ -21,7 +21,7 @@ public class ToApplicationModelMapper implements Mapper<Application, Application
         applicationModel.setSecondInterviewDateTime(input.getSecondInterviewDateTime());
         applicationModel.setMotivationLetterLink(input.getMotivationLetterLink());
         applicationModel.setApplicant(toApplicantModelMapper.map(input.getApplicant()));
-        applicationModel.setApplicationState((new ToApplicationStateModelMapper(ApplicationState.class)).get(input.getApplicationState()));
+        applicationModel.setState((new ToApplicationStateModelMapper(ApplicationState.class)).get(input.getState()));
         applicationModel.setBusinessUnitId(input.getBusinessUnit().getId());
         applicationModel.setBusinessUnitManagerId(input.getBusinessUnitManager().getId());
         applicationModel.setRegionId(input.getRegion().getId());

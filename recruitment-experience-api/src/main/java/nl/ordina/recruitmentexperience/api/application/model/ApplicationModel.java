@@ -13,7 +13,7 @@ public class ApplicationModel {
     private Long businessUnitId;
     private Long businessUnitManagerId;
     private Long regionId;
-    private ApplicationStateModel applicationState;
+    private ApplicationStateModel state;
     private String motivationLetterLink;
     private LocalDateTime firstInterviewDateTime;
     private LocalDateTime secondInterviewDateTime;

@@ -28,7 +28,7 @@ public class FromApplicationEntityMapper implements Mapper<ApplicationEntity, Ap
                 .firstInterviewDateTime(input.getFirstInterviewDateTime())
                 .secondInterviewDateTime(input.getSecondInterviewDateTime())
                 .applicant(fromApplicantEntityMapper.map(input.getApplicant()))
-                .applicationState(ApplicationState.valueOf(input.getApplicationState()))
+                .state(ApplicationState.valueOf(input.getState()))
                 .businessUnit(fromBusinessUnitEntityMapper.map(input.getBusinessUnit()))
                 .businessUnitManager(fromBusinessUnitManagerEntityMapper.map(input.getBusinessUnitManager()))
                 .build();

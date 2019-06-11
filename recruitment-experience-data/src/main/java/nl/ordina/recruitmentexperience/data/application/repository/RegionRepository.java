@@ -10,4 +10,6 @@ import java.util.List;
 public interface RegionRepository extends JpaRepository<RegionEntity, Long> {
 
     List<RegionEntity> findAll();
+
+    RegionEntity findOneById(final Long id);
 }

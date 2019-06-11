@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface ApplicationRepository extends JpaRepository<ApplicationEntity, Long> {
 
+    ApplicationEntity findOneById(final Long id);
+
     List<ApplicationEntity> findAll();
 
     List<ApplicationEntity> findAllByState(final String state);

@@ -18,7 +18,7 @@ public class NoteEntity {
     private String author;
     private String title;
     private String comments;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "application_id")
     private ApplicationEntity application;
 }

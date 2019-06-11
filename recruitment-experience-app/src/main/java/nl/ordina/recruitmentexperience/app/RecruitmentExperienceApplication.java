@@ -62,6 +62,7 @@ public class RecruitmentExperienceApplication {
                     .firstName("bumfirst")
                     .prefix("bumprefix")
                     .lastName("bumlast")
+                    .email("email")
                     .businessUnit(businessUnitEntity)
                     .build();
 
@@ -84,6 +85,7 @@ public class RecruitmentExperienceApplication {
                     .author("author")
                     .title("title")
                     .comments("comments")
+                    .application(applicationEntity)
                     .build();
 
             applicantRepository.save(applicantEntity);

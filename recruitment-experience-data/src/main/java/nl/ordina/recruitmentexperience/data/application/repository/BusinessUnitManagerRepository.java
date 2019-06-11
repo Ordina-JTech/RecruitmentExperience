@@ -10,4 +10,6 @@ import java.util.List;
 public interface BusinessUnitManagerRepository extends JpaRepository<BusinessUnitManagerEntity, Long> {
 
     List<BusinessUnitManagerEntity> findAll();
+
+    BusinessUnitManagerEntity findOneById(final Long id);
 }

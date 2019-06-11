@@ -19,7 +19,7 @@ public class FromNoteEntityMapper implements Mapper<NoteEntity, Note> {
                 .application(fromApplicationEntityMapper.map(input.getApplication()))
                 .author(input.getAuthor())
                 .title(input.getTitle())
-                .comments(input.getComments())
+                .text(input.getText())
                 .build();
     }
 }

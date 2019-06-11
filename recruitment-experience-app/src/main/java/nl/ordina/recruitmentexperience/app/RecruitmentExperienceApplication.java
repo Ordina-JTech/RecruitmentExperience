@@ -17,9 +17,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.time.LocalDateTime;
 
@@ -31,6 +35,16 @@ public class RecruitmentExperienceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RecruitmentExperienceApplication.class, args);
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+            }
+        };
     }
 
     @Component
@@ -79,12 +93,13 @@ public class RecruitmentExperienceApplication {
                     .businessUnit(businessUnitEntity)
                     .businessUnitManager(businessUnitManagerEntity)
                     .region(regionEntity)
+                    .title("title")
                     .build();
 
             final NoteEntity noteEntity = NoteEntity.builder()
                     .author("author")
                     .title("title")
-                    .comments("comments")
+                    .text("text")
                     .application(applicationEntity)
                     .build();
 

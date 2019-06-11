@@ -15,6 +15,7 @@ public class ApplicationModel {
     private Long regionId;
     private ApplicationStateModel state;
     private String motivationLetterLink;
+    private String title;
     private LocalDateTime firstInterviewDateTime;
     private LocalDateTime secondInterviewDateTime;
 }

@@ -31,6 +31,7 @@ public class FromApplicationEntityMapper implements Mapper<ApplicationEntity, Ap
                 .state(ApplicationState.valueOf(input.getState()))
                 .businessUnit(fromBusinessUnitEntityMapper.map(input.getBusinessUnit()))
                 .businessUnitManager(fromBusinessUnitManagerEntityMapper.map(input.getBusinessUnitManager()))
+                .title(input.getTitle())
                 .build();
     }
 }

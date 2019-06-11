@@ -9,6 +9,6 @@ public class Note {
     private Long id;
     private String author;
     private String title;
-    private String comments;
+    private String text;
     private Application application;
 }

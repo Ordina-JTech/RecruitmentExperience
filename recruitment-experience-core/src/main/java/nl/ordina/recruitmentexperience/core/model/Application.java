@@ -15,6 +15,7 @@ public class Application {
     private Region region;
     private ApplicationState state;
     private String motivationLetterLink;
+    private String title;
     private LocalDateTime firstInterviewDateTime;
     private LocalDateTime secondInterviewDateTime;
 }

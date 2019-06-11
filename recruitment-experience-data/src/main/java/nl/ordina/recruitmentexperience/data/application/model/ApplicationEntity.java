@@ -30,6 +30,7 @@ public class ApplicationEntity {
     private RegionEntity region;
     private String state;
     private String motivationLetterLink;
+    private String title;
     private LocalDateTime firstInterviewDateTime;
     private LocalDateTime secondInterviewDateTime;
 }

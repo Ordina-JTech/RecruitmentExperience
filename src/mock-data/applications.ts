@@ -1,6 +1,7 @@
 import { Application } from '../app/interfaces/application';
 import { ApplicationStates } from '../app/interfaces/application-states.enum';
 import BUMS from './bums';
+import REGIONS from './regions';
 
 const APPLICATIONS: Application[] = [
   {
@@ -14,9 +15,10 @@ const APPLICATIONS: Application[] = [
       phoneNumber: '0612345678',
       resumeLink: 'test',
     },
-    businessUnitManager: BUMS[0],
+    businessUnitManager: 0,
     state: ApplicationStates.NEW,
     department: 'OSD',
+    region: 0,
     notes: [],
     title: 'Software Developer',
   },
@@ -33,6 +35,8 @@ const APPLICATIONS: Application[] = [
     },
     state: ApplicationStates.ASSESSMENT,
     department: 'OSD',
+    region: 0,
+
     notes: [{
       id: 0,
       date: new Date(),
@@ -65,11 +69,13 @@ const APPLICATIONS: Application[] = [
       title: 'Vierde comment',
       text: 'Dit is nog een test',
     }],
-    businessUnitManager: BUMS[1],
+    businessUnitManager: 2,
     title: 'Software Developer',
   },
   {
     id: 2,
+    region: 1,
+
     applicant: {
       id: 3,
       prefix: 'Dhr',
@@ -79,7 +85,7 @@ const APPLICATIONS: Application[] = [
       phoneNumber: '0612345678',
       resumeLink: 'test',
     },
-    businessUnitManager: BUMS[2],
+    businessUnitManager: 1,
     state: ApplicationStates.ASSESSMENT,
     department: 'OSD',
     notes: [],

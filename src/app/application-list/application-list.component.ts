@@ -18,7 +18,7 @@ export class ApplicationListComponent implements OnInit {
   displayedColumns: string[] = [
     'applicant',
     'department',
-    'bum',
+    // 'bum',
     'title',
   ];
 

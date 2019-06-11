@@ -13,7 +13,7 @@
         </tr>
         <tr>
           <td><i>Regio</i></td>
-          <td>{{application.region}}</td>
+          <td><ng-container *ngIf="region | async as r">{{r.name}}</ng-container></td>
         </tr>
         <tr>
           <td><i>Functie</i></td>
@@ -21,7 +21,7 @@
         </tr>
         <tr>
           <td><i>Gekoppelde BUM</i></td>
-          <td>{{application.businessUnitManager | formatName}}</td>
+          <td>{{bum | async | formatName}}</td>
         </tr>
       </tbody>
     </table>

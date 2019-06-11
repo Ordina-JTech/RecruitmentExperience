@@ -10,7 +10,7 @@ const REGIONS: Region[] = [
     name: 'Eindhoven',
   },
   {
-    id: 3,
+    id: 2,
     name: 'Groningen'
   }
 ]

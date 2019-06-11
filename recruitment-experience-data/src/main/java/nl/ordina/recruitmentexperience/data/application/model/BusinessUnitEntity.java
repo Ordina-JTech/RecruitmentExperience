@@ -17,14 +17,4 @@ public class BusinessUnitEntity {
     @GeneratedValue
     private Long id;
     private String name;
-    @OneToMany(
-            mappedBy = "businessUnit",
-            cascade = CascadeType.ALL
-    )
-    private List<ApplicationEntity> applications;
-    @OneToMany(
-            mappedBy = "businessUnit",
-            cascade = CascadeType.ALL
-    )
-    private List<BusinessUnitManagerEntity> businessUnitManagers;
 }

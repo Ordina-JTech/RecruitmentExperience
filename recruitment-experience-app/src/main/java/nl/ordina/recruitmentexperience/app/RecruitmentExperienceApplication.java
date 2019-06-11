@@ -34,7 +34,7 @@ public class RecruitmentExperienceApplication {
         private final RegionRepository regionRepository;
 
         @Override
-        public void run(String... strings) throws Exception {
+        public void run(String... strings) {
             final ApplicantEntity applicantEntity = ApplicantEntity.builder()
                     .firstName("firstname")
                     .prefix("prefix")
@@ -74,7 +74,6 @@ public class RecruitmentExperienceApplication {
                     .author("author")
                     .title("title")
                     .comments("comments")
-                    .application(applicationEntity)
                     .build();
 
             applicantRepository.save(applicantEntity);

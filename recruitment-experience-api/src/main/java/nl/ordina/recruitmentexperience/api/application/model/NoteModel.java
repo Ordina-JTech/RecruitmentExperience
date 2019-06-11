@@ -10,5 +10,4 @@ public class NoteModel {
     private String author;
     private String title;
     private String comments;
-    private ApplicationModel application;
 }

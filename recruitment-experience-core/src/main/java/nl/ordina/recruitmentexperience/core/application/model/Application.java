@@ -14,7 +14,6 @@ public class Application {
     private Applicant applicant;
     private BusinessUnit businessUnit;
     private BusinessUnitManager businessUnitManager;
-    private List<Note> notes;
     private Region region;
     private ApplicationState applicationState;
     private String motivationLetterLink;

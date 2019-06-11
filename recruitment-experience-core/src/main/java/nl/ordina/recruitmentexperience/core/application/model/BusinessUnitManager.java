@@ -14,6 +14,5 @@ public class BusinessUnitManager {
     private String prefix;
     private String lastName;
     private String email;
-    private List<Application> applications;
     private BusinessUnit businessUnit;
 }

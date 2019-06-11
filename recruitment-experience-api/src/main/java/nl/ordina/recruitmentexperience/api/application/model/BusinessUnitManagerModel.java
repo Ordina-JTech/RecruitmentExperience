@@ -13,6 +13,5 @@ public class BusinessUnitManagerModel {
     private String prefix;
     private String lastName;
     private String email;
-    private List<ApplicationModel> applications;
     private BusinessUnitModel businessUnit;
 }

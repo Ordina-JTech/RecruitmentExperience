@@ -15,5 +15,4 @@ public class ApplicantModel {
     private String email;
     private String phoneNumber;
     private String resumeLink;
-    private List<ApplicationModel> applications;
 }

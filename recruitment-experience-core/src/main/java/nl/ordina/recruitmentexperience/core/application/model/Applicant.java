@@ -16,5 +16,4 @@ public class Applicant {
     private String email;
     private String phoneNumber;
     private String resumeLink;
-    private List<Application> applications;
 }

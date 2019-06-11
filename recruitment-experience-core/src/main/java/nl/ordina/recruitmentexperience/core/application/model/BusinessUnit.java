@@ -11,6 +11,4 @@ import java.util.List;
 public class BusinessUnit {
     private Long id;
     private String name;
-    private List<Application> applications;
-    private List<BusinessUnitManager> businessUnitManagers;
 }

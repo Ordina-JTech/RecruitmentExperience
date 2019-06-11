@@ -24,9 +24,4 @@ public class ApplicantEntity {
     private String email;
     private String phoneNumber;
     private String resumeLink;
-    @OneToMany(
-            mappedBy = "applicant",
-            cascade = CascadeType.ALL
-    )
-    private List<ApplicationEntity> applications;
 }

@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -17,21 +16,16 @@ public class ApplicationEntity {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "applicant_id")
     private ApplicantEntity applicant;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "business_unit_id")
     private BusinessUnitEntity businessUnit;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "business_unit_manager_id")
     private BusinessUnitManagerEntity businessUnitManager;
-    @OneToMany(
-            mappedBy = "application",
-            cascade = CascadeType.ALL
-    )
-    private List<NoteEntity> notes;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "region_id")
     private RegionEntity region;
     private String applicationState;

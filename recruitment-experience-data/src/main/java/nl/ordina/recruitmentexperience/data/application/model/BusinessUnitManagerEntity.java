@@ -20,11 +20,6 @@ public class BusinessUnitManagerEntity {
     private String prefix;
     private String lastName;
     private String email;
-    @OneToMany(
-            mappedBy = "businessUnitManager",
-            cascade = CascadeType.ALL
-    )
-    private List<ApplicationEntity> applications;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_unit_id")
     private BusinessUnitEntity businessUnit;

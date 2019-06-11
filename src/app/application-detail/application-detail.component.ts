@@ -35,6 +35,6 @@ export class ApplicationDetailComponent implements OnInit {
   }
 
   async loadApplication() {
-    this.application = await this.applicationService.getApplication(this.applicationId);
+    this.application = await this.applicationService.getApplication(this.applicationId).toPromise();
   }
 }

@@ -32,7 +32,7 @@ export class ApplicationListComponent implements OnInit {
   }
 
   async reloadData() {
-    this.applications = await this.applicationsService.getApplications(this.filterState);
+    this.applications = await this.applicationsService.getApplications(this.filterState).toPromise();
   }
 
   ngOnInit() {

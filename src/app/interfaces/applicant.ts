@@ -1,5 +1,6 @@
 import { Person } from './person';
 
 export interface Applicant extends Person {
-  resume: string;
+  id: number;
+  resumeLink: string;
 }

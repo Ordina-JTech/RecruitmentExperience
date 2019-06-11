@@ -14,7 +14,8 @@ import { FormatStatePipe } from './pipes/format-state.pipe';
 import { BumSelectorComponent } from './bum-selector/bum-selector.component';
 import { ApplicationDocumentsComponent } from './application-documents/application-documents.component';
 import { ApplicationNotesComponent } from './application-notes/application-notes.component';
-import { FormatDatePipe } from './format-date.pipe';
+import { FormatDatePipe } from './pipes/format-date.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { FormatDatePipe } from './format-date.pipe';
     MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

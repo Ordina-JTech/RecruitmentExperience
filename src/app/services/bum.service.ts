@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { BUM } from '../interfaces/bum';
-import { mockPromise } from './helpers';
+import { BusinessUnitManager } from '../interfaces/business-unit-manager';
 import BUMS from 'src/mock-data/bums';
+import { ApiService } from './api.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BumService {
 
-  constructor() { }
+  constructor(private api: ApiService) { }
 
-  getBUMs(): Promise<BUM[]> {
-    return mockPromise(() => BUMS);
+  getBUMs(): Observable<BusinessUnitManager[]> {
+    return this.api.get(`bums`);
   }
 
-  getBUM(id: number): Promise<BUM> {
-    return mockPromise(() => BUMS.find(bum => bum.id === id));
+  getBUM(id: number): Observable<BusinessUnitManager> {
+    return this.api.get(`bums/${id}`);
   }
 }

@@ -1,6 +1,6 @@
 export interface Person {
-  prefix: string;
   firstName: string;
+  prefix: string;
   lastName: string;
   email: string;
   phoneNumber: string;

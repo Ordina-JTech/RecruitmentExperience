@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Application } from '../interfaces/application';
-import APPLICATIONS from '../../mock-data/applications';
-import { mockPromise } from './helpers';
+import { ApiService } from './api.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationService {
 
-  constructor() { }
+  constructor(private api: ApiService) { }
 
-  getApplications(state: string): Promise<Application[]> {
-    return mockPromise(() => {
-      return APPLICATIONS.filter(application => application.state === state);
-    });
+  getApplications(state: string): Observable<Application[]> {
+    return this.api.get(`applications?state=${state}`);
   }
 
-  getApplication(id: number): Promise<Application> {
-    return mockPromise(() => APPLICATIONS.find(application => application.id === id));
+  getApplication(id: number): Observable<Application> {
+    return this.api.get(`applications/${id}`);
   }
 }
  

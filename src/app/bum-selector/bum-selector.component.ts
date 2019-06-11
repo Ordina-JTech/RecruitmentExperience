@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BumService } from '../services/bum.service';
-import { BUM } from '../interfaces/bum';
+import { BusinessUnitManager } from '../interfaces/business-unit-manager';
 
 @Component({
   selector: 'app-bum-selector',
@@ -11,16 +11,16 @@ export class BumSelectorComponent implements OnInit {
 
   constructor(private bumService: BumService) { }
 
-  bums: BUM[] = [];
+  bums: BusinessUnitManager[] = [];
 
   @Input()
-  selected: BUM;
+  selected: BusinessUnitManager;
 
   ngOnInit() {
     this.loadBUMs();
   }
 
   async loadBUMs() {
-    this.bums = await this.bumService.getBUMs();
+    this.bums = await this.bumService.getBUMs().toPromise();
   }
 }

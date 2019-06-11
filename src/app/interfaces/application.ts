@@ -1,19 +1,21 @@
 import { ApplicationStates } from './application-states.enum';
-import { BUM } from './bum';
+import { BusinessUnitManager } from './business-unit-manager';
 import { Note } from './note';
 import { Applicant } from './applicant';
+import { BusinessUnit } from './business-unit';
+import { Region } from './region';
 
 export interface Application {
   id: number;
-  applicant: Applicant;
-  state: ApplicationStates;
-  title: string;
-  firstInterviewDate?: Date;
-  secondInterviewDate?: Date;
-  bum?: BUM;
-  region?: string;
-  department: string;
-  bu?: string;
+  applicant: number | Applicant;
+  businessUnit?: number | BusinessUnit;
+  businessUnitManager?: number | BusinessUnitManager;
   notes: Note[];
-  motivationLetter?: string;
+  region?: number | Region;
+  state: ApplicationStates;
+  motivationLetterLink?: string;
+  firstInterviewDateTime?: Date;
+  secondInterviewDateTime?: Date;
+  title: string;
+  department: string;
 }

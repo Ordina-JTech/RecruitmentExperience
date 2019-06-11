@@ -1,0 +1,14 @@
+package nl.ordina.recruitmentexperience.core.model;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter@Builder
+
+public class Note {
+    private Long id;
+    private String author;
+    private String title;
+    private String comments;
+    private Application application;
+}

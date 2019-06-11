@@ -11,4 +11,8 @@ public interface Mapper<I, O> {
     default List<O> map(final Collection<I> input){
         return input.stream().map(this::map).collect(Collectors.toList());
     }
+
+    default O mapNullSafe(final I input) {
+        return input == null ? null : map(input);
+    }
 }

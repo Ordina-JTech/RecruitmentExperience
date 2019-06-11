@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BusinessUnitManagerEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String prefix;

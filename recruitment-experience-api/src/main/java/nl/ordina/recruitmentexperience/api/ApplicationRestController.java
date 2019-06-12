@@ -41,7 +41,7 @@ public class ApplicationRestController {
         return toApplicationModelMapper.map(applicationService.getApplications((new FromApplicationStateModelMapper(ApplicationStateModel.class)).get(stateModel)));
     }
 
-    @GetMapping("/{applicationId")
+    @GetMapping("/{applicationId}")
     public ApplicationModel getApplication(@PathVariable final Long applicationId) {
         return toApplicationModelMapper.map(applicationService.getApplication(applicationId));
     }

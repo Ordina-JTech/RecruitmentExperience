@@ -8,7 +8,10 @@ import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +35,13 @@ public class ApplicationService {
 
     public Application getApplication(final Long id) {
         return fromApplicationEntityMapper.map(applicationRepository.findOneById(id));
+    }
+
+    public Map<String, Long> getApplicationStateCount() {
+        Map<String, Long> counts = new HashMap<>();
+
+        Arrays.stream(ApplicationState.values()).map(Enum::name).forEach(state -> counts.put(state, applicationRepository.countByState(state)));
+
+        return counts;
     }
 }

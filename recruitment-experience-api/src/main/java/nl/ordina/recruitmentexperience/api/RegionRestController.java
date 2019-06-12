@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/regions")
 @RequiredArgsConstructor
@@ -21,8 +23,13 @@ public class RegionRestController {
 
     private final ToRegionModelMapper toRegionModelMapper;
 
+    @GetMapping()
+    public List<RegionModel> getRegions() {
+        return toRegionModelMapper.map(regionService.getRegions());
+    }
+
     @GetMapping("/{regionId}")
-    public RegionModel getApplication(@PathVariable final Long regionId){
+    public RegionModel getRegion(@PathVariable final Long regionId){
         return toRegionModelMapper.mapNullSafe(regionService.getRegion(regionId));
     }
 }

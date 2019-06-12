@@ -21,4 +21,5 @@ public class NoteEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "application_id")
     private ApplicationEntity application;
+    private String creationDate;
 }

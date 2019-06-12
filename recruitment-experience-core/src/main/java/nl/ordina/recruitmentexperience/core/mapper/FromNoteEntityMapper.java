@@ -6,6 +6,8 @@ import nl.ordina.recruitmentexperience.core.model.Note;
 import nl.ordina.recruitmentexperience.data.application.model.NoteEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class FromNoteEntityMapper implements Mapper<NoteEntity, Note> {
@@ -20,6 +22,7 @@ public class FromNoteEntityMapper implements Mapper<NoteEntity, Note> {
                 .author(input.getAuthor())
                 .title(input.getTitle())
                 .text(input.getText())
+                .creationDate(OffsetDateTime.parse(input.getCreationDate()))
                 .build();
     }
 }

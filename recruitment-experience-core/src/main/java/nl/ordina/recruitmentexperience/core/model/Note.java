@@ -3,6 +3,8 @@ package nl.ordina.recruitmentexperience.core.model;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.OffsetDateTime;
+
 @Getter@Builder
 
 public class Note {
@@ -11,4 +13,5 @@ public class Note {
     private String title;
     private String text;
     private Application application;
+    private OffsetDateTime creationDate;
 }

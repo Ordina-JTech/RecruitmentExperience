@@ -15,6 +15,7 @@ public class ToNoteModelMapper implements Mapper<Note, NoteModel> {
         noteModel.setAuthor(input.getAuthor());
         noteModel.setTitle(input.getTitle());
         noteModel.setText(input.getText());
+        noteModel.setCreationDate(input.getCreationDate());
         return noteModel;
     }
 }

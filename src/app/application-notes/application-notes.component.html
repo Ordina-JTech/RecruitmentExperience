@@ -1,8 +1,10 @@
-<mat-card *ngFor="let note of application.notes" class="note">
-  <mat-card-title><span class="date">{{note.date | formatDate}}</span></mat-card-title>
-  <mat-card-content>
-    <mat-form-field class="text">
-      <textarea matInput [value]="note.text"></textarea>
-    </mat-form-field>
-  </mat-card-content>
-</mat-card>
+<ng-container *ngIf="notes | async as n">
+  <mat-card *ngFor="let note of n" class="note">
+    <mat-card-title><span class="date">{{note.date | formatDate}}</span></mat-card-title>
+    <mat-card-content>
+      <mat-form-field class="text">
+        <textarea matInput [value]="note.text"></textarea>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

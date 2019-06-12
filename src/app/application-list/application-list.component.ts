@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationService } from '../services/application.service';
 import { Application } from '../interfaces/application';
+import { ModalService } from '../services/modal.service';
 
 @Component({
   selector: 'app-application-list',
@@ -11,7 +12,9 @@ import { Application } from '../interfaces/application';
 export class ApplicationListComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, 
-              private applicationsService: ApplicationService) { }
+              private applicationsService: ApplicationService,
+              private modal: ModalService
+              ) { }
 
   applications: Application[] = [];
   _filterState: string = null;
@@ -40,4 +43,8 @@ export class ApplicationListComponent implements OnInit {
       this.filterState = params.state;
     });
   }
+
+  handleAddClick = () => {
+
+  };
 }

@@ -15,10 +15,10 @@ const APPLICATIONS: Application[] = [
       phoneNumber: '0612345678',
       resumeLink: 'test',
     },
-    businessUnitManager: 0,
+    businessUnitManagerId: 0,
     state: ApplicationStates.NEW,
     department: 'OSD',
-    region: 0,
+    regionId: 0,
     notes: [],
     title: 'Software Developer',
   },
@@ -35,7 +35,7 @@ const APPLICATIONS: Application[] = [
     },
     state: ApplicationStates.ASSESSMENT,
     department: 'OSD',
-    region: 0,
+    regionId: 0,
 
     notes: [{
       id: 0,
@@ -69,12 +69,12 @@ const APPLICATIONS: Application[] = [
       title: 'Vierde comment',
       text: 'Dit is nog een test',
     }],
-    businessUnitManager: 2,
+    businessUnitManagerId: 2,
     title: 'Software Developer',
   },
   {
     id: 2,
-    region: 1,
+    regionId: 1,
 
     applicant: {
       id: 3,
@@ -85,7 +85,7 @@ const APPLICATIONS: Application[] = [
       phoneNumber: '0612345678',
       resumeLink: 'test',
     },
-    businessUnitManager: 1,
+    businessUnitManagerId: 1,
     state: ApplicationStates.ASSESSMENT,
     department: 'OSD',
     notes: [],

@@ -9,8 +9,8 @@ export class ConfigService {
 
   private CONFIG = {
     api: {
-      mockLag: 100,
-      mockMode: true,
+      mockLag: 0,
+      mockMode: false,
       https: false,
       domain: 'localhost',
       baseUrl: 'api/',

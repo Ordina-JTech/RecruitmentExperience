@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatSidenavModule, MatListModule, MatToolbarModule, MatIconModule, MatTableModule, MatCardModule, MatProgressBarModule, MatTabsModule, MatSelectModule, MatFormFieldModule, MatInputModule} from '@angular/material';
+import {MatButtonModule, MatSidenavModule, MatListModule, MatToolbarModule, MatIconModule, MatTableModule, MatCardModule, MatProgressBarModule, MatTabsModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatDialogModule} from '@angular/material';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,6 +48,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

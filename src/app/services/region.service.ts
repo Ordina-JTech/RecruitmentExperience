@@ -19,7 +19,6 @@ export class RegionService {
   getRegion(id: number): Observable<Region> {
     return new Observable(region => {
       this.getRegions().subscribe(regions => {
-        console.log('region ' + id, regions.find(region => region.id === id))
         region.next(regions.find(region => region.id === id));
         region.complete();
       });

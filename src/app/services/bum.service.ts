@@ -15,11 +15,11 @@ export class BumService {
 
   @Cacheable()
   getBUMs(): Observable<BusinessUnitManager[]> {
-    return this.api.get(`bums`);
+    return this.api.get(`business-unit-managers`);
   }
 
   @Cacheable()
   getBUM(id: number): Observable<BusinessUnitManager> {
-    return this.api.get(`bums/${id}`);
+    return this.api.get(`business-unit-managers/${id}`);
   }
 }

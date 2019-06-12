@@ -8,10 +8,10 @@ import { Region } from './region';
 export interface Application {
   id: number;
   applicant: number | Applicant;
-  businessUnit?: number | BusinessUnit;
-  businessUnitManager?: number | BusinessUnitManager;
+  businessUnitId?: number;
+  businessUnitManagerId?: number;
   notes: Note[];
-  region?: number | Region;
+  regionId?: number;
   state: ApplicationStates;
   motivationLetterLink?: string;
   firstInterviewDateTime?: Date;

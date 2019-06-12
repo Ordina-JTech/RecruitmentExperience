@@ -4,6 +4,16 @@
   align-items: center;
 }
 
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  &__button {
+    color: blue;
+  }
+}
+
 .department-col {
   min-width: 100px;
 }

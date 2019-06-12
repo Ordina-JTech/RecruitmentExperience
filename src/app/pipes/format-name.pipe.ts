@@ -8,7 +8,6 @@ import { Person } from '../interfaces/person';
 export class FormatNamePipe implements PipeTransform {
 
   transform(value?: Person, args?: any): any {
-    console.log('format')
     return value ? `${value.firstName} ${value.lastName}` : '';
   }
 }

@@ -10,7 +10,7 @@ export enum ApplicationStates {
 
 export const StateDescriptions = {
   [ApplicationStates.NEW]: 'Nieuwe sollicitatie',
-  [ApplicationStates.INVITED]: 'Uitgenodigd voor gesprek',
+  [ApplicationStates.INVITED]: 'Uitgenodigd',
   [ApplicationStates.FIRST_INTERVIEW]: 'Eerste gesprek',
   [ApplicationStates.SECOND_INTERVIEW]: 'Tweede gesprek',
   [ApplicationStates.ASSESSMENT]: 'Assessment',

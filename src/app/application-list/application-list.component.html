@@ -1,5 +1,8 @@
 <div class="container">
-  <h2>{{filterState | formatState}}</h2>
+  <div class="title">
+    <h2>{{filterState | formatState}}</h2>
+    <button mat-button *ngIf="filterState === 'new'">Toevoegen</button>
+  </div>
   <table mat-table [dataSource]="applications" class="mat-elevation-z8">
     <ng-container matColumnDef="applicant">
       <th class="name-col" mat-header-cell *matHeaderCellDef> Naam </th>

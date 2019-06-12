@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Application } from '../interfaces/application';
+import { ApplicationService } from '../services/application.service';
+import { Observable } from 'rxjs';
+import { Note } from '../interfaces/note';
 
 @Component({
   selector: 'app-application-notes',
@@ -8,11 +11,25 @@ import { Application } from '../interfaces/application';
 })
 export class ApplicationNotesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private applicationService: ApplicationService) { }
+
+  notes: Observable<Note[]> = null;
 
   ngOnInit() {
   }
 
+  private _application: Application;
+  public get application(): Application {
+    return this._application;
+  }
+
   @Input()
-  application: Application;
+  public set application(value: Application) {
+    this._application = value;
+    this.loadNotes();
+  }
+
+  async loadNotes() {
+    this.notes = this.applicationService.getApplicationNotes(this.application.id);
+  }
 }

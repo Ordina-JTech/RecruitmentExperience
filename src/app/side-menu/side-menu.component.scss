@@ -24,7 +24,7 @@ $border-size: 5px;
   padding-left: -$border-size;
   background: #565656;
   border-left: $border-size solid #F58220;
-  width: $button-size - $border-size;
+  width: $button-size - $border-size !important;
 }
 
 .text-container {

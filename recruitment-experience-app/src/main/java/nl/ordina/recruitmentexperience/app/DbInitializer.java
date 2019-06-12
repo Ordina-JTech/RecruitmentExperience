@@ -1,6 +1,9 @@
 package nl.ordina.recruitmentexperience.app;
 
+import io.codearte.jfairy.Fairy;
+import io.codearte.jfairy.producer.person.Person;
 import lombok.RequiredArgsConstructor;
+import nl.ordina.recruitmentexperience.core.model.ApplicationState;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicantEntity;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.model.BusinessUnitEntity;
@@ -16,9 +19,11 @@ import nl.ordina.recruitmentexperience.data.application.repository.RegionReposit
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Component
 @RequiredArgsConstructor
@@ -30,60 +35,122 @@ public class DbInitializer implements CommandLineRunner {
     private final BusinessUnitRepository businessUnitRepository;
     private final NoteRepository noteRepository;
     private final RegionRepository regionRepository;
+    private final Fairy fairy = Fairy.create();
 
     @Override
     public void run(String... strings) {
-        final ApplicantEntity applicantEntity = ApplicantEntity.builder()
-                .firstName("firstname")
-                .prefix("prefix")
-                .lastName("lastname")
-                .email("email")
-                .phoneNumber("phone")
-                .resumeLink("resumelink")
-                .build();
 
-        final BusinessUnitEntity businessUnitEntity = BusinessUnitEntity.builder()
-                .name("bu")
-                .build();
+        List<ApplicantEntity> applicants = new ArrayList<>();
+        List<ApplicationEntity> applications = new ArrayList<>();
+        List<BusinessUnitEntity> businessUnits = new ArrayList<>();
+        List<BusinessUnitManagerEntity> businessUnitManagers = new ArrayList<>();
+        List<RegionEntity> regions = new ArrayList<>();
+        List<NoteEntity> notes = new ArrayList<>();
 
-        final BusinessUnitManagerEntity businessUnitManagerEntity = BusinessUnitManagerEntity.builder()
-                .firstName("bumfirst")
-                .prefix("bumprefix")
-                .lastName("bumlast")
-                .email("email")
-                .businessUnit(businessUnitEntity)
-                .build();
+        final BusinessUnitEntity bu1 = BusinessUnitEntity.builder().name("JTech").build();
+        final BusinessUnitEntity bu2 = BusinessUnitEntity.builder().name("MTech").build();
+        final BusinessUnitEntity bu3 = BusinessUnitEntity.builder().name("JSRoots").build();
+        final BusinessUnitEntity bu4 = BusinessUnitEntity.builder().name("Pythoneers").build();
 
-        final RegionEntity regionEntity = RegionEntity.builder()
-                .name("region")
-                .build();
+        final BusinessUnitEntity savedBu1 = businessUnitRepository.save(bu1);
+        final BusinessUnitEntity savedBu2 = businessUnitRepository.save(bu2);
+        final BusinessUnitEntity savedBu3 = businessUnitRepository.save(bu3);
+        final BusinessUnitEntity savedBu4 = businessUnitRepository.save(bu4);
 
-        final ApplicationEntity applicationEntity = ApplicationEntity.builder()
-                .state("CONTRACT")
-                .firstInterviewDateTime(LocalDateTime.now())
-                .secondInterviewDateTime(LocalDateTime.now())
-                .motivationLetterLink("link")
-                .applicant(applicantEntity)
-                .businessUnit(businessUnitEntity)
-                .businessUnitManager(businessUnitManagerEntity)
-                .region(regionEntity)
-                .title("title")
-                .build();
+        businessUnits.add(savedBu1);
+        businessUnits.add(savedBu2);
+        businessUnits.add(savedBu3);
+        businessUnits.add(savedBu4);
 
-        final NoteEntity noteEntity = NoteEntity.builder()
-                .author("author")
-                .title("title")
-                .text("text")
-                .application(applicationEntity)
-                .creationDate(ZonedDateTime.now(ZoneId.of("Europe/Amsterdam")).toOffsetDateTime().toString())
-                .build();
+        final RegionEntity r1 = RegionEntity.builder().name("Noord").build();
+        final RegionEntity r2 = RegionEntity.builder().name("Midden").build();
+        final RegionEntity r3 = RegionEntity.builder().name("Zuid").build();
 
-        applicantRepository.save(applicantEntity);
-        businessUnitRepository.save(businessUnitEntity);
-        businessUnitManagerRepository.save(businessUnitManagerEntity);
-        regionRepository.save(regionEntity);
-        applicationRepository.save(applicationEntity);
-        noteRepository.save(noteEntity);
+        final RegionEntity savedR1 = regionRepository.save(r1);
+        final RegionEntity savedR2 = regionRepository.save(r2);
+        final RegionEntity savedR3 = regionRepository.save(r3);
 
+        regions.add(savedR1);
+        regions.add(savedR2);
+        regions.add(savedR3);
+
+        for(int i = 0; i < 10; i++) {
+            Person person = fairy.person();
+
+            final BusinessUnitManagerEntity businessUnitManager =  BusinessUnitManagerEntity.builder()
+                    .firstName(person.getFirstName())
+                    .prefix(person.getMiddleName())
+                    .lastName(person.getLastName())
+                    .email(person.getEmail())
+                    .businessUnit(businessUnits.get(i%4))
+                    .build();
+
+            BusinessUnitManagerEntity savedBusinessUnitManager = businessUnitManagerRepository.save(businessUnitManager);
+            businessUnitManagers.add(savedBusinessUnitManager);
+        }
+
+
+        for(int i = 0; i < 100; i++) {
+
+            Person person = fairy.person();
+
+            final ApplicantEntity applicant = ApplicantEntity.builder()
+                    .firstName(person.getFirstName())
+                    .prefix(person.getMiddleName())
+                    .lastName(person.getLastName())
+                    .email(person.getEmail())
+                    .phoneNumber(person.getTelephoneNumber())
+                    .resumeLink("resumelink")
+                    .build();
+
+            final ApplicantEntity savedApplicant = applicantRepository.save(applicant);
+            applicants.add(savedApplicant);
+
+            final BusinessUnitManagerEntity businessUnitManager = businessUnitManagers.get(i % 10);
+
+            final Random r = new Random();
+            ApplicationState randomState = ApplicationState.values()[r.nextInt(ApplicationState.values().length)];
+
+            final ApplicationEntity application = ApplicationEntity.builder()
+                    .businessUnit(businessUnitManager.getBusinessUnit())
+                    .businessUnitManager(businessUnitManager)
+                    .region(regions.get(i % 3))
+                    .applicant(applicant)
+                    .title(randomString((int) (Math.random() * 10 + 10)))
+                    .firstInterviewDateTime(ZonedDateTime.now(ZoneId.of("Europe/Amsterdam")).toOffsetDateTime().toString())
+                    .secondInterviewDateTime(ZonedDateTime.now(ZoneId.of("Europe/Amsterdam")).toOffsetDateTime().toString())
+                    .motivationLetterLink("motivationLetterLink")
+                    .state(randomState.name())
+                    .build();
+
+            final ApplicationEntity savedApplication = applicationRepository.save(application);
+            applications.add(savedApplication);
+
+            for(int j = 0; j < (int)(Math.random()*10); j++) {
+                final NoteEntity noteEntity = NoteEntity.builder()
+                        .creationDate(ZonedDateTime.now(ZoneId.of("Europe/Amsterdam")).toOffsetDateTime().toString())
+                        .title(randomString((int) (Math.random() * 10 + 10)))
+                        .text(randomString((int) (Math.random() * 50 + 10)))
+                        .author(fairy.person().getFullName())
+                        .application(savedApplication)
+                        .build();
+
+                final NoteEntity savedNote = noteRepository.save(noteEntity);
+                notes.add(savedNote);
+            }
+        }
+    }
+
+    private String randomString(int targetStringLength) {
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        return buffer.toString();
     }
 }

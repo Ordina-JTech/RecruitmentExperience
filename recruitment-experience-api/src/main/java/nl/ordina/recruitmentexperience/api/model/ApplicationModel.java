@@ -3,7 +3,7 @@ package nl.ordina.recruitmentexperience.api.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -16,6 +16,6 @@ public class ApplicationModel {
     private ApplicationStateModel state;
     private String motivationLetterLink;
     private String title;
-    private LocalDateTime firstInterviewDateTime;
-    private LocalDateTime secondInterviewDateTime;
+    private OffsetDateTime firstInterviewDateTime;
+    private OffsetDateTime secondInterviewDateTime;
 }

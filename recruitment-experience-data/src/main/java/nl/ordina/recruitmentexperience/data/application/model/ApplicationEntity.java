@@ -43,4 +43,7 @@ public class ApplicationEntity {
     private String title;
     private String firstInterviewDateTime;
     private String secondInterviewDateTime;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id")
+    private DepartmentEntity department;
 }

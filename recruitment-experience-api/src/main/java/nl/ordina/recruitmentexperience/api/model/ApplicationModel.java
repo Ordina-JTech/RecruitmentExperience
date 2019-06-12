@@ -18,4 +18,5 @@ public class ApplicationModel {
     private String title;
     private OffsetDateTime firstInterviewDateTime;
     private OffsetDateTime secondInterviewDateTime;
+    private Long departmentId;
 }

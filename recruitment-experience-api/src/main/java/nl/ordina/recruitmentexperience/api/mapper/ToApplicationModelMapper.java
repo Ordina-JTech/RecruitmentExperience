@@ -26,6 +26,7 @@ public class ToApplicationModelMapper implements Mapper<Application, Application
         applicationModel.setBusinessUnitManagerId(input.getBusinessUnitManager().getId());
         applicationModel.setRegionId(input.getRegion().getId());
         applicationModel.setTitle(input.getTitle());
+        applicationModel.setDepartmentId(input.getDepartment().getId());
         return applicationModel;
     }
 }

@@ -5,8 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BusinessUnitModel {
+public class DepartmentModel {
     private Long id;
     private String name;
-    private DepartmentModel department;
 }

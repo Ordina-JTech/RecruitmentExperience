@@ -21,6 +21,8 @@ public class FromApplicationEntityMapper implements Mapper<ApplicationEntity, Ap
 
     private final FromBusinessUnitManagerEntityMapper fromBusinessUnitManagerEntityMapper;
 
+    private final FromDepartmentEntityMapper fromDepartmentEntityMapper;
+
     @Override
     public Application map(ApplicationEntity input) {
         return Application.builder()
@@ -34,6 +36,7 @@ public class FromApplicationEntityMapper implements Mapper<ApplicationEntity, Ap
                 .businessUnit(fromBusinessUnitEntityMapper.map(input.getBusinessUnit()))
                 .businessUnitManager(fromBusinessUnitManagerEntityMapper.map(input.getBusinessUnitManager()))
                 .title(input.getTitle())
+                .department(fromDepartmentEntityMapper.map(input.getDepartment()))
                 .build();
     }
 }

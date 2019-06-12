@@ -8,12 +8,14 @@ import nl.ordina.recruitmentexperience.data.application.model.ApplicantEntity;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.model.BusinessUnitEntity;
 import nl.ordina.recruitmentexperience.data.application.model.BusinessUnitManagerEntity;
+import nl.ordina.recruitmentexperience.data.application.model.DepartmentEntity;
 import nl.ordina.recruitmentexperience.data.application.model.NoteEntity;
 import nl.ordina.recruitmentexperience.data.application.model.RegionEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicantRepository;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicationRepository;
 import nl.ordina.recruitmentexperience.data.application.repository.BusinessUnitManagerRepository;
 import nl.ordina.recruitmentexperience.data.application.repository.BusinessUnitRepository;
+import nl.ordina.recruitmentexperience.data.application.repository.DepartmentRepository;
 import nl.ordina.recruitmentexperience.data.application.repository.NoteRepository;
 import nl.ordina.recruitmentexperience.data.application.repository.RegionRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -35,6 +37,7 @@ public class DbInitializer implements CommandLineRunner {
     private final BusinessUnitRepository businessUnitRepository;
     private final NoteRepository noteRepository;
     private final RegionRepository regionRepository;
+    private final DepartmentRepository departmentRepository;
     private final Fairy fairy = Fairy.create();
 
     @Override
@@ -46,11 +49,21 @@ public class DbInitializer implements CommandLineRunner {
         List<BusinessUnitManagerEntity> businessUnitManagers = new ArrayList<>();
         List<RegionEntity> regions = new ArrayList<>();
         List<NoteEntity> notes = new ArrayList<>();
+        List<DepartmentEntity> departments = new ArrayList<>();
 
-        final BusinessUnitEntity bu1 = BusinessUnitEntity.builder().name("JTech").build();
-        final BusinessUnitEntity bu2 = BusinessUnitEntity.builder().name("MTech").build();
-        final BusinessUnitEntity bu3 = BusinessUnitEntity.builder().name("JSRoots").build();
-        final BusinessUnitEntity bu4 = BusinessUnitEntity.builder().name("Pythoneers").build();
+        final DepartmentEntity d1 = DepartmentEntity.builder().name("OSD").build();
+        final DepartmentEntity d2 = DepartmentEntity.builder().name("T&S").build();
+
+        final DepartmentEntity savedD1 = departmentRepository.save(d1);
+        final DepartmentEntity savedD2 = departmentRepository.save(d2);
+
+        departments.add(savedD1);
+        departments.add(savedD2);
+
+        final BusinessUnitEntity bu1 = BusinessUnitEntity.builder().department(savedD1).name("JTech").build();
+        final BusinessUnitEntity bu2 = BusinessUnitEntity.builder().department(savedD2).name("MTech").build();
+        final BusinessUnitEntity bu3 = BusinessUnitEntity.builder().department(savedD1).name("JSRoots").build();
+        final BusinessUnitEntity bu4 = BusinessUnitEntity.builder().department(savedD2).name("Pythoneers").build();
 
         final BusinessUnitEntity savedBu1 = businessUnitRepository.save(bu1);
         final BusinessUnitEntity savedBu2 = businessUnitRepository.save(bu2);
@@ -114,6 +127,7 @@ public class DbInitializer implements CommandLineRunner {
             final ApplicationEntity application = ApplicationEntity.builder()
                     .businessUnit(businessUnitManager.getBusinessUnit())
                     .businessUnitManager(businessUnitManager)
+                    .department(businessUnitManager.getBusinessUnit().getDepartment())
                     .region(regions.get(i % 3))
                     .applicant(applicant)
                     .title(randomString((int) (Math.random() * 10 + 10)))

@@ -18,4 +18,5 @@ public class Application {
     private String title;
     private OffsetDateTime firstInterviewDateTime;
     private OffsetDateTime secondInterviewDateTime;
+    private Department department;
 }

@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ApplicationService } from '../services/application.service';
 import { Application } from '../interfaces/application';
 import { ModalService } from '../services/modal.service';
+import { Department } from '../interfaces/department';
+import { DepartmentService } from '../services/department.service';
 
 @Component({
   selector: 'app-application-list',
@@ -11,9 +13,10 @@ import { ModalService } from '../services/modal.service';
 })
 export class ApplicationListComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute, 
+  constructor(private activatedRoute: ActivatedRoute,
               private applicationsService: ApplicationService,
-              private modal: ModalService
+              private modalService: ModalService,
+              private departmentService: DepartmentService
               ) { }
 
   applications: Application[] = [];
@@ -24,6 +27,8 @@ export class ApplicationListComponent implements OnInit {
     // 'bum',
     'title',
   ];
+
+  departments: Department[] = null;
 
   get filterState(): string {
     return this._filterState;
@@ -42,9 +47,25 @@ export class ApplicationListComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.filterState = params.state;
     });
+
+    this.loadDepartments();
+  }
+
+  async loadDepartments() {
+    this.departments = await this.departmentService.getDepartments().toPromise();
+  }
+
+  getDepartmentName(id: number): string {
+    const department = this.departments.find(d => d.id === id);
+
+    if (department) {
+      return department.name;
+    } else {
+      return '';
+    }
   }
 
   handleAddClick = () => {
 
-  };
+  }
 }

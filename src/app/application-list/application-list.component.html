@@ -11,7 +11,7 @@
 
     <ng-container matColumnDef="department">
       <th class="department-col" mat-header-cell *matHeaderCellDef> Afdeling </th>
-      <td mat-cell *matCellDef="let application"> {{application.department}} </td>
+      <td mat-cell *matCellDef="let application"> <ng-container *ngIf="departments">{{getDepartmentName(application.departmentId)}}</ng-container></td>
     </ng-container>
 
     <ng-container matColumnDef="bum">

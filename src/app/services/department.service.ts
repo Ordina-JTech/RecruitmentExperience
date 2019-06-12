@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Cacheable } from 'ngx-cacheable';
+import { Department } from '../interfaces/department';
 import { Observable } from 'rxjs';
-import { Region } from '../interfaces/region';
 import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RegionService {
+export class DepartmentService {
 
   constructor(private api: ApiService) { }
 
   @Cacheable()
-  getRegions(): Observable<Region[]> {
-    return this.api.get(`regions`);
+  getDepartments(): Observable<Department[]> {
+    return this.api.get(`departments`);
   }
 
-  getRegion(id: number): Observable<Region> {
+  getDepartment(id: number): Observable<Department> {
     return new Observable(subscriber => {
-      this.getRegions().subscribe(regions => {
-        subscriber.next(regions.find(region => region.id === id));
+      this.getDepartments().subscribe(departments => {
+        subscriber.next(departments.find(region => region.id === id));
         subscriber.complete();
       });
     });

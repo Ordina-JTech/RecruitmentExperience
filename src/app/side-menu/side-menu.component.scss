@@ -12,10 +12,11 @@ $border-size: 5px;
   width: $button-size;
   border-right: 1px solid lightgray;
   background: #373737;
+  padding: 0px;
 }
 
 .button {
-  margin: 2px 0;
+  margin-bottom: 4px;
   color:white;
   background: #424242;
 }

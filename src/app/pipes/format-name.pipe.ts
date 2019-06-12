@@ -8,6 +8,6 @@ import { Person } from '../interfaces/person';
 export class FormatNamePipe implements PipeTransform {
 
   transform(value?: Person, args?: any): any {
-    return value ? `${value.firstName} ${value.lastName}` : '';
+    return value ? `${value.firstName} ${value.prefix ? value.prefix + ' ' : ''}${value.lastName}` : '';
   }
 }

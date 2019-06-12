@@ -1,3 +1,6 @@
+$button-size: 200px;
+$border-size: 5px;
+
 .container {
   height: 100%;
   width: 100%;
@@ -6,5 +9,27 @@
 }
 
 .menu {
+  width: $button-size;
   border-right: 1px solid lightgray;
+  background: #373737;
+}
+
+.button {
+  margin: 2px 0;
+  color:white;
+  background: #424242;
+}
+.active {
+  transition: all 0.2s;
+  padding-left: -$border-size;
+  background: #565656;
+  border-left: $border-size solid #F58220;
+  width: $button-size - $border-size;
+}
+
+.text-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
 }

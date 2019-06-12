@@ -1,5 +1,8 @@
 <div class="container">
   <mat-nav-list class="menu">
-    <a *ngFor="let url of urls" routerLink=<a mat-list-item [routerLink]="'applications/' + url">{{url | formatState}} ({{applicationCounts[url]}})</a>  
+    <a *ngFor="let url of urls" (click)="selectRoute(url)" [routerLink]="'applications/' + url" [ngClass]="activatedRoute === url ? 'button active' : 'button'" mat-list-item>
+      <div class="text-container"><span>{{url | formatState}}</span> <span>({{applicationCounts[url]}})</span>
+      </div>
+    </a>  
   </mat-nav-list>
 </div>

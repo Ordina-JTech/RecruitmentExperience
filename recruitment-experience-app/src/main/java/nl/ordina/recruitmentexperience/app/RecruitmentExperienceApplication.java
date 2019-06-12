@@ -26,6 +26,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @SpringBootApplication
 @EntityScan(basePackages = "nl.ordina.recruitmentexperience.data")

@@ -29,4 +29,8 @@ public class ApplicationService {
 
         return fromApplicationEntityMapper.map(applicationEntities);
     }
+
+    public Application getApplication(final Long id) {
+        return fromApplicationEntityMapper.map(applicationRepository.findOneById(id));
+    }
 }

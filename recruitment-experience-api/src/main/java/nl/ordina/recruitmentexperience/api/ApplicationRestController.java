@@ -41,6 +41,11 @@ public class ApplicationRestController {
         return toApplicationModelMapper.map(applicationService.getApplications((new FromApplicationStateModelMapper(ApplicationStateModel.class)).get(stateModel)));
     }
 
+    @GetMapping("/{applicationId")
+    public ApplicationModel getApplication(@PathVariable final Long applicationId) {
+        return toApplicationModelMapper.map(applicationService.getApplication(applicationId));
+    }
+
     @GetMapping("/{applicationId}/notes")
     public List<NoteModel> getNotesByApplication(@PathVariable final Long applicationId){
         return toNoteModelMapper.map(noteService.getNotesByApplication(applicationId));

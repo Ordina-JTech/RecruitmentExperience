@@ -1,11 +1,8 @@
 package nl.ordina.recruitmentexperience.api;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.api.mapper.ToBusinessUnitManagerModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.ToRegionModelMapper;
-import nl.ordina.recruitmentexperience.api.model.BusinessUnitManagerModel;
 import nl.ordina.recruitmentexperience.api.model.RegionModel;
-import nl.ordina.recruitmentexperience.core.BusinessUnitManagerService;
 import nl.ordina.recruitmentexperience.core.RegionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

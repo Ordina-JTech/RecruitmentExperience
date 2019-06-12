@@ -1,11 +1,8 @@
 package nl.ordina.recruitmentexperience.core;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.core.mapper.FromBusinessUnitManagerEntityMapper;
 import nl.ordina.recruitmentexperience.core.mapper.FromRegionEntityMapper;
-import nl.ordina.recruitmentexperience.core.model.BusinessUnitManager;
 import nl.ordina.recruitmentexperience.core.model.Region;
-import nl.ordina.recruitmentexperience.data.application.repository.BusinessUnitManagerRepository;
 import nl.ordina.recruitmentexperience.data.application.repository.RegionRepository;
 import org.springframework.stereotype.Service;
 

@@ -6,7 +6,8 @@ import nl.ordina.recruitmentexperience.core.mapper.ToApplicantEntityMapper;
 import nl.ordina.recruitmentexperience.core.model.Applicant;
 import nl.ordina.recruitmentexperience.core.model.Application;
 import nl.ordina.recruitmentexperience.core.model.ApplicationId;
-import nl.ordina.recruitmentexperience.core.model.ApplicationState;
+import nl.ordina.recruitmentexperience.core.model.state.ApplicationState;
+import nl.ordina.recruitmentexperience.core.model.state.State;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicantEntity;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicantRepository;
@@ -42,11 +43,11 @@ public class ApplicationService {
 
     private final ToApplicantEntityMapper toApplicantEntityMapper;
 
-    public List<Application> getApplications(final ApplicationState stateFilter) {
+    public List<Application> getApplications(final State stateFilter) {
         final List<ApplicationEntity> applicationEntities;
 
         if(stateFilter != null) {
-            applicationEntities = applicationRepository.findAllByState(stateFilter.name());
+            applicationEntities = applicationRepository.findAllByState(stateFilter.toEnum().name());
         } else {
             applicationEntities = applicationRepository.findAll();
         }
@@ -78,7 +79,7 @@ public class ApplicationService {
                 .secondInterviewDateTime(applicationId.getSecondInterviewDateTime().toString())
                 .motivationLetterLink(applicationId.getMotivationLetterLink())
                 .title(applicationId.getTitle())
-                .state(applicationId.getState().name())
+                .state(applicationId.getState().toEnum().name())
                 .region(regionRepository.findOneById(applicationId.getRegionId()))
                 .department(departmentRepository.findOneById(applicationId.getDepartmentId()))
                 .businessUnit(businessUnitRepository.findOneById(applicationId.getBusinessUnitId()))

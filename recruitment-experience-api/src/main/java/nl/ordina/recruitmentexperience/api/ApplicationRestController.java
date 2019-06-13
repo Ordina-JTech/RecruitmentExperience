@@ -35,6 +35,8 @@ public class ApplicationRestController {
 
     private final FromApplicationIdModelMapper fromApplicationIdModelMapper;
 
+    private final FromApplicationStateModelMapper fromApplicationStateModelMapper;
+
     @GetMapping
     public List<ApplicationIdModel> getApplications(@RequestParam(required = false) String state) {
         ApplicationStateModel stateModel;
@@ -43,7 +45,7 @@ public class ApplicationRestController {
         } catch (NullPointerException e) {
             stateModel = null;
         }
-        return toApplicationIdModelMapper.map(applicationService.getApplications((new FromApplicationStateModelMapper(ApplicationStateModel.class)).get(stateModel)));
+        return toApplicationIdModelMapper.map(applicationService.getApplications(fromApplicationStateModelMapper.mapNullSafe(stateModel)));
     }
 
     @GetMapping("/{applicationId}")

@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nl.ordina.recruitmentexperience.api.model.ApplicationIdModel;
 import nl.ordina.recruitmentexperience.common.Mapper;
 import nl.ordina.recruitmentexperience.core.model.Application;
-import nl.ordina.recruitmentexperience.core.model.ApplicationState;
+import nl.ordina.recruitmentexperience.core.model.state.ApplicationState;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +21,7 @@ public class ToApplicationIdModelMapper implements Mapper<Application, Applicati
         applicationIdModel.setSecondInterviewDateTime(input.getSecondInterviewDateTime());
         applicationIdModel.setMotivationLetterLink(input.getMotivationLetterLink());
         applicationIdModel.setApplicant(toApplicantModelMapper.map(input.getApplicant()));
-        applicationIdModel.setState((new ToApplicationStateModelMapper(ApplicationState.class)).get(input.getState()));
+        applicationIdModel.setState((new ToApplicationStateModelMapper(ApplicationState.class)).get(input.getState().toEnum()));
         applicationIdModel.setBusinessUnitId(input.getBusinessUnit().getId());
         applicationIdModel.setBusinessUnitManagerId(input.getBusinessUnitManager().getId());
         applicationIdModel.setRegionId(input.getRegion().getId());

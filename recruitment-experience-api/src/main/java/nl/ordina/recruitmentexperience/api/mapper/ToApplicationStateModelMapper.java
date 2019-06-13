@@ -1,7 +1,7 @@
 package nl.ordina.recruitmentexperience.api.mapper;
 
 import nl.ordina.recruitmentexperience.api.model.ApplicationStateModel;
-import nl.ordina.recruitmentexperience.core.model.ApplicationState;
+import nl.ordina.recruitmentexperience.core.model.state.ApplicationState;
 
 import java.util.EnumMap;
 

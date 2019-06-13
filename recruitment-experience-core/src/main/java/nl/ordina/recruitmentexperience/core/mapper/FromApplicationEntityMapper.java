@@ -3,7 +3,7 @@ package nl.ordina.recruitmentexperience.core.mapper;
 import lombok.RequiredArgsConstructor;
 import nl.ordina.recruitmentexperience.common.Mapper;
 import nl.ordina.recruitmentexperience.core.model.Application;
-import nl.ordina.recruitmentexperience.core.model.ApplicationState;
+import nl.ordina.recruitmentexperience.core.model.state.ApplicationState;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import org.springframework.stereotype.Component;
 
@@ -23,8 +23,12 @@ public class FromApplicationEntityMapper implements Mapper<ApplicationEntity, Ap
 
     private final FromDepartmentEntityMapper fromDepartmentEntityMapper;
 
+    private final ApplicationStateToStateMapper applicationStateToStateMapper;
+
     @Override
     public Application map(ApplicationEntity input) {
+        final ApplicationState applicationState = ApplicationState.valueOf(input.getState());
+
         return Application.builder()
                 .id(input.getId())
                 .region(fromRegionEntityMapper.map(input.getRegion()))
@@ -32,7 +36,7 @@ public class FromApplicationEntityMapper implements Mapper<ApplicationEntity, Ap
                 .firstInterviewDateTime(OffsetDateTime.parse(input.getFirstInterviewDateTime()))
                 .secondInterviewDateTime(OffsetDateTime.parse(input.getSecondInterviewDateTime()))
                 .applicant(fromApplicantEntityMapper.map(input.getApplicant()))
-                .state(ApplicationState.valueOf(input.getState()))
+                .state(applicationStateToStateMapper.map(applicationState))
                 .businessUnit(fromBusinessUnitEntityMapper.map(input.getBusinessUnit()))
                 .businessUnitManager(fromBusinessUnitManagerEntityMapper.map(input.getBusinessUnitManager()))
                 .title(input.getTitle())

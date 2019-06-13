@@ -2,6 +2,7 @@ package nl.ordina.recruitmentexperience.core.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import nl.ordina.recruitmentexperience.core.model.state.State;
 
 import java.time.OffsetDateTime;
 
@@ -13,7 +14,7 @@ public class ApplicationId {
     private Long businessUnitId;
     private Long businessUnitManagerId;
     private Long regionId;
-    private ApplicationState state;
+    private State state;
     private String motivationLetterLink;
     private String title;
     private OffsetDateTime firstInterviewDateTime;

@@ -1,7 +1,7 @@
-package nl.ordina.recruitmentexperience.api.mapper;
+package nl.ordina.recruitmentexperience.core.mapper;
 
-import nl.ordina.recruitmentexperience.api.model.ApplicationStateModel;
 import nl.ordina.recruitmentexperience.common.Mapper;
+import nl.ordina.recruitmentexperience.core.model.state.ApplicationState;
 import nl.ordina.recruitmentexperience.core.model.state.AssessmentState;
 import nl.ordina.recruitmentexperience.core.model.state.ContractState;
 import nl.ordina.recruitmentexperience.core.model.state.FirstInterviewState;
@@ -13,10 +13,10 @@ import nl.ordina.recruitmentexperience.core.model.state.State;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FromApplicationStateModelMapper implements Mapper<ApplicationStateModel, State> {
+public class ApplicationStateToStateMapper implements Mapper<ApplicationState, State> {
 
     @Override
-    public State map(ApplicationStateModel input) {
+    public State map(ApplicationState input) {
         switch (input) {
             case NEW:
                 return new NewState();

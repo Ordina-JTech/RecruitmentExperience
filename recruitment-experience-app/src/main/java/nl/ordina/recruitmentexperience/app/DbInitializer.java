@@ -3,7 +3,7 @@ package nl.ordina.recruitmentexperience.app;
 import io.codearte.jfairy.Fairy;
 import io.codearte.jfairy.producer.person.Person;
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.core.model.ApplicationState;
+import nl.ordina.recruitmentexperience.core.model.state.ApplicationState;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicantEntity;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.model.BusinessUnitEntity;

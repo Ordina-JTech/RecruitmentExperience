@@ -7,11 +7,11 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-public class NoteModel {
+public class NoteIdModel {
     private Long id;
     private String author;
     private String title;
     private String text;
     private OffsetDateTime creationDate;
-    private ApplicationModel application;
+    private Long applicationId;
 }

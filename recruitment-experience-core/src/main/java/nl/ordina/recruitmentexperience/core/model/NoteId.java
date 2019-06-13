@@ -1,17 +1,18 @@
-package nl.ordina.recruitmentexperience.api.model;
+package nl.ordina.recruitmentexperience.core.model;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.OffsetDateTime;
 
 @Getter
-@Setter
-public class NoteModel {
+@Builder
+public class NoteId {
+
     private Long id;
     private String author;
     private String title;
     private String text;
+    private Long applicationId;
     private OffsetDateTime creationDate;
-    private ApplicationModel application;
 }

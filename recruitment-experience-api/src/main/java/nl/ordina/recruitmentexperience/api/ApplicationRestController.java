@@ -1,6 +1,7 @@
 package nl.ordina.recruitmentexperience.api;
 
 import lombok.RequiredArgsConstructor;
+import nl.ordina.recruitmentexperience.api.mapper.FromApplicationIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.FromApplicationStateModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.ToApplicationIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.ToNoteIdModelMapper;
@@ -11,6 +12,8 @@ import nl.ordina.recruitmentexperience.core.ApplicationService;
 import nl.ordina.recruitmentexperience.core.NoteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +32,8 @@ public class ApplicationRestController {
     private final ToNoteIdModelMapper toNoteIdModelMapper;
 
     private final NoteService noteService;
+
+    private final FromApplicationIdModelMapper fromApplicationIdModelMapper;
 
     @GetMapping
     public List<ApplicationIdModel> getApplications(@RequestParam(required = false) String state) {
@@ -49,5 +54,11 @@ public class ApplicationRestController {
     @GetMapping("/{applicationId}/notes")
     public List<NoteIdModel> getNotesByApplication(@PathVariable final Long applicationId){
         return toNoteIdModelMapper.map(noteService.getNotesByApplication(applicationId));
+    }
+
+    @PostMapping
+    public ApplicationIdModel postApplication(@RequestBody final ApplicationIdModel applicationIdModel) {
+        applicationIdModel.setId(null);
+        return toApplicationIdModelMapper.map(applicationService.postApplication(fromApplicationIdModelMapper.map(applicationIdModel)));
     }
 }

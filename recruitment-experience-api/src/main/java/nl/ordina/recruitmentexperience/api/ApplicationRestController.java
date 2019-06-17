@@ -61,6 +61,7 @@ public class ApplicationRestController {
     @PostMapping
     public ApplicationIdModel postApplication(@RequestBody final ApplicationIdModel applicationIdModel) {
         applicationIdModel.setId(null);
+        applicationIdModel.getApplicant().setId(null);
         return toApplicationIdModelMapper.map(applicationService.postApplication(fromApplicationIdModelMapper.map(applicationIdModel)));
     }
 }

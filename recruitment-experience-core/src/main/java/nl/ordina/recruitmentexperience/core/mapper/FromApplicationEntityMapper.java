@@ -29,12 +29,17 @@ public class FromApplicationEntityMapper implements Mapper<ApplicationEntity, Ap
     public Application map(ApplicationEntity input) {
         final ApplicationState applicationState = ApplicationState.valueOf(input.getState());
 
+        final String firstInterviewDateTime = input.getFirstInterviewDateTime();
+        final OffsetDateTime  firstInterview = firstInterviewDateTime == null ? null : OffsetDateTime.parse(firstInterviewDateTime);
+        final String secondInterviewDateTime = input.getSecondInterviewDateTime();
+        final OffsetDateTime  secondInterview = secondInterviewDateTime == null ? null : OffsetDateTime.parse(secondInterviewDateTime);
+
         return Application.builder()
                 .id(input.getId())
                 .region(fromRegionEntityMapper.map(input.getRegion()))
                 .motivationLetterLink(input.getMotivationLetterLink())
-                .firstInterviewDateTime(OffsetDateTime.parse(input.getFirstInterviewDateTime()))
-                .secondInterviewDateTime(OffsetDateTime.parse(input.getSecondInterviewDateTime()))
+                .firstInterviewDateTime(firstInterview)
+                .secondInterviewDateTime(secondInterview)
                 .applicant(fromApplicantEntityMapper.map(input.getApplicant()))
                 .state(applicationStateToStateMapper.map(applicationState))
                 .businessUnit(fromBusinessUnitEntityMapper.map(input.getBusinessUnit()))

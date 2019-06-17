@@ -6,6 +6,8 @@ import nl.ordina.recruitmentexperience.core.model.Application;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.OffsetDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class ToApplicationEntityMapper implements Mapper<Application, ApplicationEntity> {
@@ -20,11 +22,14 @@ public class ToApplicationEntityMapper implements Mapper<Application, Applicatio
 
     @Override
     public ApplicationEntity map(Application input) {
+        final OffsetDateTime firstInterviewDateTime = input.getFirstInterviewDateTime();
+        final OffsetDateTime secondInterviewDateTime = input.getSecondInterviewDateTime();
+
         return ApplicationEntity.builder()
                 .id(input.getId())
                 .title(input.getTitle())
-                .firstInterviewDateTime(input.getFirstInterviewDateTime().toString())
-                .secondInterviewDateTime(input.getSecondInterviewDateTime().toString())
+                .firstInterviewDateTime(firstInterviewDateTime == null ? null : firstInterviewDateTime.toString())
+                .secondInterviewDateTime(secondInterviewDateTime == null ? null : secondInterviewDateTime.toString())
                 .motivationLetterLink(input.getMotivationLetterLink())
                 .department(toDepartmentEntityMapper.mapNullSafe(input.getDepartment()))
                 .businessUnitManager(toBusinessUnitManagerEntityMapper.mapNullSafe(input.getBusinessUnitManager()))

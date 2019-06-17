@@ -18,6 +18,7 @@ import nl.ordina.recruitmentexperience.data.application.repository.DepartmentRep
 import nl.ordina.recruitmentexperience.data.application.repository.RegionRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -72,11 +73,14 @@ public class ApplicationService {
 
         final ApplicantEntity savedApplicant = applicantRepository.save(toApplicantEntityMapper.map(applicant));
 
+        final OffsetDateTime firstInterviewDateTime = applicationId.getFirstInterviewDateTime();
+        final OffsetDateTime secondInterviewDateTime = applicationId.getSecondInterviewDateTime();
+
         final ApplicationEntity applicationEntity = ApplicationEntity.builder()
                 .id(applicationId.getId())
                 .applicant(savedApplicant)
-                .firstInterviewDateTime(applicationId.getFirstInterviewDateTime().toString())
-                .secondInterviewDateTime(applicationId.getSecondInterviewDateTime().toString())
+                .firstInterviewDateTime(firstInterviewDateTime == null ? null : firstInterviewDateTime.toString())
+                .secondInterviewDateTime(secondInterviewDateTime == null ? null : secondInterviewDateTime.toString())
                 .motivationLetterLink(applicationId.getMotivationLetterLink())
                 .title(applicationId.getTitle())
                 .state(applicationId.getState().toEnum().name())

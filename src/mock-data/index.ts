@@ -1,13 +1,13 @@
 import APPLICATIONS from './applications';
-import { ApplicationStates } from 'src/app/interfaces/application-states.enum';
+import { ApplicationState } from 'src/app/definitions/application-states.enum';
 import BUMS from './bums';
 import REGIONS from './regions';
 
 const resolvers = {
   'applications': APPLICATIONS,
-  'applications?state=new': APPLICATIONS.filter(application => application.state === ApplicationStates.NEW),
-  'applications?state=contract': APPLICATIONS.filter(application => application.state === ApplicationStates.CONTRACT),
-  'applications?state=assessment': APPLICATIONS.filter(application => application.state === ApplicationStates.ASSESSMENT),
+  'applications?state=new': APPLICATIONS.filter(application => application.state === ApplicationState.NEW),
+  'applications?state=contract': APPLICATIONS.filter(application => application.state === ApplicationState.CONTRACT),
+  'applications?state=assessment': APPLICATIONS.filter(application => application.state === ApplicationState.ASSESSMENT),
   'applications/0': APPLICATIONS[0],
   'applications/1': APPLICATIONS[1],
   'applications/2': APPLICATIONS[2],

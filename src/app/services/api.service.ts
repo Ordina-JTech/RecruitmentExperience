@@ -4,6 +4,13 @@ import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { MockService } from './mock.service';
 
+export enum RequestType {
+  POST,
+  GET,
+  PUT,
+  DELETE,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,10 +19,42 @@ export class ApiService {
   constructor(private http: HttpClient, private config: ConfigService, private mock: MockService) { }
 
   get<T>(path: string): Observable<T> {
+    return this._wrapRequest(RequestType.GET, path);
+  }
+
+  post<T>(path: string, body: any): Observable<T> {
+    return this._wrapRequest(RequestType.POST, path, body);
+  }
+
+  put<T>(path: string, body: any): Observable<T> {
+    return this._wrapRequest(RequestType.PUT, path, body);
+  }
+
+  delete<T>(path: string): Observable<T> {
+    return this._wrapRequest(RequestType.DELETE, path);
+  }
+
+  private _wrapRequest<T>(requestType: RequestType, path: string, body?: any): Observable<T> {
     if (!this.config.isMockMode()) {
-      return this.http.get<T>(this.config.getBaseUrl() + path, {});
+      const url = this.config.getBaseUrl() + path;
+
+      switch (requestType) {
+        case RequestType.GET: return this.http.get<T>(url);
+        case RequestType.POST: return this.http.post<T>(url, body);
+        case RequestType.PUT: return this.http.put<T>(url, body);
+        case RequestType.DELETE: return this.http.delete<T>(url);
+        default: {
+          throw new Error(`Unsupported request type`);
+        }
+      }
     } else {
-      return this.mock.get<T>(path);
+      switch (requestType) {
+        case RequestType.GET: return this.mock.get<T>(path);
+        default: {
+          // Observable met lege response, om gewoon een 204 status te simuleren
+          return new Observable<T>(subscriber => subscriber.complete());
+        }
+      }
     }
   }
 }

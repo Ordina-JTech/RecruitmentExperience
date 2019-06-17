@@ -1,4 +1,4 @@
-import { Region } from '../app/interfaces/region';
+import { Region } from '../app/definitions/region';
 
 const REGIONS: Region[] = [
   {

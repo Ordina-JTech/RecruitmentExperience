@@ -1,5 +1,8 @@
 <mat-card *ngIf='application' class="container">
-  <h2 class="name">{{application.applicant | formatName}}</h2>
+  <div class="title">
+    <h2 class="name">{{application.applicant | formatName}}</h2>
+    <button mat-button (click)="handleEditClick()">Bewerken</button>
+  </div>
   <div class="progress">
     <mat-progress-bar mode="determinate" [value]="getApplicationProgress()"></mat-progress-bar>
     <p>{{application.state | formatState}}</p>

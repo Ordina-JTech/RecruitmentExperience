@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService } from '../services/application.service';
-import { Application } from '../interfaces/application';
-import { ModalService } from '../services/modal.service';
-import { Department } from '../interfaces/department';
+import { Application } from '../definitions/application';
+import { Department } from '../definitions/department';
 import { DepartmentService } from '../services/department.service';
+
+import { RegionService } from '../services/region.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-application-list',
@@ -14,10 +16,12 @@ import { DepartmentService } from '../services/department.service';
 export class ApplicationListComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute,
-              private applicationsService: ApplicationService,
-              private modalService: ModalService,
-              private departmentService: DepartmentService
+              private applicationService: ApplicationService,
+              private departmentService: DepartmentService,
+              private regionService: RegionService,
               ) { }
+
+  departments: Department[] = null;
 
   applications: Application[] = [];
   _filterState: string = null;
@@ -28,19 +32,17 @@ export class ApplicationListComponent implements OnInit {
     'title',
   ];
 
-  departments: Department[] = null;
-
   get filterState(): string {
     return this._filterState;
   }
   set filterState(value: string) {
-    this._filterState = value;
+    this._filterState = value.toUpperCase();
 
-    this.reloadData();
+    this.loadApplications();
   }
 
-  async reloadData() {
-    this.applications = await this.applicationsService.getApplications(this.filterState).toPromise();
+  async loadApplications() {
+    this.applications = await this.applicationService.getApplications(this.filterState).toPromise();
   }
 
   ngOnInit() {
@@ -48,11 +50,11 @@ export class ApplicationListComponent implements OnInit {
       this.filterState = params.state;
     });
 
-    this.loadDepartments();
+    this.getDepartments();
   }
 
-  async loadDepartments() {
-    this.departments = await this.departmentService.getDepartments().toPromise();
+  async getDepartments() {
+    return this.departments = await this.departmentService.getDepartments().toPromise();
   }
 
   getDepartmentName(id: number): string {
@@ -65,7 +67,5 @@ export class ApplicationListComponent implements OnInit {
     }
   }
 
-  handleAddClick = () => {
-
-  }
+  handleAddClick = () => this.applicationService.openCreateModal();
 }

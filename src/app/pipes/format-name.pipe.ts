@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Applicant } from '../interfaces/applicant';
-import { Person } from '../interfaces/person';
+import { Applicant } from '../definitions/applicant';
+import { Person } from '../definitions/person';
 
 @Pipe({
   name: 'formatName'

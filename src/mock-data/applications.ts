@@ -1,5 +1,5 @@
-import { Application } from '../app/interfaces/application';
-import { ApplicationStates } from '../app/interfaces/application-states.enum';
+import { Application } from '../app/definitions/application';
+import { ApplicationState } from '../app/definitions/application-states.enum';
 import BUMS from './bums';
 import REGIONS from './regions';
 
@@ -16,8 +16,8 @@ const APPLICATIONS: Application[] = [
       resumeLink: 'test',
     },
     businessUnitManagerId: 0,
-    state: ApplicationStates.NEW,
-    department: 'OSD',
+    state: ApplicationState.NEW,
+    departmentId: 0,
     regionId: 0,
     notes: [],
     title: 'Software Developer',
@@ -33,8 +33,8 @@ const APPLICATIONS: Application[] = [
       phoneNumber: '0612345678',
       resumeLink: 'test',
     },
-    state: ApplicationStates.ASSESSMENT,
-    department: 'OSD',
+    state: ApplicationState.ASSESSMENT,
+    departmentId: 0,
     regionId: 0,
 
     notes: [{
@@ -86,8 +86,8 @@ const APPLICATIONS: Application[] = [
       resumeLink: 'test',
     },
     businessUnitManagerId: 1,
-    state: ApplicationStates.ASSESSMENT,
-    department: 'OSD',
+    state: ApplicationState.ASSESSMENT,
+    departmentId: 0,
     notes: [],
     title: 'Software Developer',
   }

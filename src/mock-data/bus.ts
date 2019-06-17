@@ -1,4 +1,4 @@
-import {BusinessUnit} from '../app/interfaces/business-unit';
+import {BusinessUnit} from '../app/definitions/business-unit';
 
 const BUS: BusinessUnit[] = [
   {

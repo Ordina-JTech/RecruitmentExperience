@@ -2,6 +2,12 @@
   width: 80%;
 }
 
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .container {
   margin-top: 20px; 
   display: flex;

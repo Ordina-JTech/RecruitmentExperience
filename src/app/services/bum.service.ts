@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cacheable } from 'ngx-cacheable';
 
-import { BusinessUnitManager } from '../interfaces/business-unit-manager';
+import { BusinessUnitManager } from '../definitions/business-unit-manager';
 import { ApiService } from './api.service';
 
 

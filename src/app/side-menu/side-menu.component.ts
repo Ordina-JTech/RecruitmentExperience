@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApplicationStates } from '../interfaces/application-states.enum';
-import { ApplicationCounts } from '../interfaces/application-counts';
+import { ApplicationState } from '../definitions/application-states.enum';
+import { ApplicationCounts } from '../definitions/application-counts';
 import { Observable } from 'rxjs';
 import { ApplicationService } from '../services/application.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,30 +12,22 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SideMenuComponent implements OnInit {
 
-  constructor(private applicationService: ApplicationService,
-              private activatedRoute: ActivatedRoute) { }
+  constructor(private applicationService: ApplicationService) { }
 
-  urls = Object.values(ApplicationStates);
+  urls = Object.values(ApplicationState);
   applicationCounts: ApplicationCounts;
   currentPage: string;
 
   ngOnInit() {
     this.loadApplicationCounts();
-
-    this.activatedRoute.params.subscribe(params => {
-      this.currentPage = params.state;
-      console.log(this.currentPage)
-    });
   }
 
-  selectRoute(url) {
-    this.activatedRoute = url; 
-    console.log(this.activatedRoute);
+  selectRoute(url: string) {
+    this.currentPage = url;
   }
 
   async loadApplicationCounts() {
     this.applicationCounts = await this.applicationService.getApplicationCounts().toPromise();
-    console.log(this.applicationCounts)
   }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Cacheable } from 'ngx-cacheable';
-import { Department } from '../interfaces/department';
+import { Department } from '../definitions/department';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 

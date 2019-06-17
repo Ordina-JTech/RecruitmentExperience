@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ApplicationService } from '../services/application.service';
-import { Application } from '../interfaces/application';
+import { Application } from '../definitions/application';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationStates } from '../interfaces/application-states.enum';
-import { BusinessUnit } from '../interfaces/business-unit';
-import { BusinessUnitManager } from '../interfaces/business-unit-manager';
+import { ApplicationState } from '../definitions/application-states.enum';
+import { BusinessUnit } from '../definitions/business-unit';
+import { BusinessUnitManager } from '../definitions/business-unit-manager';
 import { BuService } from '../services/bu.service';
 import { BumService } from '../services/bum.service';
 import { Observable } from 'rxjs';
-import { Region } from '../interfaces/region';
+import { Region } from '../definitions/region';
 import { RegionService } from '../services/region.service';
 
 @Component({
@@ -40,12 +40,12 @@ export class ApplicationDetailComponent implements OnInit {
   }
 
   getApplicationProgress(): number {
-    const states = Object.values(ApplicationStates);
+    const states = Object.values(ApplicationState);
     return (states.findIndex(state => state === this.application.state)) / (states.length - 1) * 100;
   }
 
   ngOnInit() {
-    this.currentRoute.params.subscribe(params => this.applicationId = parseInt(params.applicationId));
+    this.currentRoute.params.subscribe(params => this.applicationId = parseInt(params.applicationId, 10));
   }
 
   async loadApplication() {
@@ -53,5 +53,9 @@ export class ApplicationDetailComponent implements OnInit {
     this.bu = this.buService.getBU(this.application.businessUnitId);
     this.bum = this.bumService.getBUM(this.application.businessUnitManagerId)
     this.region = this.regionService.getRegion(this.application.regionId);
+  }
+
+  handleEditClick = () => {
+    this.applicationService.openEditModal(this.applicationId);
   }
 }

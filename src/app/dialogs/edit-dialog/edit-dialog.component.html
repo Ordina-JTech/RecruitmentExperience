@@ -1,0 +1,15 @@
+<form [formGroup]="editForm" (submit)="submit($event)">
+  <mat-form-field *ngFor="let fieldName of fieldNames">
+    <mat-label>{{fields[fieldName].label}}</mat-label>
+    <ng-container *ngIf="fields[fieldName].type === 'select';then select else regular"></ng-container>
+    <ng-template #select>
+      <mat-select [formControlName]="fieldName">
+        <mat-option *ngFor="let option of fields[fieldName].options" [value]="option.name">
+          {{option.value}}
+        </mat-option>
+      </mat-select>
+    </ng-template>
+    <ng-template #regular><input matInput [type]="fields[fieldName].type" [formControlName]="fieldName"></ng-template>
+  </mat-form-field>
+  <button mat-button>Opslaan</button>
+</form>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Application } from '../interfaces/application';
+import { Application } from '../definitions/application';
 
 @Component({
   selector: 'app-application-documents',

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Cacheable } from 'ngx-cacheable';
 
 import { ApiService } from './api.service';
-import { BusinessUnit } from '../interfaces/business-unit';
+import { BusinessUnit } from '../definitions/business-unit';
 
 @Injectable({
   providedIn: 'root'

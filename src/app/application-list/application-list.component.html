@@ -1,7 +1,7 @@
 <div class="container">
   <div class="title">
     <h2>{{filterState | formatState}}</h2>
-    <button mat-button *ngIf="filterState === 'new'">Toevoegen</button>
+    <button mat-button *ngIf="filterState === 'NEW'" (click)="handleAddClick()">Toevoegen</button>
   </div>
   <table mat-table [dataSource]="applications" class="mat-elevation-z8">
     <ng-container matColumnDef="applicant">

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Cacheable } from 'ngx-cacheable';
 import { Observable } from 'rxjs';
-import { Region } from '../interfaces/region';
+import { Region } from '../definitions/region';
 import { ApiService } from './api.service';
 
 @Injectable({

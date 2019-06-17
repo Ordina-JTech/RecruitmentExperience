@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BumService } from '../services/bum.service';
-import { BusinessUnitManager } from '../interfaces/business-unit-manager';
+import { BusinessUnitManager } from '../definitions/business-unit-manager';
 
 @Component({
   selector: 'app-bum-selector',

@@ -16,7 +16,7 @@ export class ConfigService {
       baseUrl: 'api/',
       port: 8080,
     }
-  }
+  };
 
   getBaseUrl(): string {
     const {https, domain, port, baseUrl} = this.CONFIG.api;

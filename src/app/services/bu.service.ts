@@ -22,7 +22,7 @@ export class BuService {
       this.getBUs().subscribe(bums => {
         subscriber.next(bums.find(bum => bum.id === id));
         subscriber.complete();
-      })
+      });
     });
   }
 }

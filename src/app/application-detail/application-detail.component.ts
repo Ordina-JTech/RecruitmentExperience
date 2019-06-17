@@ -51,7 +51,7 @@ export class ApplicationDetailComponent implements OnInit {
   async loadApplication() {
     this.application = await this.applicationService.getApplication(this.applicationId).toPromise();
     this.bu = this.buService.getBU(this.application.businessUnitId);
-    this.bum = this.bumService.getBUM(this.application.businessUnitManagerId)
+    this.bum = this.bumService.getBUM(this.application.businessUnitManagerId);
     this.region = this.regionService.getRegion(this.application.regionId);
   }
 

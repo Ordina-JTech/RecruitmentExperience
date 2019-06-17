@@ -11,6 +11,7 @@ import { DepartmentService } from './department.service';
 import { MatDialog } from '@angular/material';
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
 import { EditDialog, FieldType, Option } from '../definitions/edit-dialog';
+import { BumService } from './bum.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class ApplicationService {
   constructor(private api: ApiService,
               private regionService: RegionService,
               private departmentService: DepartmentService,
+              private bumService: BumService,
               private dialog: MatDialog) { }
 
   getApplicationCounts(): Observable<ApplicationCounts> {
@@ -39,6 +41,7 @@ export class ApplicationService {
   }
 
   createApplication(application: Application): Observable<number> {
+    console.log(JSON.stringify(application));
     return this.api.post(`applications`, application);
   }
 
@@ -48,7 +51,6 @@ export class ApplicationService {
 
   async openEditModal(applicationId: number): Promise<void> {
     const application = await this.openModal(await this.getApplication(applicationId).toPromise());
-    console.log('hoi')
     await this.editApplication(application);
   }
 
@@ -65,6 +67,7 @@ export class ApplicationService {
         email: '',
       },
       businessUnitId: 0,
+      businessUnitManagerId: 0,
       notes: [],
       state: ApplicationState.NEW,
       title: '',
@@ -75,9 +78,10 @@ export class ApplicationService {
   }
 
   private async openModal(application: Application): Promise<Application> {
-    const [regions, departments] = await all([
+    const [regions, departments, bums] = await all([
       this.regionService.getRegions().toPromise(),
       this.departmentService.getDepartments().toPromise(),
+      this.bumService.getBUMs().toPromise(),
     ]);
 
     const dialogRef = this.dialog.open(EditDialogComponent, {
@@ -101,6 +105,12 @@ export class ApplicationService {
           options: departments.map(department => ({name: department.id, value: department.name}) as Option),
           initialValue: application.regionId,
         },
+        businessUnitManagerId: {
+          type: FieldType.Select,
+          label: 'BUM',
+          options: bums.map(bum => ({name: bum.id, value: bum.firstName}) as Option),
+          initialValue: application.businessUnitManagerId,
+        },
       }  as EditDialog,
     });
 
@@ -111,6 +121,8 @@ export class ApplicationService {
         firstName,
         prefix,
         lastName,
+        email,
+        phoneNumber,
         ...rest
       } = dialogResult;
 
@@ -122,6 +134,8 @@ export class ApplicationService {
           firstName,
           prefix,
           lastName,
+          email,
+          phoneNumber,
         },
       };
     } else {

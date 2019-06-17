@@ -17,7 +17,7 @@ const BUMS: BusinessUnitManager[] = [
     lastName: 'Dissel',
     phoneNumber: '0612345678',
     email: 'henk.dissel@ordina.nl',
-    businessUnit: BUS[0],    
+    businessUnit: BUS[0],
   },
   {
     id: 2,
@@ -28,6 +28,6 @@ const BUMS: BusinessUnitManager[] = [
     email: 'freek.vonk@ordina.nl',
     businessUnit: BUS[0],
   }
-]
+];
 
 export default BUMS;

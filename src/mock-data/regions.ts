@@ -13,6 +13,6 @@ const REGIONS: Region[] = [
     id: 2,
     name: 'Groningen'
   }
-]
+];
 
 export default REGIONS;

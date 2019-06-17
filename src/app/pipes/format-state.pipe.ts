@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ApplicationState, StateDescriptions } from '../definitions/application-states.enum';
+import { ApplicationState, STATE_DESCRIPTIONS } from '../definitions/application-states.enum';
 
 @Pipe({
   name: 'formatState'
@@ -7,7 +7,7 @@ import { ApplicationState, StateDescriptions } from '../definitions/application-
 export class FormatStatePipe implements PipeTransform {
 
   transform(value: ApplicationState, args?: any): any {
-    return StateDescriptions[value];
+    return STATE_DESCRIPTIONS[value];
   }
 
 }

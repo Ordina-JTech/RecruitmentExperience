@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApplicationService } from '../services/application.service';
 import { Application } from '../definitions/application';
 import { Department } from '../definitions/department';
 import { DepartmentService } from '../services/department.service';
 
 import { RegionService } from '../services/region.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-application-list',

@@ -8,7 +8,7 @@ export enum ApplicationState {
   CONTRACT = 'CONTRACT',
 }
 
-export const StateDescriptions = {
+export const STATE_DESCRIPTIONS = {
   [ApplicationState.NEW]: 'Nieuwe sollicitatie',
   [ApplicationState.INVITED]: 'Uitgenodigd',
   [ApplicationState.FIRST_INTERVIEW]: 'Eerste gesprek',
@@ -16,4 +16,4 @@ export const StateDescriptions = {
   [ApplicationState.ASSESSMENT]: 'Assessment',
   [ApplicationState.OUTLINE]: 'Outline',
   [ApplicationState.CONTRACT]: 'Contract',
-}
+};

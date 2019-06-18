@@ -53,6 +53,10 @@
             <version>0.5.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.sentry</groupId>
+            <artifactId>sentry-spring</artifactId>
+        </dependency>
 
 
         <dependency>

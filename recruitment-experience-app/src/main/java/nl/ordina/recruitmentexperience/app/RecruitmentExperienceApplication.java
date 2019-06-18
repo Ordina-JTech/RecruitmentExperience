@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -27,5 +28,10 @@ public class RecruitmentExperienceApplication {
                 registry.addMapping("/**").allowedOrigins("http://localhost:4200");
             }
         };
+    }
+
+    @Bean
+    public HandlerExceptionResolver sentryExceptionResolver() {
+        return new io.sentry.spring.SentryExceptionResolver();
     }
 }

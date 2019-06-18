@@ -10,4 +10,6 @@ import java.util.List;
 public interface ApplicantRepository extends JpaRepository<ApplicantEntity, Long> {
 
     List<ApplicantEntity> findAll();
+
+    ApplicantEntity findOneById(final Long id);
 }

@@ -101,10 +101,21 @@ public class ApplicationService {
     public Application putApplication(final ApplicationId applicationId) {
         final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationId.getId());
 
+        final ApplicantEntity applicantEntity = applicantRepository.findOneById(applicationId.getApplicant().getId());
+        applicantEntity.setEmail(applicationId.getApplicant().getEmail());
+        applicantEntity.setFirstName(applicationId.getApplicant().getFirstName());
+        applicantEntity.setPrefix(applicationId.getApplicant().getPrefix());
+        applicantEntity.setLastName(applicationId.getApplicant().getLastName());
+        applicantEntity.setPhoneNumber(applicationId.getApplicant().getPhoneNumber());
+        applicantEntity.setResumeLink(applicationId.getApplicant().getResumeLink());
+        applicantEntity.setEmail(applicationId.getApplicant().getEmail());
+
+        final ApplicantEntity savedApplicant = applicantRepository.save(applicantEntity);
+
         final OffsetDateTime firstInterviewDateTime = applicationId.getFirstInterviewDateTime();
         final OffsetDateTime secondInterviewDateTime = applicationId.getSecondInterviewDateTime();
 
-        applicationEntity.setApplicant(toApplicantEntityMapper.map(applicationId.getApplicant()));
+        applicationEntity.setApplicant(savedApplicant);
         applicationEntity.setFirstInterviewDateTime(firstInterviewDateTime == null ? null : firstInterviewDateTime.toString());
         applicationEntity.setSecondInterviewDateTime(secondInterviewDateTime == null ? null : secondInterviewDateTime.toString());
         applicationEntity.setMotivationLetterLink(applicationId.getMotivationLetterLink());

@@ -28,7 +28,7 @@ export class MockService {
         } catch (err) {
           subscriber.error(err);
         }
-      }, mockLag)
+      }, mockLag);
     });
   }
 }

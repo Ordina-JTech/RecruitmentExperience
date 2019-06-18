@@ -10,10 +10,11 @@ export class ApplicationDocumentsComponent implements OnInit {
 
   constructor() { }
 
+  @Input()
+  application!: Application;
+
   ngOnInit() {
   }
 
-  @Input()
-  application!: Application;
 
 }

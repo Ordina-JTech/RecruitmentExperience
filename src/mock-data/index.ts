@@ -19,7 +19,7 @@ const resolvers = {
   'regions/0': REGIONS[0],
   'regions/1': REGIONS[1],
   'regions/2': REGIONS[2],
-}
+};
 
 function resolveMockData<T>(path: string): T {
   return resolvers[path];

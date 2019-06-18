@@ -73,7 +73,17 @@ export class ApplicationDetailComponent implements OnInit {
 
   promoteApplication = async () => {
     this.application = await this.applicationService.promoteApplication(this.application).toPromise();
-    confetti(document.getElementById('promoteButton'));
+    confetti(document.getElementById('promoteButton'), {
+      angle: 136,
+      spread: 45,
+      startVelocity: 45,
+      elementCount: 50,
+      dragFriction: 0.1,
+      duration: 3000,
+      stagger: 0,
+      width: 10,
+      height: 10,
+    });
   }
 
   handleEditClick = async () => {

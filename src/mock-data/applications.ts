@@ -8,7 +8,7 @@ const APPLICATIONS: Application[] = [
     id: 0,
     applicant: {
       id: 0,
-      prefix: 'van', 
+      prefix: 'van',
       firstName: 'Nils',
       lastName: 'Eijk',
       email: 'nils.van.eijk@ordina.nl',
@@ -91,6 +91,6 @@ const APPLICATIONS: Application[] = [
     notes: [],
     title: 'Software Developer',
   }
-]
+];
 
 export default APPLICATIONS;

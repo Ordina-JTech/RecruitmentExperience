@@ -86,7 +86,7 @@ public class ApplicationRestController {
 
     @PostMapping("/{applicationId}/promote")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void promoteApplication(@PathVariable final Long applicationId){
-        applicationService.promoteApplication(applicationId);
+    public ApplicationIdModel promoteApplication(@PathVariable final Long applicationId){
+        return toApplicationIdModelMapper.map(applicationService.promoteApplication(applicationId));
     }
 }

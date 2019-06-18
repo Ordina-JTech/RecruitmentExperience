@@ -13,7 +13,7 @@ public class ContractState implements State {
 
     @Override
     public void toNextState(Application application) {
-        throw new UnsupportedOperationException("Contract is the final state; No next state available");
+        throw new IllegalStateException("Contract is the final state; No next state available");
     }
 
     @Override

@@ -20,7 +20,7 @@ public class ToApplicationIdModelMapper implements Mapper<Application, Applicati
         applicationIdModel.setFirstInterviewDateTime(input.getFirstInterviewDateTime());
         applicationIdModel.setSecondInterviewDateTime(input.getSecondInterviewDateTime());
         applicationIdModel.setMotivationLetterLink(input.getMotivationLetterLink());
-        applicationIdModel.setApplicant(toApplicantModelMapper.map(input.getApplicant()));
+        applicationIdModel.setApplicant(toApplicantModelMapper.mapNullSafe(input.getApplicant()));
         applicationIdModel.setState((new ToApplicationStateModelMapper(ApplicationState.class)).get(input.getState().toEnum()));
         applicationIdModel.setBusinessUnitId(input.getBusinessUnit().getId());
         applicationIdModel.setBusinessUnitManagerId(input.getBusinessUnitManager().getId());

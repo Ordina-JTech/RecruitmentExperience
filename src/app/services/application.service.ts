@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material';
 import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
 import { EditDialog, FieldType, Option } from '../definitions/edit-dialog';
 import { BumService } from './bum.service';
+import { BuService } from './bu.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class ApplicationService {
               private regionService: RegionService,
               private departmentService: DepartmentService,
               private bumService: BumService,
+              private buService: BuService,
               private dialog: MatDialog) { }
 
   getApplicationCounts(): Observable<ApplicationCounts> {
@@ -40,21 +42,24 @@ export class ApplicationService {
     return this.api.get(`applications/${applicationId}/notes`);
   }
 
-  createApplication(application: Application): Observable<number> {
-    console.log(JSON.stringify(application));
+  createApplication(application: Application): Observable<Application> {
     return this.api.post(`applications`, application);
   }
 
-  editApplication(application: Application): Observable<void> {
-    return this.api.put(`applications`, application);
+  editApplication(application: Application): Observable<Application> {
+    return this.api.put(`applications/${application.id}`, application);
   }
 
-  async openEditModal(applicationId: number): Promise<void> {
+  promoteApplication(application: Application): Observable<Application> {
+    return this.api.post(`applications/${application.id}/promote`, {});
+  }
+
+  async openEditModal(applicationId: number): Promise<Application> {
     const application = await this.openModal(await this.getApplication(applicationId).toPromise());
-    await this.editApplication(application);
+    return this.editApplication(application).toPromise();
   }
 
-  async openCreateModal(): Promise<number> {
+  async openCreateModal(): Promise<Application> {
     const application = await this.openModal({
       id: 0,
       applicant: {
@@ -74,14 +79,19 @@ export class ApplicationService {
       departmentId: 0,
     });
 
-    return this.createApplication(application).toPromise();
+    if (application) {
+      return this.createApplication(application).toPromise();
+    } else {
+      return null;
+    }
   }
 
   private async openModal(application: Application): Promise<Application> {
-    const [regions, departments, bums] = await all([
+    const [regions, departments, bums, bus] = await all([
       this.regionService.getRegions().toPromise(),
       this.departmentService.getDepartments().toPromise(),
       this.bumService.getBUMs().toPromise(),
+      this.buService.getBUs().toPromise(),
     ]);
 
     const dialogRef = this.dialog.open(EditDialogComponent, {
@@ -110,6 +120,12 @@ export class ApplicationService {
           label: 'BUM',
           options: bums.map(bum => ({name: bum.id, value: bum.firstName}) as Option),
           initialValue: application.businessUnitManagerId,
+        },
+        businessUnitId: {
+          type: FieldType.Select,
+          label: 'Business Unit',
+          options: bus.map(bu => ({name: bu.id, value: bu.name}) as Option),
+          initialValue: application.businessUnitId,
         },
       }  as EditDialog,
     });

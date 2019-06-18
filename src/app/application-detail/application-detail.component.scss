@@ -8,6 +8,11 @@
   justify-content: space-between;
 }
 
+.state {
+  display: flex;
+  flex-direction: row;
+}
+
 .container {
   margin-top: 20px; 
   display: flex;

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationService } from '../services/application.service';
 import { Application } from '../definitions/application';
 import { Department } from '../definitions/department';
 import { DepartmentService } from '../services/department.service';
-
-import { RegionService } from '../services/region.service';
+import { ApplicationState } from '../definitions/application-states.enum';
 
 @Component({
   selector: 'app-application-list',
@@ -17,7 +16,7 @@ export class ApplicationListComponent implements OnInit {
   constructor(private activatedRoute: ActivatedRoute,
               private applicationService: ApplicationService,
               private departmentService: DepartmentService,
-              private regionService: RegionService,
+              private router: Router,
               ) { }
 
   departments: Department[] = null;
@@ -66,5 +65,11 @@ export class ApplicationListComponent implements OnInit {
     }
   }
 
-  handleAddClick = () => this.applicationService.openCreateModal();
+  handleAddClick = async () => {
+    const application = await this.applicationService.openCreateModal();
+
+    if (application) {
+      this.router.navigateByUrl(`applications/${ApplicationState.NEW}/${application.id}`);
+    }
+  }
 }

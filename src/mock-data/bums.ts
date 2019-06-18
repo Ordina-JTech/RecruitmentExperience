@@ -1,4 +1,4 @@
-import { BusinessUnitManager } from "src/app/definitions/business-unit-manager";
+import { BusinessUnitManager } from 'src/app/definitions/business-unit-manager';
 import BUS from './bus';
 const BUMS: BusinessUnitManager[] = [
   {

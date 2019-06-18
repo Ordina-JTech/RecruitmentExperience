@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { Region } from '../definitions/region';
 import { RegionService } from '../services/region.service';
 
+import {all} from 'bluebird';
 @Component({
   selector: 'app-application-detail',
   templateUrl: './application-detail.component.html',
@@ -50,12 +51,30 @@ export class ApplicationDetailComponent implements OnInit {
 
   async loadApplication() {
     this.application = await this.applicationService.getApplication(this.applicationId).toPromise();
-    this.bu = this.buService.getBU(this.application.businessUnitId);
-    this.bum = this.bumService.getBUM(this.application.businessUnitManagerId);
-    this.region = this.regionService.getRegion(this.application.regionId);
+    this.loadDependencies();
   }
 
-  handleEditClick = () => {
-    this.applicationService.openEditModal(this.applicationId);
+  async loadDependencies() {
+    const [bu, bum, region] = await all([
+      this.buService.getBU(this.application.businessUnitId),
+      this.bumService.getBUM(this.application.businessUnitManagerId),
+      this.regionService.getRegion(this.application.regionId),
+    ]);
+
+    this.bu = bu;
+    this.bum = bum;
+    this.region = region;
+  }
+
+  promoteApplication = async () => this.application = await this.applicationService.promoteApplication(this.application).toPromise();
+
+  handleEditClick = async () => {
+    const application = await this.applicationService.openEditModal(this.applicationId);
+
+    if (application) {
+      this.application = application;
+
+      this.loadDependencies();
+    }
   }
 }

@@ -14,7 +14,7 @@ export class BuService {
 
   @Cacheable()
   getBUs(): Observable<BusinessUnit[]> {
-    return this.api.get(`bus`);
+    return this.api.get(`business-units`);
   }
 
   getBU(id: number): Observable<BusinessUnit> {

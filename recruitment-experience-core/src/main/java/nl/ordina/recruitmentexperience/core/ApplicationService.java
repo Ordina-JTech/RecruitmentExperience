@@ -3,6 +3,7 @@ package nl.ordina.recruitmentexperience.core;
 import lombok.RequiredArgsConstructor;
 import nl.ordina.recruitmentexperience.core.mapper.FromApplicationEntityMapper;
 import nl.ordina.recruitmentexperience.core.mapper.ToApplicantEntityMapper;
+import nl.ordina.recruitmentexperience.core.mapper.ToApplicationEntityMapper;
 import nl.ordina.recruitmentexperience.core.model.Applicant;
 import nl.ordina.recruitmentexperience.core.model.Application;
 import nl.ordina.recruitmentexperience.core.model.ApplicationId;
@@ -43,6 +44,8 @@ public class ApplicationService {
     private final ApplicantRepository applicantRepository;
 
     private final ToApplicantEntityMapper toApplicantEntityMapper;
+
+    private final ToApplicationEntityMapper toApplicationEntityMapper;
 
     public List<Application> getApplications(final State stateFilter) {
         final List<ApplicationEntity> applicationEntities;
@@ -89,6 +92,28 @@ public class ApplicationService {
                 .businessUnit(businessUnitRepository.findOneById(applicationId.getBusinessUnitId()))
                 .businessUnitManager(businessUnitManagerRepository.findOneById(applicationId.getBusinessUnitManagerId()))
                 .build();
+
+        final ApplicationEntity savedApplication = applicationRepository.save(applicationEntity);
+
+        return fromApplicationEntityMapper.map(savedApplication);
+    }
+
+    public Application putApplication(final ApplicationId applicationId) {
+        final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationId.getId());
+
+        final OffsetDateTime firstInterviewDateTime = applicationId.getFirstInterviewDateTime();
+        final OffsetDateTime secondInterviewDateTime = applicationId.getSecondInterviewDateTime();
+
+        applicationEntity.setApplicant(toApplicantEntityMapper.map(applicationId.getApplicant()));
+        applicationEntity.setFirstInterviewDateTime(firstInterviewDateTime == null ? null : firstInterviewDateTime.toString());
+        applicationEntity.setSecondInterviewDateTime(secondInterviewDateTime == null ? null : secondInterviewDateTime.toString());
+        applicationEntity.setMotivationLetterLink(applicationId.getMotivationLetterLink());
+        applicationEntity.setTitle(applicationId.getTitle());
+        applicationEntity.setState(applicationId.getState().toEnum().name());
+        applicationEntity.setRegion(regionRepository.findOneById(applicationId.getRegionId()));
+        applicationEntity.setDepartment(departmentRepository.findOneById(applicationId.getDepartmentId()));
+        applicationEntity.setBusinessUnit(businessUnitRepository.findOneById(applicationId.getBusinessUnitId()));
+        applicationEntity.setBusinessUnitManager(businessUnitManagerRepository.findOneById(applicationId.getBusinessUnitManagerId()));
 
         final ApplicationEntity savedApplication = applicationRepository.save(applicationEntity);
 

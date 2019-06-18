@@ -13,6 +13,7 @@ import nl.ordina.recruitmentexperience.core.NoteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,5 +64,11 @@ public class ApplicationRestController {
         applicationIdModel.setId(null);
         applicationIdModel.getApplicant().setId(null);
         return toApplicationIdModelMapper.map(applicationService.postApplication(fromApplicationIdModelMapper.map(applicationIdModel)));
+    }
+
+    @PutMapping("/{applicationId}")
+    public ApplicationIdModel putApplication(@PathVariable final Long applicationId, @RequestBody final ApplicationIdModel applicationIdModel) {
+        applicationIdModel.setId(applicationId);
+        return toApplicationIdModelMapper.map(applicationService.putApplication(fromApplicationIdModelMapper.map(applicationIdModel)));
     }
 }

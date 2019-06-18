@@ -14,7 +14,6 @@ export class ApplicationDocumentsComponent implements OnInit {
   application!: Application;
 
   ngOnInit() {
-    //hoi
   }
 
 

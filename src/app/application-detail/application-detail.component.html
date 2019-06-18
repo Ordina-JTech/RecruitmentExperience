@@ -5,7 +5,7 @@
   </div>
   <div class="progress">
     <mat-progress-bar mode="determinate" [value]="getApplicationProgress()"></mat-progress-bar>
-    <div class="state"><p>{{application.state | formatState}}</p><button mat-button (click)="promoteApplication()">Volgende status</button></div>
+    <div class="state"><p>{{application.state | formatState}}</p><button id="promoteButton" mat-button (click)="promoteApplication()">Volgende status</button></div>
   </div>
   <div class="details">
     <table>

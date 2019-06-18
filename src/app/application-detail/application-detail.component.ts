@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApplicationService } from '../services/application.service';
 import { Application } from '../definitions/application';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,8 @@ import { BumService } from '../services/bum.service';
 import { Observable } from 'rxjs';
 import { Region } from '../definitions/region';
 import { RegionService } from '../services/region.service';
+
+import { confetti } from 'dom-confetti';
 
 import {all} from 'bluebird';
 @Component({
@@ -24,6 +26,9 @@ export class ApplicationDetailComponent implements OnInit {
               private bumService: BumService,
               private regionService: RegionService,
               private currentRoute: ActivatedRoute) { }
+
+  @ViewChild('promoteButton', {static: true})
+  promoteButton: ElementRef;
 
   application: Application = null;
   bu: Observable<BusinessUnit> = null;
@@ -66,7 +71,10 @@ export class ApplicationDetailComponent implements OnInit {
     this.region = region;
   }
 
-  promoteApplication = async () => this.application = await this.applicationService.promoteApplication(this.application).toPromise();
+  promoteApplication = async () => {
+    this.application = await this.applicationService.promoteApplication(this.application).toPromise();
+    confetti(document.getElementById('promoteButton'));
+  }
 
   handleEditClick = async () => {
     const application = await this.applicationService.openEditModal(this.applicationId);

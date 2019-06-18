@@ -3,6 +3,7 @@ package nl.ordina.recruitmentexperience.api;
 import lombok.RequiredArgsConstructor;
 import nl.ordina.recruitmentexperience.api.mapper.FromApplicationIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.FromApplicationStateModelMapper;
+import nl.ordina.recruitmentexperience.api.mapper.FromNoteIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.ToApplicationIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.ToNoteIdModelMapper;
 import nl.ordina.recruitmentexperience.api.model.ApplicationIdModel;
@@ -38,6 +39,8 @@ public class ApplicationRestController {
 
     private final FromApplicationStateModelMapper fromApplicationStateModelMapper;
 
+    private final FromNoteIdModelMapper fromNoteIdModelMapper;
+
     @GetMapping
     public List<ApplicationIdModel> getApplications(@RequestParam(required = false) String state) {
         ApplicationStateModel stateModel;
@@ -70,5 +73,12 @@ public class ApplicationRestController {
     public ApplicationIdModel putApplication(@PathVariable final Long applicationId, @RequestBody final ApplicationIdModel applicationIdModel) {
         applicationIdModel.setId(applicationId);
         return toApplicationIdModelMapper.map(applicationService.putApplication(fromApplicationIdModelMapper.map(applicationIdModel)));
+    }
+
+    @PostMapping("/{applicationId}/notes")
+    public NoteIdModel postNote(@PathVariable final Long applicationId, @RequestBody final NoteIdModel noteIdModel) {
+        noteIdModel.setApplicationId(applicationId);
+        noteIdModel.setId(null);
+        return toNoteIdModelMapper.map(noteService.postNote(fromNoteIdModelMapper.map(noteIdModel)));
     }
 }

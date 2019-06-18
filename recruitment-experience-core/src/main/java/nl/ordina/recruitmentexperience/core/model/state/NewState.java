@@ -14,6 +14,7 @@ public class NewState implements State {
     @Override
     public void toNextState(Application application) {
         application.setState(new InvitedState());
+        System.out.println(String.format("Application %d is now in state %s", application.getId(), application.getState().toEnum().name()));
     }
 
     @Override

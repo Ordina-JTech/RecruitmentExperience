@@ -20,6 +20,8 @@ public class ToApplicationEntityMapper implements Mapper<Application, Applicatio
 
     private final ToRegionEntityMapper toRegionEntityMapper;
 
+    private final ToApplicantEntityMapper toApplicantEntityMapper;
+
     @Override
     public ApplicationEntity map(Application input) {
         final OffsetDateTime firstInterviewDateTime = input.getFirstInterviewDateTime();
@@ -35,6 +37,8 @@ public class ToApplicationEntityMapper implements Mapper<Application, Applicatio
                 .businessUnitManager(toBusinessUnitManagerEntityMapper.mapNullSafe(input.getBusinessUnitManager()))
                 .businessUnit(toBusinessUnitEntityMapper.mapNullSafe(input.getBusinessUnit()))
                 .region(toRegionEntityMapper.mapNullSafe(input.getRegion()))
+                .state(input.getState().toEnum().name())
+                .applicant(toApplicantEntityMapper.mapNullSafe(input.getApplicant()))
                 .build();
     }
 }

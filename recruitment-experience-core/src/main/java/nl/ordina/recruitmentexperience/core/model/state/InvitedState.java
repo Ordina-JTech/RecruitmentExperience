@@ -15,6 +15,7 @@ public class InvitedState implements State {
     public void toNextState(Application application) {
         application.setState(new FirstInterviewState());
         // Do stuff for this state
+        System.out.println(String.format("Application %d is now in state %s", application.getId(), application.getState().toEnum().name()));
     }
 
     @Override

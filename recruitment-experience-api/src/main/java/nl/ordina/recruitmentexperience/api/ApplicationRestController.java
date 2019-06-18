@@ -11,6 +11,7 @@ import nl.ordina.recruitmentexperience.api.model.ApplicationStateModel;
 import nl.ordina.recruitmentexperience.api.model.NoteIdModel;
 import nl.ordina.recruitmentexperience.core.ApplicationService;
 import nl.ordina.recruitmentexperience.core.NoteService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -80,5 +82,11 @@ public class ApplicationRestController {
         noteIdModel.setApplicationId(applicationId);
         noteIdModel.setId(null);
         return toNoteIdModelMapper.map(noteService.postNote(fromNoteIdModelMapper.map(noteIdModel)));
+    }
+
+    @PostMapping("/{applicationId}/promote")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void promoteApplication(@PathVariable final Long applicationId){
+        applicationService.promoteApplication(applicationId);
     }
 }

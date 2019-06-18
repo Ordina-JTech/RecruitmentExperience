@@ -119,4 +119,11 @@ public class ApplicationService {
 
         return fromApplicationEntityMapper.map(savedApplication);
     }
+
+    public void promoteApplication(final Long applicationid) {
+        final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationid);
+        final Application application = fromApplicationEntityMapper.map(applicationEntity);
+        application.getState().toNextState(application);
+        applicationRepository.save(toApplicationEntityMapper.map(application));
+    }
 }

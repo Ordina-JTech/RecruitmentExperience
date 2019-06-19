@@ -34,6 +34,7 @@ public class DocumentService {
         final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationId);
 
         final DocumentEntity documentEntity = DocumentEntity.builder()
+                .id(UUID.randomUUID())
                 .application(applicationEntity)
                 .title(documentId.getTitle())
                 .creationDate(documentId.getCreationDate())

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Application } from '../definitions/application';
 import { Note } from '../definitions/note';
 import { NoteService } from '../services/note.service';
-import * as orderBy from 'lodash/orderBy';
+// import * as orderBy from 'lodash/orderBy';
 
 @Component({
   selector: 'app-application-notes',
@@ -31,7 +31,8 @@ export class ApplicationNotesComponent implements OnInit {
 
   async loadNotes() {
     const notes = await this.noteService.getApplicationNotes(this.application.id).toPromise();
-    this.notes = orderBy(notes, ({creationDate}) => new Date(creationDate), 'desc');
+    // this.notes = orderBy(notes, ({creationDate}) => new Date(creationDate), 'desc');
+    this.notes = notes;
   }
 
   handleEditClick = async (note: Note) => {

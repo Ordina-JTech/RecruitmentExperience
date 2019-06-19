@@ -3,9 +3,6 @@ package nl.ordina.recruitmentexperience.core;
 import lombok.RequiredArgsConstructor;
 import nl.ordina.recruitmentexperience.core.mapper.FromDocumentEntityMapper;
 import nl.ordina.recruitmentexperience.core.model.Document;
-import nl.ordina.recruitmentexperience.core.model.DocumentId;
-import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
-import nl.ordina.recruitmentexperience.data.application.model.DocumentEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicationRepository;
 import nl.ordina.recruitmentexperience.data.application.repository.DocumentRepository;
 import org.springframework.stereotype.Service;
@@ -16,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,23 +26,24 @@ public class DocumentService {
 
     private final FromDocumentEntityMapper fromDocumentEntityMapper;
 
-    public final Document postDocument(final Long applicationId, final DocumentId documentId, final MultipartFile file) {
-        final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationId);
+    public final Document postDocument(final Long applicationId, final MultipartFile file) {
+//        final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationId);
+//
+//        final DocumentEntity documentEntity = DocumentEntity.builder()
+//                .application(applicationEntity)
+//                .title(documentId.getTitle())
+//                .creationDate(documentId.getCreationDate())
+//                .build();
+//
+//        final DocumentEntity savedDocument = documentRepository.save(documentEntity);
 
-        final DocumentEntity documentEntity = DocumentEntity.builder()
-                .application(applicationEntity)
-                .title(documentId.getTitle())
-                .creationDate(documentId.getCreationDate())
-                .build();
+        store(file);
 
-        final DocumentEntity savedDocument = documentRepository.save(documentEntity);
-
-        store(file, savedDocument.getId());
-
-        return fromDocumentEntityMapper.map(savedDocument);
+        return null;
+//        return fromDocumentEntityMapper.map(savedDocument);
     }
 
-    private void store(final MultipartFile file, final UUID fileId) {
+    private void store(final MultipartFile file) {
         try {
             Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
         } catch (IOException e) {

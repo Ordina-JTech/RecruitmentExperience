@@ -122,6 +122,11 @@ public class ApplicationRestController {
         return toDocumentIdModelMapper.map(documentService.postDocument(applicationId, fromDocumentIdModelMapper.map(documentIdModel), file));
     }
 
+    @GetMapping("/{applicationId}/documents")
+    public List<DocumentIdModel> getDocuments(@PathVariable final Long applicationId) {
+        return toDocumentIdModelMapper.map(documentService.getDocuments(applicationId));
+    }
+
     @GetMapping("/{applicationId}/documents/{documentId}")
     public ResponseEntity<Resource> getFile(@PathVariable final UUID documentId, @PathVariable final Long applicationId) throws IOException {
         final Resource file = documentService.getDocument(documentId);

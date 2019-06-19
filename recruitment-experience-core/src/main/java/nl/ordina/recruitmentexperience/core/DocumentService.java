@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -90,5 +91,9 @@ public class DocumentService {
         } catch (IOException e) {
             throw new RuntimeException("Could not initialize storage!");
         }
+    }
+
+    public List<Document> getDocuments(Long applicationId) {
+        return fromDocumentEntityMapper.map(documentRepository.findAllByApplication_Id(applicationId));
     }
 }

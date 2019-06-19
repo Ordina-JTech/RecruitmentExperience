@@ -10,6 +10,8 @@ import java.util.UUID;
 @Repository
 public interface DocumentRepository extends JpaRepository<DocumentEntity, UUID> {
 
+    DocumentEntity findOneById(final UUID uuid);
+
     List<DocumentEntity> findAll();
 
     List<DocumentEntity> findAllByApplication_Id(final Long applicationId);

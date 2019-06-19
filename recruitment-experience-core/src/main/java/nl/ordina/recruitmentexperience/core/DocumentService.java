@@ -8,11 +8,15 @@ import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.model.DocumentEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicationRepository;
 import nl.ordina.recruitmentexperience.data.application.repository.DocumentRepository;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,6 +42,7 @@ public class DocumentService {
                 .application(applicationEntity)
                 .title(documentId.getTitle())
                 .creationDate(documentId.getCreationDate())
+                .extension(FilenameUtils.getExtension(file.getOriginalFilename()))
                 .build();
 
         final DocumentEntity savedDocument = documentRepository.save(documentEntity);
@@ -47,11 +52,31 @@ public class DocumentService {
         return fromDocumentEntityMapper.map(savedDocument);
     }
 
+    public Resource getDocument(final UUID documentId){
+        final DocumentEntity documentEntity = documentRepository.findOneById(documentId);
+        return loadFile(String.format("%s.%s", documentEntity.getId().toString(), documentEntity.getExtension()));
+    }
+
     private void store(final MultipartFile file, final UUID fileId) {
         try {
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(String.format("%s.%s",fileId.toString(), extension)));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private Resource loadFile(String filename) {
+        try {
+            Path file = rootLocation.resolve(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("FAIL!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("FAIL!");
         }
     }
 

@@ -27,7 +27,7 @@ public class DocumentEntity {
     private UUID id;
     private String title;
     private String creationDate;
-    private String path;
+    private String extension;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "application_id")
     private ApplicationEntity application;

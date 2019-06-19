@@ -15,6 +15,9 @@ import nl.ordina.recruitmentexperience.api.model.NoteIdModel;
 import nl.ordina.recruitmentexperience.core.ApplicationService;
 import nl.ordina.recruitmentexperience.core.DocumentService;
 import nl.ordina.recruitmentexperience.core.NoteService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/applications")
@@ -113,5 +117,15 @@ public class ApplicationRestController {
         documentIdModel.setAuthor(author);
 
         return toDocumentIdModelMapper.map(documentService.postDocument(applicationId, fromDocumentIdModelMapper.map(documentIdModel), file));
+    }
+
+    @GetMapping("/{applicationId}/documents/{documentId}")
+    public ResponseEntity<Resource> getFile(@PathVariable final UUID documentId, @PathVariable final Long applicationId){
+        final Resource file = documentService.getDocument(documentId);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                .body(file);
+
     }
 }

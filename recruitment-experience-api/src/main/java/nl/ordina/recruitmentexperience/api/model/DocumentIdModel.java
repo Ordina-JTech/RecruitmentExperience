@@ -13,6 +13,7 @@ public class DocumentIdModel {
     private String title;
     private String creationDate;
     private String path;
+    private String author;
     private Long applicationId;
 
 }

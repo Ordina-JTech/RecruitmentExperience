@@ -105,7 +105,13 @@ public class ApplicationRestController {
     }
 
     @PostMapping("/{applicationId}/documents")
-    public DocumentIdModel postApplication(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId, @RequestBody final DocumentIdModel documentIdModel) {
+    public DocumentIdModel postApplication(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId, @RequestParam("author") final String author, @RequestParam("creationDate") final String creationDate, @RequestParam("title") final String title) {
+        final DocumentIdModel documentIdModel = new DocumentIdModel();
+        documentIdModel.setTitle(title);
+        documentIdModel.setCreationDate(creationDate);
+        documentIdModel.setApplicationId(applicationId);
+        documentIdModel.setAuthor(author);
+
         return toDocumentIdModelMapper.map(documentService.postDocument(applicationId, fromDocumentIdModelMapper.map(documentIdModel), file));
     }
 }

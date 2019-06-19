@@ -3,13 +3,17 @@ package nl.ordina.recruitmentexperience.api;
 import lombok.RequiredArgsConstructor;
 import nl.ordina.recruitmentexperience.api.mapper.FromApplicationIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.FromApplicationStateModelMapper;
+import nl.ordina.recruitmentexperience.api.mapper.FromDocumentIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.FromNoteIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.ToApplicationIdModelMapper;
+import nl.ordina.recruitmentexperience.api.mapper.ToDocumentIdModelMapper;
 import nl.ordina.recruitmentexperience.api.mapper.ToNoteIdModelMapper;
 import nl.ordina.recruitmentexperience.api.model.ApplicationIdModel;
 import nl.ordina.recruitmentexperience.api.model.ApplicationStateModel;
+import nl.ordina.recruitmentexperience.api.model.DocumentIdModel;
 import nl.ordina.recruitmentexperience.api.model.NoteIdModel;
 import nl.ordina.recruitmentexperience.core.ApplicationService;
+import nl.ordina.recruitmentexperience.core.DocumentService;
 import nl.ordina.recruitmentexperience.core.NoteService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -40,6 +45,12 @@ public class ApplicationRestController {
     private final FromApplicationStateModelMapper fromApplicationStateModelMapper;
 
     private final FromNoteIdModelMapper fromNoteIdModelMapper;
+
+    private final DocumentService documentService;
+
+    private final FromDocumentIdModelMapper fromDocumentIdModelMapper;
+
+    private final ToDocumentIdModelMapper toDocumentIdModelMapper;
 
     @GetMapping
     public List<ApplicationIdModel> getApplications(@RequestParam(required = false) String state) {
@@ -91,5 +102,10 @@ public class ApplicationRestController {
     @PostMapping("/{applicationId}/promote")
     public ApplicationIdModel promoteApplication(@PathVariable final Long applicationId){
         return toApplicationIdModelMapper.map(applicationService.promoteApplication(applicationId));
+    }
+
+    @PostMapping("/{applicationId}/documents")
+    public DocumentIdModel postApplication(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId, @RequestBody final DocumentIdModel documentIdModel) {
+        return toDocumentIdModelMapper.map(documentService.postDocument(applicationId, fromDocumentIdModelMapper.map(documentIdModel), file));
     }
 }

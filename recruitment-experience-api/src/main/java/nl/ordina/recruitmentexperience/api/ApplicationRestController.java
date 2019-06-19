@@ -105,7 +105,7 @@ public class ApplicationRestController {
     }
 
     @PostMapping("/{applicationId}/documents")
-    public DocumentIdModel postApplication(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId) {
-        return toDocumentIdModelMapper.mapNullSafe(documentService.postDocument(applicationId, file));
+    public DocumentIdModel postApplication(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId, @RequestBody final DocumentIdModel documentIdModel) {
+        return toDocumentIdModelMapper.map(documentService.postDocument(applicationId, fromDocumentIdModelMapper.map(documentIdModel), file));
     }
 }

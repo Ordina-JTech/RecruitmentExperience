@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Application } from '../definitions/application';
+import { DocumentService } from '../services/document.service';
 
 @Component({
   selector: 'app-application-documents',
@@ -8,7 +9,7 @@ import { Application } from '../definitions/application';
 })
 export class ApplicationDocumentsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private documentService: DocumentService) { }
 
   @Input()
   application!: Application;
@@ -16,5 +17,8 @@ export class ApplicationDocumentsComponent implements OnInit {
   ngOnInit() {
   }
 
-
+  handleCreateClick = async () => {
+    await this.documentService.openCreateModal(this.application.id);
+    // this.loadDocu();
+  }
 }

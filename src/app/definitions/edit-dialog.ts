@@ -1,7 +1,9 @@
 export enum FieldType {
   Text = 'text',
+  RichText = 'richtext',
   Number = 'number',
   Select = 'select',
+  File = 'file',
 }
 
 export interface Option {

@@ -14,6 +14,7 @@ import { RegionService } from '../services/region.service';
 import { confetti } from 'dom-confetti';
 
 import {all} from 'bluebird';
+import { MessagingService } from '../services/messaging.service';
 @Component({
   selector: 'app-application-detail',
   templateUrl: './application-detail.component.html',
@@ -25,7 +26,8 @@ export class ApplicationDetailComponent implements OnInit {
               private buService: BuService,
               private bumService: BumService,
               private regionService: RegionService,
-              private currentRoute: ActivatedRoute) { }
+              private currentRoute: ActivatedRoute,
+              private messagingService: MessagingService) { }
 
   @ViewChild('promoteButton', {static: true})
   promoteButton: ElementRef;
@@ -73,6 +75,7 @@ export class ApplicationDetailComponent implements OnInit {
 
   promoteApplication = async () => {
     this.application = await this.applicationService.promoteApplication(this.application).toPromise();
+    this.messagingService.push({type: 'RELOAD_APPLICATION_COUNTS'});
     confetti(document.getElementById('promoteButton'));
   }
 

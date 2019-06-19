@@ -82,7 +82,7 @@ export class SentryErrorHandler implements ErrorHandler {
     MatDialogModule,
     ReactiveFormsModule,
   ],
-  providers: [{provide: ErrorHandler, useClass: SentryErrorHandler}],
+  // providers: [{provide: ErrorHandler, useClass: SentryErrorHandler}],
   bootstrap: [AppComponent],
   entryComponents: [
     EditDialogComponent,

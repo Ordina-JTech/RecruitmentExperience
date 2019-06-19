@@ -1,6 +1,6 @@
 .note {
   margin: 5px 0px 5px;
-  background-color: rgba(1, 1, 1, 0.02);
+  // background-color: rgba(1, 1, 1, 0.02);
 }
 
 .date {
@@ -9,4 +9,12 @@
 
 .text {
   width: 100%;
+}
+
+.fab {
+  position: absolute;
+  z-index: 2;
+  right: 20px;
+  bottom: 20px;
+  background-color: #F58220;
 }

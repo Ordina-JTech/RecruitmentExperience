@@ -1,6 +1,7 @@
 {
   "extends": "tslint:recommended",
   "rules": {
+    "allowSyntheticDefaultImports": true,
     "variable-name": [true, "allow-leading-underscore"],
     "noImplicitAny": true,
     "array-type": false,

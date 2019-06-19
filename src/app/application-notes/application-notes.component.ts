@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Application } from '../definitions/application';
-import { ApplicationService } from '../services/application.service';
-import { Observable } from 'rxjs';
 import { Note } from '../definitions/note';
+import { NoteService } from '../services/note.service';
+import * as orderBy from 'lodash/orderBy';
 
 @Component({
   selector: 'app-application-notes',
@@ -11,9 +11,9 @@ import { Note } from '../definitions/note';
 })
 export class ApplicationNotesComponent implements OnInit {
 
-  constructor(private applicationService: ApplicationService) { }
+  constructor(private noteService: NoteService) { }
 
-  notes: Observable<Note[]> = null;
+  notes: Note[] = null;
   private _application: Application;
 
   ngOnInit() {
@@ -30,6 +30,17 @@ export class ApplicationNotesComponent implements OnInit {
   }
 
   async loadNotes() {
-    this.notes = this.applicationService.getApplicationNotes(this.application.id);
+    const notes = await this.noteService.getApplicationNotes(this.application.id).toPromise();
+    this.notes = orderBy(notes, ({creationDate}) => new Date(creationDate), 'desc');
+  }
+
+  handleEditClick = async (note: Note) => {
+    await this.noteService.openEditModal(this.application.id, note);
+    this.loadNotes();
+  }
+
+  handleCreateClick = async () => {
+    await this.noteService.openCreateModal(this.application.id);
+    this.loadNotes();
   }
 }

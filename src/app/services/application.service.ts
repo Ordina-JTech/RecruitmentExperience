@@ -4,7 +4,6 @@ import {all} from 'bluebird';
 import { Application } from '../definitions/application';
 import { ApiService } from './api.service';
 import { ApplicationState } from '../definitions/application-states.enum';
-import { Note } from '../definitions/note';
 import { ApplicationCounts } from '../definitions/application-counts';
 import { RegionService } from './region.service';
 import { DepartmentService } from './department.service';
@@ -38,10 +37,6 @@ export class ApplicationService {
     return this.api.get<Application>(`applications/${applicationId}`);
   }
 
-  getApplicationNotes(applicationId: number): Observable<Note[]> {
-    return this.api.get(`applications/${applicationId}/notes`);
-  }
-
   createApplication(application: Application): Observable<Application> {
     return this.api.post(`applications`, application);
   }
@@ -56,7 +51,10 @@ export class ApplicationService {
 
   async openEditModal(applicationId: number): Promise<Application> {
     const application = await this.openModal(await this.getApplication(applicationId).toPromise());
-    return this.editApplication(application).toPromise();
+
+    if (application) {
+      return this.editApplication(application).toPromise();
+    }
   }
 
   async openCreateModal(): Promise<Application> {
@@ -95,7 +93,7 @@ export class ApplicationService {
     ]);
 
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      width: '250px',
+      width: '500px',
       data: {
         firstName: {type: FieldType.Text, label: 'Voornaam', initialValue: application.applicant.firstName},
         prefix: {type: FieldType.Text, label: 'Tussenvoegsel', initialValue: application.applicant.prefix},

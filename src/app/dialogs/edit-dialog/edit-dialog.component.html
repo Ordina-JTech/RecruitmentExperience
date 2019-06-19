@@ -1,15 +1,29 @@
-<form [formGroup]="editForm" (submit)="submit($event)">
+<form class="form" [formGroup]="editForm" (submit)="submit($event)">
   <mat-form-field *ngFor="let fieldName of fieldNames">
     <mat-label>{{fields[fieldName].label}}</mat-label>
-    <ng-container *ngIf="fields[fieldName].type === 'select';then select else regular"></ng-container>
-    <ng-template #select>
+
+    <!-- Dropdown veld -->
+    <ng-container *ngIf="fields[fieldName].type === 'select'">
       <mat-select [formControlName]="fieldName">
         <mat-option *ngFor="let option of fields[fieldName].options" [value]="option.name">
           {{option.value}}
         </mat-option>
       </mat-select>
-    </ng-template>
-    <ng-template #regular><input matInput [type]="fields[fieldName].type" [formControlName]="fieldName"></ng-template>
+    </ng-container>
+    <!-- Text & nummer velden-->
+    <ng-container *ngIf="fields[fieldName].type === 'number' || fields[fieldName].type === 'text'">
+      <input matInput [type]="fields[fieldName].type" [formControlName]="fieldName">
+    </ng-container>
+
+    <!-- Richtext veld-->
+    <ng-container *ngIf="fields[fieldName].type === 'richtext'">
+      <textarea rows="10" matInput [type]="fields[fieldName].type" [formControlName]="fieldName"></textarea>
+    </ng-container>
+
+    <!-- File upload field -->
+    <ng-container *ngIf="fields[fieldName].type === 'file'">
+      <input matInput (change)="handleSelectFile(fieldName, $event)" type="file" [formControlName]="fieldName" id="file" />
+    </ng-container>
   </mat-form-field>
   <button mat-button>Opslaan</button>
 </form>

@@ -20,8 +20,8 @@ dateFormat.i18n = {
 })
 export class FormatDatePipe implements PipeTransform {
 
-  transform(value: Date, args?: any): any {
-    return dateFormat(value, 'dddd, mmmm dS, yyyy');
+  transform(value: string | Date, args?: any): any {
+    const date = typeof value === 'string' ? new Date(value) : value;
+    return dateFormat(date, 'dddd, mmmm dS, yyyy');
   }
-
 }

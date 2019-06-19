@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { MockService } from './mock.service';
@@ -9,6 +9,7 @@ export enum RequestType {
   GET,
   PUT,
   DELETE,
+  RAW,
 }
 
 @Injectable({
@@ -32,6 +33,22 @@ export class ApiService {
 
   delete<T>(path: string): Observable<T> {
     return this._wrapRequest(RequestType.DELETE, path);
+  }
+
+  upload<T>(path: string, body: any, file: File): any {
+    const url = this.config.getBaseUrl() + path;
+
+    const formData: FormData = new FormData();
+
+    // formData.append('file', file);
+    Object.keys(body).forEach(key => formData.append(key, body[key]));
+
+    const req = new HttpRequest('POST', url, formData, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+
+    return this.http.request(req);
   }
 
   private _wrapRequest<T>(requestType: RequestType, path: string, body?: any): Observable<T> {

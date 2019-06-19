@@ -39,21 +39,21 @@ const APPLICATIONS: Application[] = [
 
     notes: [{
       id: 0,
-      date: new Date(),
+      creationDate: new Date(),
       author: 'Kevin',
       title: 'Eerste comment',
       text: 'Dit is een test',
     },
     {
       id: 1,
-      date: new Date(),
+      creationDate: new Date(),
       author: 'Kevin',
       title: 'Tweede comment',
       text: 'Dit is nog een test',
     },
     {
       id: 1,
-      date: new Date(),
+      creationDate: new Date(),
       author: 'Kevin',
       title: 'Derde comment',
       text: `Dit is nog een test
@@ -64,7 +64,7 @@ const APPLICATIONS: Application[] = [
     },
   {
       id: 1,
-      date: new Date(),
+      creationDate: new Date(),
       author: 'Kevin',
       title: 'Vierde comment',
       text: 'Dit is nog een test',

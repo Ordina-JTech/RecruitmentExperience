@@ -39,4 +39,15 @@ public class NoteService {
 
         return fromNoteEntityMapper.map(savedNote);
     }
+
+    public Note putNote(final NoteId noteId) {
+        final NoteEntity noteEntity = noteRepository.findOneById(noteId.getId());
+
+        noteEntity.setText(noteId.getText());
+        noteEntity.setTitle(noteId.getTitle());
+        noteEntity.setAuthor(noteId.getAuthor());
+
+        final NoteEntity savedNote = noteRepository.save(noteEntity);
+        return fromNoteEntityMapper.map(savedNote);
+    }
 }

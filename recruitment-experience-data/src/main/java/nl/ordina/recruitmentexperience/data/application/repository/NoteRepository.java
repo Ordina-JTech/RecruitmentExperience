@@ -12,4 +12,6 @@ public interface NoteRepository extends JpaRepository<NoteEntity, Long> {
     List<NoteEntity> findAll();
 
     List<NoteEntity> findAllByApplication_Id(final Long applicationId);
+
+    NoteEntity findOneById(final Long id);
 }

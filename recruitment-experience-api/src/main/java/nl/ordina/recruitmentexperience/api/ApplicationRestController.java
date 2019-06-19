@@ -82,6 +82,12 @@ public class ApplicationRestController {
         return toNoteIdModelMapper.map(noteService.postNote(fromNoteIdModelMapper.map(noteIdModel)));
     }
 
+    @PutMapping("/{applicationId}/notes/{noteId}")
+    public NoteIdModel putNote(@PathVariable final Long applicationId, @PathVariable Long noteId, @RequestBody final NoteIdModel noteIdModel) {
+        noteIdModel.setId(noteId);
+        return toNoteIdModelMapper.map(noteService.putNote(fromNoteIdModelMapper.map(noteIdModel)));
+    }
+
     @PostMapping("/{applicationId}/promote")
     public ApplicationIdModel promoteApplication(@PathVariable final Long applicationId){
         return toApplicationIdModelMapper.map(applicationService.promoteApplication(applicationId));

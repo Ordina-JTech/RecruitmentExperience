@@ -2,7 +2,7 @@ package nl.ordina.recruitmentexperience.core.model.state;
 
 import nl.ordina.recruitmentexperience.core.model.Application;
 
-import static nl.ordina.recruitmentexperience.core.model.state.ApplicationState.CONTRACT;
+import static nl.ordina.recruitmentexperience.core.model.state.ApplicationState.SIGNED;
 
 public class ContractState implements State {
 
@@ -20,6 +20,6 @@ public class ContractState implements State {
 
     @Override
     public ApplicationState toEnum() {
-        return CONTRACT;
+        return SIGNED;
     }
 }

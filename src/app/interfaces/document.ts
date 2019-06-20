@@ -1,5 +1,5 @@
 export interface Document {
-  uuid: string;
+  id: string;
   author: string;
   extension: string;
   title: string;

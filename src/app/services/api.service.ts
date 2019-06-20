@@ -9,7 +9,7 @@ export enum RequestType {
   GET,
   PUT,
   DELETE,
-  RAW,
+  FILE,
 }
 
 @Injectable({
@@ -35,6 +35,12 @@ export class ApiService {
     return this._wrapRequest(RequestType.DELETE, path);
   }
 
+  file(path: string): Observable<Blob> {
+    const url = this.config.getBaseUrl() + path;
+    const options = ({responseType: 'blob' as 'json' });
+    return this.http.get<Blob>(url, options);
+  }
+
   upload<T>(path: string, body: any, file: File): any {
     const url = this.config.getBaseUrl() + path;
 
@@ -57,6 +63,10 @@ export class ApiService {
 
       switch (requestType) {
         case RequestType.GET: return this.http.get<T>(url);
+        case RequestType.FILE: {
+          // const options = ({observe: 'response', responseType: 'arraybuffer' });
+          // return this.http.get<Observable<Blob>>(url, {responseType: 'blob' as 'json'});
+        } 
         case RequestType.POST: return this.http.post<T>(url, body);
         case RequestType.PUT: return this.http.put<T>(url, body);
         case RequestType.DELETE: return this.http.delete<T>(url);

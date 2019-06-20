@@ -33,20 +33,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { EditDialogComponent } from './dialogs/edit-dialog/edit-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 
-Sentry.init({
-  dsn: 'https://d3aaf923065447198cc7b2965a6af84e@sentry.io/1484418',
-});
+// Sentry.init({
+//   dsn: 'https://d3aaf923065447198cc7b2965a6af84e@sentry.io/1484418',
+// });
 
-@Injectable()
-export class SentryErrorHandler implements ErrorHandler {
-  constructor() {}
-  handleError(error) {
-    /*const eventId = */Sentry.captureException(error.originalError || error);
-    // Sentry.showReportDialog({ eventId });
-  }
-}
+// @Injectable()
+// export class SentryErrorHandler implements ErrorHandler {
+//   constructor() {}
+//   handleError(error) {
+//     /*const eventId = */Sentry.captureException(error.originalError || error);
+//     // Sentry.showReportDialog({ eventId });
+//   }
+// }
 @NgModule({
   declarations: [
     AppComponent,

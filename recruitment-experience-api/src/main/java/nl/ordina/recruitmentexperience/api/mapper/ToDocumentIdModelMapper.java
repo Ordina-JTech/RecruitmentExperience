@@ -15,7 +15,7 @@ public class ToDocumentIdModelMapper implements Mapper<Document, DocumentIdModel
            documentIdModel.setApplicationId(input.getApplication().getId());
            documentIdModel.setCreationDate(input.getCreationDate());
            documentIdModel.setTitle(input.getTitle());
-           documentIdModel.setPath(input.getPath());
+           documentIdModel.setExtension(input.getExtension());
 
            return documentIdModel;
     }

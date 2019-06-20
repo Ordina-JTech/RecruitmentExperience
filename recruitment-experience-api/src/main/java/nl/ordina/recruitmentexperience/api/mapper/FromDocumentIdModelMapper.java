@@ -15,7 +15,7 @@ public class FromDocumentIdModelMapper implements Mapper<DocumentIdModel, Docume
                 .applicationId(input.getApplicationId())
                 .creationDate(input.getCreationDate())
                 .title(input.getTitle())
-                .path(input.getPath())
+                .extension(input.getExtension())
                 .build();
     }
 }

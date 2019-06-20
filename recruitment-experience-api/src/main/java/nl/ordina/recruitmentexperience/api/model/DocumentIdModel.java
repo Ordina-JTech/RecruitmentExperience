@@ -12,7 +12,7 @@ public class DocumentIdModel {
     private UUID id;
     private String title;
     private String creationDate;
-    private String path;
+    private String extension;
     private String author;
     private Long applicationId;
 

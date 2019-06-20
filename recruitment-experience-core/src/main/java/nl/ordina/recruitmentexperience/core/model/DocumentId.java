@@ -12,6 +12,6 @@ public class DocumentId {
     private UUID id;
     private String title;
     private String creationDate;
-    private String path;
+    private String extension;
     private Long applicationId;
 }

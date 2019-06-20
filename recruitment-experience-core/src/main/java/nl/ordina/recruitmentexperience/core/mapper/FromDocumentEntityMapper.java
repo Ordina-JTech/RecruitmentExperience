@@ -19,6 +19,7 @@ public class FromDocumentEntityMapper implements Mapper<DocumentEntity, Document
                 .application(fromApplicationEntityMapper.mapNullSafe(input.getApplication()))
                 .creationDate(input.getCreationDate())
                 .title(input.getTitle())
+                .extension(input.getExtension())
                 .build();
     }
 }

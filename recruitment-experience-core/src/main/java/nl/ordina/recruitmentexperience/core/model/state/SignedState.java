@@ -4,7 +4,7 @@ import nl.ordina.recruitmentexperience.core.model.Application;
 
 import static nl.ordina.recruitmentexperience.core.model.state.ApplicationState.CONTRACT;
 
-public class ContractState implements State {
+public class SignedState implements State {
 
     @Override
     public State getCurrentState() {
@@ -13,9 +13,7 @@ public class ContractState implements State {
 
     @Override
     public void toNextState(Application application) {
-        application.setState(new SignedState());
-        // Do stuff for this state
-        System.out.println(String.format("Application %d is now in state %s", application.getId(), application.getState().toEnum().name()));
+        throw new IllegalStateException("Signed is the final state; No next state available");
     }
 
     @Override

@@ -9,6 +9,7 @@ import nl.ordina.recruitmentexperience.core.model.state.InvitedState;
 import nl.ordina.recruitmentexperience.core.model.state.NewState;
 import nl.ordina.recruitmentexperience.core.model.state.OutlineState;
 import nl.ordina.recruitmentexperience.core.model.state.SecondInterviewState;
+import nl.ordina.recruitmentexperience.core.model.state.SignedState;
 import nl.ordina.recruitmentexperience.core.model.state.State;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,8 @@ public class FromApplicationStateModelMapper implements Mapper<ApplicationStateM
                 return new OutlineState();
             case CONTRACT:
                 return new ContractState();
+            case SIGNED:
+                return new SignedState();
         }
         throw new IllegalStateException("Unknown state");
     }

@@ -16,5 +16,6 @@ public class ToApplicationStateModelMapper extends EnumMap<ApplicationState, App
         put(ApplicationState.ASSESSMENT, ApplicationStateModel.ASSESSMENT);
         put(ApplicationState.OUTLINE, ApplicationStateModel.OUTLINE);
         put(ApplicationState.CONTRACT, ApplicationStateModel.CONTRACT);
+        put(ApplicationState.SIGNED, ApplicationStateModel.SIGNED);
     }
 }

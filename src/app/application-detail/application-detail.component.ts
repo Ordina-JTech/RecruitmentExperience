@@ -29,8 +29,8 @@ export class ApplicationDetailComponent implements OnInit {
               private currentRoute: ActivatedRoute,
               private messagingService: MessagingService) { }
 
-  @ViewChild('promoteButton', {static: true})
-  promoteButton: ElementRef;
+  @ViewChild('statusText', {static: true})
+  statusText: ElementRef;
 
   application: Application = null;
   bu: Observable<BusinessUnit> = null;
@@ -76,7 +76,9 @@ export class ApplicationDetailComponent implements OnInit {
   promoteApplication = async () => {
     this.application = await this.applicationService.promoteApplication(this.application).toPromise();
     this.messagingService.push({type: 'RELOAD_APPLICATION_COUNTS'});
-    confetti(document.getElementById('promoteButton'));
+    if (this.application.state === ApplicationState.SIGNED) {
+      confetti(document.getElementById('statusText'));
+    }
   }
 
   handleEditClick = async () => {

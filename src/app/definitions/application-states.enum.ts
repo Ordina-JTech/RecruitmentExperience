@@ -6,6 +6,7 @@ export enum ApplicationState {
   ASSESSMENT = 'ASSESSMENT',
   OUTLINE = 'OUTLINE',
   CONTRACT = 'CONTRACT',
+  SIGNED = 'SIGNED',
 }
 
 export const STATE_DESCRIPTIONS = {
@@ -16,4 +17,5 @@ export const STATE_DESCRIPTIONS = {
   [ApplicationState.ASSESSMENT]: 'Assessment',
   [ApplicationState.OUTLINE]: 'Outline',
   [ApplicationState.CONTRACT]: 'Contract',
+  [ApplicationState.SIGNED]: 'Ondertekend',
 };

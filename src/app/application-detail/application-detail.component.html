@@ -5,7 +5,7 @@
   </div>
   <div class="progress">
     <mat-progress-bar mode="determinate" [value]="getApplicationProgress()"></mat-progress-bar>
-    <div class="state"><p>{{application.state | formatState}}</p><button id="promoteButton" *ngIf="application.state !== 'CONTRACT'" mat-button (click)="promoteApplication()">Volgende status</button></div>
+    <div class="state"><p id="statusText">{{application.state | formatState}}</p><button *ngIf="application.state !== 'SIGNED'" mat-button (click)="promoteApplication()">Volgende status</button></div>
   </div>
   <div class="details">
     <table>

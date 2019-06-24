@@ -16,4 +16,8 @@ public class FrameCoord {
     private int x;
     private int y;
 
+    @Override
+    public String toString() {
+        return String.format("%d,%d", getX(), getY());
+    }
 }

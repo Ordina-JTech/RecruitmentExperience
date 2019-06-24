@@ -9,9 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,6 +17,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,10 +33,22 @@ public class PdfToImage implements CommandLineRunner {
         try {
             frameDatas = jsonToFrameData();
             BufferedImage bufferedImage = renderPdfToImage();
+            ExecutorService es = Executors.newCachedThreadPool();
             for(int i = 0; i < 53; i++) {
-                renderImageIntoImage(bufferedImage, i + 1);
+                int finalI = i;
+                es.execute(() -> {
+                    try {
+                        System.out.println(String.format("Starting frame %d", finalI+1));
+                        renderImageIntoImage(bufferedImage, finalI + 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
-        } catch (IOException e) {
+            es.shutdown();
+            es.awaitTermination(1, TimeUnit.HOURS);
+            concatVideos();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -59,13 +71,14 @@ public class PdfToImage implements CommandLineRunner {
         BufferedImage bim = pdfRenderer.renderImageWithDPI(0, 300);
         document.close();
 
+        ImageIOUtil.writeImage(bim, "processed/cv.jpg", 300);
+
         return bim;
     }
 
     private void renderImageIntoImage(BufferedImage bim, final int frameNumber) throws IOException {
         String number = frameNumber < 10 ? "0"+frameNumber : Integer.toString(frameNumber);
         File backgroundFile = ResourceUtils.getFile(String.format("classpath:frames/thumb%s.jpg", number));
-        BufferedImage background = ImageIO.read(backgroundFile);
 
         FrameData current = frameDatas[frameNumber-1];
         FrameCoord tl = current.getTopLeft();
@@ -73,42 +86,54 @@ public class PdfToImage implements CommandLineRunner {
         FrameCoord bl = current.getBottomLeft();
         FrameCoord br = current.getBottomRight();
 
-        Graphics2D g = background.createGraphics();
+        int w = bim.getWidth();
+        int h = bim.getHeight();
+        StringBuilder b = new StringBuilder();
+        b.append("0,0");
+        b.append(" ");
+        b.append(tl.toString());
+        b.append(" ");
+        b.append(String.format("%d,0", w));
+        b.append(" ");
+        b.append(tr.toString());
+        b.append(" ");
+        b.append(String.format("0,%d", h));
+        b.append(" ");
+        b.append(bl.toString());
+        b.append(" ");
+        b.append(String.format("%d,%d", w, h));
+        b.append(" ");
+        b.append(br.toString());
 
-        Polygon polygon = new Polygon();
-        polygon.addPoint(tl.getX(), tl.getY());
-        polygon.addPoint(tr.getX(), tr.getY());
-        polygon.addPoint(br.getX(), br.getY());
-        polygon.addPoint(bl.getX(), bl.getY());
+        String coords = b.toString();
+        ProcessBuilder processBuilder = new ProcessBuilder("convert", "processed/cv.jpg", "-virtual-pixel", "transparent", "-background", "none", "-distort", "Perspective", coords, String.format("processed/image_converted%s.png", number));
+        ProcessBuilder processBuilder1 = new ProcessBuilder("convert", backgroundFile.getPath(), String.format("processed/image_converted%s.png", number), "-composite", String.format("processed/frame%s.png", number));
 
 
-        g.clip(polygon);
+        try {
+            Process start = processBuilder.start();
+            start.waitFor();
+            Process start1 = processBuilder1.start();
+            start1.waitFor();
 
-        AffineTransform affineTransform = new AffineTransform();
-
-
-
-        g.draw(affineTransform.createTransformedShape(polygon));
-
-        g.drawImage(bim, affineTransform, null);
-
-        g.dispose();
-
-        ImageIOUtil.writeImage(background, String.format("processed/frame%s.jpg", number), 300);
-
-//        generateVideoFromFrame();
+//            generateVideoFromFrame(number);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void generateVideoFromFrame() {
-        ProcessBuilder createVid = new ProcessBuilder("ffmpeg", "-start_number", "1", "-t", "1", "-i", "processed/frame%02d.jpg", "processed.mp4");
+    private void generateVideoFromFrame(String number) {
+        ProcessBuilder createVid = new ProcessBuilder("ffmpeg", "-start_number", "1", "-t", "1", "-i", String.format("processed/frame%s.jpg", number), String.format("processed/vid%s.mp4", number));
         try {
+
+            System.out.println(String.format("Creating vid %s", number));
             Process createProcess = createVid.start();
+            createProcess.waitFor();
 
             System.out.println(readOutput(createProcess.getErrorStream()));
             System.out.println(readOutput(createProcess.getInputStream()));
 
-//            concatVideos();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -116,14 +141,16 @@ public class PdfToImage implements CommandLineRunner {
     private void concatVideos() {
         ProcessBuilder concatVid = new ProcessBuilder("ffmpeg", "-f", "concat", "-i", "list.txt", "-auto_convert", "1", "-c", "copy", "final.mp4");
         try {
+            System.out.println("concat videos");
             Process concatProcess = concatVid.start();
 
+            concatProcess.waitFor();
             System.out.println(readOutput(concatProcess.getErrorStream()));
             System.out.println(readOutput(concatProcess.getInputStream()));
 
 
             System.out.println("klaar");
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

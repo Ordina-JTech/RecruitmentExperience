@@ -139,9 +139,15 @@ public class PdfToImage implements CommandLineRunner {
     }
 
     private void concatVideos() {
-        ProcessBuilder concatVid = new ProcessBuilder("ffmpeg", "-f", "concat", "-i", "list.txt", "-auto_convert", "1", "-c", "copy", "final.mp4");
+        ProcessBuilder vidFromImages = new ProcessBuilder("ffmpeg", "-y", "-r", "24", "-start_number", "1", "-i", "processed/frame%2d.png", "-c:v", "libx264", "-vf", "fps=25,format=yuv420p", "out.mp4");
+        ProcessBuilder concatVid = new ProcessBuilder("ffmpeg", "-y", "-i", "vid.mp4", "-i", "out.mp4", "-filter_complex", "[0:v] [1:v] concat=n=2:v=1:a=0 [v]", "-map", "[v]", "output.mp4");
         try {
             System.out.println("concat videos");
+
+            Process vidFromImagesProcess = vidFromImages.start();
+
+            vidFromImagesProcess.waitFor();
+
             Process concatProcess = concatVid.start();
 
             concatProcess.waitFor();

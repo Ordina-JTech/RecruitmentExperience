@@ -1,4 +1,3 @@
-file vid.mp4
 file processed/frame01.png
 file processed/frame02.png
 file processed/frame03.png

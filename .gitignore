@@ -127,4 +127,5 @@ buildNumber.properties
 *.pdf
 *.DS_STORE
 upload-dir/
-processed/
+processed/*.jpg
+processed/*.png

@@ -33,7 +33,8 @@ public class PdfToImage implements CommandLineRunner {
         try {
             frameDatas = jsonToFrameData();
             BufferedImage bufferedImage = renderPdfToImage();
-            ExecutorService es = Executors.newCachedThreadPool();
+            int cores = Runtime.getRuntime().availableProcessors();
+            ExecutorService es = Executors.newFixedThreadPool(cores < 2 ? 1 : cores -1);
             for(int i = 0; i < 53; i++) {
                 int finalI = i;
                 es.execute(() -> {
@@ -71,7 +72,15 @@ public class PdfToImage implements CommandLineRunner {
         BufferedImage bim = pdfRenderer.renderImageWithDPI(0, 300);
         document.close();
 
-        ImageIOUtil.writeImage(bim, "processed/cv.jpg", 300);
+        ImageIOUtil.writeImage(bim, "processed/cv.png", 300);
+
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder("convert", "processed/cv.png", "-channel", "A", "-evaluate", "Multiply", "0.10", "+channel", "processed/cv.png");
+            Process start = processBuilder.start();
+            start.waitFor();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return bim;
     }
@@ -106,7 +115,7 @@ public class PdfToImage implements CommandLineRunner {
         b.append(br.toString());
 
         String coords = b.toString();
-        ProcessBuilder processBuilder = new ProcessBuilder("convert", "processed/cv.jpg", "-virtual-pixel", "transparent", "-background", "none", "-distort", "Perspective", coords, String.format("processed/image_converted%s.png", number));
+        ProcessBuilder processBuilder = new ProcessBuilder("convert", "processed/cv.png", "-virtual-pixel", "transparent", "-background", "none", "-distort", "Perspective", coords, "-channel", "a", "-evaluate", "multiply", "0.5", "+channel", "-brightness-contrast", "0x10", "-fill", "gray", "-colorize", "10%", String.format("processed/image_converted%s.png", number));
         ProcessBuilder processBuilder1 = new ProcessBuilder("convert", backgroundFile.getPath(), String.format("processed/image_converted%s.png", number), "-composite", String.format("processed/frame%s.png", number));
 
 
@@ -115,24 +124,6 @@ public class PdfToImage implements CommandLineRunner {
             start.waitFor();
             Process start1 = processBuilder1.start();
             start1.waitFor();
-
-//            generateVideoFromFrame(number);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void generateVideoFromFrame(String number) {
-        ProcessBuilder createVid = new ProcessBuilder("ffmpeg", "-start_number", "1", "-t", "1", "-i", String.format("processed/frame%s.jpg", number), String.format("processed/vid%s.mp4", number));
-        try {
-
-            System.out.println(String.format("Creating vid %s", number));
-            Process createProcess = createVid.start();
-            createProcess.waitFor();
-
-            System.out.println(readOutput(createProcess.getErrorStream()));
-            System.out.println(readOutput(createProcess.getInputStream()));
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

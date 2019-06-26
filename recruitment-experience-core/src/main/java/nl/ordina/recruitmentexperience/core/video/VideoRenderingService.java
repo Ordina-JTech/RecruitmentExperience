@@ -8,6 +8,7 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.util.ResourceUtils;
 
 import javax.imageio.ImageIO;
@@ -79,9 +80,9 @@ public class VideoRenderingService {
 
     private void deleteProcessFiles(final String cvId) {
         final File processedFolder = new File("processed");
-        final File[] files = processedFolder.listFiles((dir, name) -> name.matches(String.format("%s\\*", cvId)));
+        final File[] files = processedFolder.listFiles((dir, name) -> name.contains(cvId));
         for(final File file : files) {
-            file.delete();
+            FileSystemUtils.deleteRecursively(file);
         }
     }
 

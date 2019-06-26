@@ -22,4 +22,5 @@ public class InvitedState implements State {
     public ApplicationState toEnum() {
         return INVITED;
     }
+
 }

@@ -9,6 +9,7 @@ import nl.ordina.recruitmentexperience.core.model.Application;
 import nl.ordina.recruitmentexperience.core.model.ApplicationId;
 import nl.ordina.recruitmentexperience.core.model.state.ApplicationState;
 import nl.ordina.recruitmentexperience.core.model.state.State;
+import nl.ordina.recruitmentexperience.core.video.VideoRenderingService;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicantEntity;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicantRepository;
@@ -46,6 +47,8 @@ public class ApplicationService {
     private final ToApplicantEntityMapper toApplicantEntityMapper;
 
     private final ToApplicationEntityMapper toApplicationEntityMapper;
+
+    private VideoRenderingService videoRenderingService;
 
     public List<Application> getApplications(final State stateFilter) {
         final List<ApplicationEntity> applicationEntities;

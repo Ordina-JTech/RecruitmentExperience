@@ -39,6 +39,11 @@
             <version>2.6</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox-tools</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

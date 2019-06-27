@@ -1,4 +1,5 @@
 export enum FieldType {
+  Date = 'datetime-local',
   Text = 'text',
   RichText = 'richtext',
   Number = 'number',

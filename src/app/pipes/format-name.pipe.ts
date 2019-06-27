@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Applicant } from '../definitions/applicant';
 import { Person } from '../definitions/person';
 
 @Pipe({

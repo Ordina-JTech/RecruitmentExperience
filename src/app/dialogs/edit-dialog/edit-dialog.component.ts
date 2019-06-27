@@ -43,20 +43,34 @@ export class EditDialogComponent implements OnInit {
         case FieldType.RichText:
         case FieldType.Text: return '';
         case FieldType.Select: return field.options[0].value;
+        case FieldType.Date: return new Date();
       }
     }
   }
 
-  handleSelectFile = (fieldName, event: Event) => {
+  getFormattedFieldValue(fieldName: string) {
+    const {type} = this.fields[fieldName];
+
+    switch (type) {
+      case FieldType.Date: return new Date(this.editForm.value[fieldName]);
+      default: return this.editForm.value[fieldName];
+    }
+  }
+
+  handleSelectFile = (fieldName: string, event: Event) => {
     this.selectedFiles[fieldName] = (event.target as any).files[0];
   }
 
   submit = (e: Event) => {
     e.preventDefault();
-    const result = {
-      ...this.editForm.value,
-      ...this.selectedFiles,
-    };
+    
+    const result = this.fieldNames.reduce((acc: any, fieldName: string) => {
+      return {
+        ...acc,
+        [fieldName]: acc[fieldName] ? acc[fieldName] : this.getFormattedFieldValue(fieldName), 
+      }
+    }, this.selectedFiles);
+
     this.dialogRef.close(result);
   }
 }

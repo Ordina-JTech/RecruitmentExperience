@@ -18,7 +18,7 @@ export class DocumentService {
       return this.api.get(`applications/${applicationId}/documents`);
     }
     
-    createApplicationDocument(applicationId: number, document: Document): Observable<Document> {
+    createApplicationDocument(applicationId: number, document: Document): Promise<Document> {
       return this.api.upload(`applications/${applicationId}/documents`, document, document.file);
     }
     
@@ -36,7 +36,7 @@ export class DocumentService {
       } as Document);
 
       if (document) {
-        return this.createApplicationDocument(applicationId, document).toPromise();
+        return this.createApplicationDocument(applicationId, document);
       } else {
         return null;
       }
@@ -83,7 +83,8 @@ export class DocumentService {
       }
     }
 
-    downloadDocument(applicationId: number, document: Document): Observable<Blob> {
-      return this.api.file(`applications/${applicationId}/documents/${document.id}`);
+    downloadDocument(applicationId: number, document: Document | 'uuid'): Observable<Blob> {
+      const id = typeof document === 'string' ? document as string : document.id;
+      return this.api.file(`applications/${applicationId}/documents/${id}`);
     }
   }

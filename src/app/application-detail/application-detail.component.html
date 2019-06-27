@@ -26,6 +26,18 @@
           <td><i>Gekoppelde BUM</i></td>
           <td>{{bum | async | formatName}}</td>
         </tr>
+        <tr>
+          <td><i>Eerste interview datum</i></td>
+          <td>{{application.firstInterviewDateTime | formatDate}}</td>
+        </tr>
+        <tr>
+          <td><i>Tweede interview datum</i></td>
+          <td>{{application.secondInterviewDateTime | formatDate}}</td>
+        </tr>
+        <tr>
+          <td><i>CV</i></td>
+          <td><button mat-raised-button (click)="handleUploadResume()">Nieuw</button></td>
+        </tr>
       </tbody>
     </table>
   </div>

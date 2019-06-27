@@ -2,7 +2,7 @@
 
 <mat-card *ngFor="let document of documents" class="document">
   <mat-card-title>{{document.title}}</mat-card-title>
-  <mat-card-subtitle><b>subtitle</b>, {{document.creationDate | formatDate}}</mat-card-subtitle>
+  <mat-card-subtitle><b>{{document.author}}</b>, {{document.creationDate | formatDate}}</mat-card-subtitle>
   <mat-card-content>
     <p>
       text

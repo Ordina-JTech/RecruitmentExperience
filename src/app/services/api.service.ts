@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
 import { MockService } from './mock.service';
@@ -41,7 +41,7 @@ export class ApiService {
     return this.http.get<Blob>(url, options);
   }
 
-  upload<T>(path: string, body: any, file: File): any {
+  async upload<T>(path: string, body: any, file: File): Promise<T> {
     const url = this.config.getBaseUrl() + path;
 
     const formData: FormData = new FormData();
@@ -54,7 +54,8 @@ export class ApiService {
       responseType: 'text'
     });
 
-    return this.http.request(req);
+    const result = await this.http.request<T>(req).toPromise() as HttpResponse<T>;
+    return JSON.parse(result.body as any as string) as T; // TODO: dit lijkt me niet hoe het hoort
   }
 
   private _wrapRequest<T>(requestType: RequestType, path: string, body?: any): Observable<T> {

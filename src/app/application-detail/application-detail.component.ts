@@ -15,6 +15,10 @@ import { confetti } from 'dom-confetti';
 
 import {all} from 'bluebird';
 import { MessagingService } from '../services/messaging.service';
+import { MatDialog } from '@angular/material';
+import { EditDialogComponent } from '../dialogs/edit-dialog/edit-dialog.component';
+import { FieldType } from '../definitions/edit-dialog';
+import { DocumentService } from '../services/document.service';
 @Component({
   selector: 'app-application-detail',
   templateUrl: './application-detail.component.html',
@@ -27,7 +31,9 @@ export class ApplicationDetailComponent implements OnInit {
               private bumService: BumService,
               private regionService: RegionService,
               private currentRoute: ActivatedRoute,
-              private messagingService: MessagingService) { }
+              private messagingService: MessagingService,
+              private dialog: MatDialog,
+              private documentService: DocumentService) { }
 
   @ViewChild('statusText', {static: true})
   statusText: ElementRef;
@@ -41,6 +47,7 @@ export class ApplicationDetailComponent implements OnInit {
   public get applicationId(): number {
     return this._applicationId;
   }
+  
   public set applicationId(value: number) {
     this._applicationId = value;
 
@@ -74,10 +81,38 @@ export class ApplicationDetailComponent implements OnInit {
   }
 
   promoteApplication = async () => {
+    if (this.application.state === ApplicationState.NEW) {
+      await this.updateInterviewDate('firstInterviewDateTime');
+    } else if (this.application.state === ApplicationState.FIRST_INTERVIEW) {
+      await this.updateInterviewDate('secondInterviewDateTime');
+    }
+
     this.application = await this.applicationService.promoteApplication(this.application).toPromise();
     this.messagingService.push({type: 'RELOAD_APPLICATION_COUNTS'});
     if (this.application.state === ApplicationState.SIGNED) {
       confetti(document.getElementById('statusText'));
+    }
+  }
+
+  async updateInterviewDate(interviewDate: 'firstInterviewDateTime' | 'secondInterviewDateTime') {
+    const label = interviewDate === 'firstInterviewDateTime' ? 'Datum eerste interview' : 'Datum tweede interview';
+    
+    const dialogRef = this.dialog.open(EditDialogComponent, {
+      width: '500px',
+      data: {
+        date: {type: FieldType.Date, label},
+      }
+    });
+
+    const result = await dialogRef.afterClosed().toPromise();
+
+    if (result) {
+      this.application = await this.applicationService.editApplication({
+        ...this.application,
+        [interviewDate]: result.date,
+      }).toPromise();
+    } else {
+      throw new Error('Cancelled');
     }
   }
 
@@ -89,5 +124,16 @@ export class ApplicationDetailComponent implements OnInit {
 
       this.loadDependencies();
     }
+  }
+
+  handleUploadResume = async () => {
+    const document = await this.documentService.openCreateModal(this.applicationId);
+    await this.applicationService.editApplication({
+      ...this.application,
+      applicant: {
+        ...this.application.applicant,
+        resumeLink: document.id,
+      },
+    }).toPromise();
   }
 }

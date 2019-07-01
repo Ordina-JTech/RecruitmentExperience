@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    container_name: RE_postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: n6pB4D9xqDyg7A3M
+      POSTGRES_USER: RecruitmentExperience
+      POSTGRES_DB: RecruitmentExperience
+
+  adminer:
+    image: adminer
+    restart: always
+    container_name: RE_adminer
+    ports:
+      - 8085:8080
+
+  smtp4dev:
+    image: rnwood/smtp4dev:linux-amd64-v3
+    restart: always
+    container_name: RE_smtp4dev
+    ports:
+      - 3000:80
+      - "2525:25" #quotes because for some reason yaml interprets this as a sexagesimal number

@@ -9,7 +9,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: n6pB4D9xqDyg7A3M
+      POSTGRES_PASSWORD: NotSoSecretPleaseChangeMe
       POSTGRES_USER: RecruitmentExperience
       POSTGRES_DB: RecruitmentExperience
 

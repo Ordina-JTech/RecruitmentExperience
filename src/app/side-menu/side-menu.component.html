@@ -1,0 +1,8 @@
+<div class="container">
+  <mat-nav-list class="menu">
+    <a *ngFor="let url of urls" (click)="selectRoute(url)" [routerLink]="'applications/' + url.toLowerCase()" [ngClass]="currentPage === url ? 'button active' : 'button'" mat-list-item>
+      <div class="text-container"><span>{{url | formatState}}</span> <span *ngIf="applicationCounts">({{applicationCounts[url]}})</span>
+      </div>
+    </a>  
+  </mat-nav-list>
+</div>

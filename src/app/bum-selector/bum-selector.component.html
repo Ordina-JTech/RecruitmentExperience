@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-label>Favorite food</mat-label>
+  <mat-select>
+    <mat-option [(value)]="selected" *ngFor="let bum of bums" [value]="bum | formatName">
+      {{bum | formatName}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

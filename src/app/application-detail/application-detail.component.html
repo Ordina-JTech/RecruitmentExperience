@@ -1,0 +1,48 @@
+<mat-card *ngIf='application' class="container">
+  <div class="title">
+    <h2 class="name">{{application.applicant | formatName}}</h2>
+    <button mat-button (click)="handleEditClick()">Bewerken</button>
+  </div>
+  <div class="progress">
+    <mat-progress-bar mode="determinate" [value]="getApplicationProgress()"></mat-progress-bar>
+    <div class="state"><p id="statusText">{{application.state | formatState}}</p><button *ngIf="application.state !== 'SIGNED'" mat-button (click)="promoteApplication()">Volgende status</button></div>
+  </div>
+  <div class="details">
+    <table>
+      <tbody> 
+        <tr>
+          <td><i>Naam</i></td>
+          <td>{{application.applicant | formatName}}</td>
+        </tr>
+        <tr>
+          <td><i>Regio</i></td>
+          <td><ng-container *ngIf="region | async as r">{{r.name}}</ng-container></td>
+        </tr>
+        <tr>
+          <td><i>Functie</i></td>
+          <td>{{application.title}}</td>
+        </tr>
+        <tr>
+          <td><i>Gekoppelde BUM</i></td>
+          <td>{{bum | async | formatName}}</td>
+        </tr>
+        <tr>
+          <td><i>Eerste interview datum</i></td>
+          <td>{{application.firstInterviewDateTime | formatDate}}</td>
+        </tr>
+        <tr>
+          <td><i>Tweede interview datum</i></td>
+          <td>{{application.secondInterviewDateTime | formatDate}}</td>
+        </tr>
+        <tr>
+          <td><i>CV</i></td>
+          <td><button mat-raised-button (click)="handleUploadResume()">Nieuw</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <mat-tab-group class="tabs">
+    <mat-tab label="Documenten"><app-application-documents [application]="application"></app-application-documents></mat-tab>
+    <mat-tab label="Opmerkingen"><app-application-notes class="notes" [application]="application"></app-application-notes></mat-tab>
+  </mat-tab-group>
+</mat-card>

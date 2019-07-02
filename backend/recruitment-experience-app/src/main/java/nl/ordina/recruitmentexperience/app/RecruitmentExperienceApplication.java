@@ -1,5 +1,6 @@
 package nl.ordina.recruitmentexperience.app;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.ordina.recruitmentexperience.core.DocumentService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 import java.io.File;
 
+@Slf4j
 @SpringBootApplication
 @EntityScan(basePackages = "nl.ordina.recruitmentexperience.data")
 @ComponentScan(basePackages = "nl.ordina.recruitmentexperience")
@@ -45,7 +47,7 @@ public class RecruitmentExperienceApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         final File uploadFolder = new File("upload-dir/");
         FileSystemUtils.deleteRecursively(uploadFolder);
         final File videosFolder = new File("videos/");

@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -128,7 +127,7 @@ public class ApplicationRestController {
     }
 
     @GetMapping("/{applicationId}/documents/{documentId}")
-    public ResponseEntity<Resource> getFile(@PathVariable final UUID documentId, @PathVariable final Long applicationId) throws IOException {
+    public ResponseEntity<Resource> getFile(@PathVariable final UUID documentId, @PathVariable final Long applicationId) {
         final Resource file = documentService.getDocument(documentId);
 
         String extension = FilenameUtils.getExtension(file.getFilename());

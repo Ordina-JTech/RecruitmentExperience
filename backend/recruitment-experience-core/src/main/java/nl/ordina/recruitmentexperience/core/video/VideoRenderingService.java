@@ -2,6 +2,7 @@ package nl.ordina.recruitmentexperience.core.video;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nl.ordina.recruitmentexperience.core.DocumentService;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
@@ -21,6 +22,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class VideoRenderingService {
@@ -47,7 +49,7 @@ public class VideoRenderingService {
     }
 
     public void renderVideo(final String cvId) {
-        System.out.println("Start rendering");
+        log.info("Start rendering");
         final ExecutorService executorService = Executors.newFixedThreadPool(cores < 2 ? 1 : cores - 1);
 
         try {
@@ -67,14 +69,14 @@ public class VideoRenderingService {
             executorService.shutdown();
             executorService.awaitTermination(1, TimeUnit.HOURS);
 
-            System.out.println("frames processed");
+            log.info("frames processed");
 
             renderFramesIntoSingleVideo(cvId);
             concatenateVideos(cvId);
-            System.out.println(String.format("Rendering video for %s done", cvId));
+            log.info(String.format("Rendering video for %s done", cvId));
             deleteProcessFiles(cvId);
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error("something went wrong", e);
         }
     }
 
@@ -136,24 +138,22 @@ public class VideoRenderingService {
 
         int w = bim.getWidth();
         int h = bim.getHeight();
-        final StringBuilder b = new StringBuilder();
-        b.append("0,0");
-        b.append(" ");
-        b.append(tl.toString());
-        b.append(" ");
-        b.append(String.format("%d,0", w));
-        b.append(" ");
-        b.append(tr.toString());
-        b.append(" ");
-        b.append(String.format("0,%d", h));
-        b.append(" ");
-        b.append(bl.toString());
-        b.append(" ");
-        b.append(String.format("%d,%d", w, h));
-        b.append(" ");
-        b.append(br.toString());
 
-        return b.toString();
+        return "0,0" +
+                " " +
+                tl.toString() +
+                " " +
+                String.format("%d,0", w) +
+                " " +
+                tr.toString() +
+                " " +
+                String.format("0,%d", h) +
+                " " +
+                bl.toString() +
+                " " +
+                String.format("%d,%d", w, h) +
+                " " +
+                br.toString();
     }
 
     private String renderCvImageForApplication(final String cvId) throws IOException {

@@ -36,7 +36,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/applications")
 @RequiredArgsConstructor
-public class ApplicationRestController {
+public class ApplicationRestController implements ApplicationEndpoint {
 
     private final ApplicationService applicationService;
 
@@ -58,6 +58,7 @@ public class ApplicationRestController {
 
     private final ToDocumentIdModelMapper toDocumentIdModelMapper;
 
+    @Override
     @GetMapping
     public List<ApplicationIdModel> getApplications(@RequestParam(required = false) String state) {
         ApplicationStateModel stateModel;
@@ -69,49 +70,57 @@ public class ApplicationRestController {
         return toApplicationIdModelMapper.map(applicationService.getApplications(fromApplicationStateModelMapper.mapNullSafe(stateModel)));
     }
 
+    @Override
     @GetMapping("/{applicationId}")
     public ApplicationIdModel getApplication(@PathVariable final Long applicationId) {
         return toApplicationIdModelMapper.map(applicationService.getApplication(applicationId));
     }
 
+    @Override
     @GetMapping("/{applicationId}/notes")
     public List<NoteIdModel> getNotesByApplication(@PathVariable final Long applicationId){
         return toNoteIdModelMapper.map(noteService.getNotesByApplication(applicationId));
     }
 
+    @Override
     @PostMapping
-    public ApplicationIdModel postApplication(@RequestBody final ApplicationIdModel applicationIdModel) {
-        applicationIdModel.setId(null);
-        applicationIdModel.getApplicant().setId(null);
-        return toApplicationIdModelMapper.map(applicationService.postApplication(fromApplicationIdModelMapper.map(applicationIdModel)));
+    public ApplicationIdModel postDocument(@RequestBody final ApplicationIdModel application) {
+        application.setId(null);
+        application.getApplicant().setId(null);
+        return toApplicationIdModelMapper.map(applicationService.postApplication(fromApplicationIdModelMapper.map(application)));
     }
 
+    @Override
     @PutMapping("/{applicationId}")
-    public ApplicationIdModel putApplication(@PathVariable final Long applicationId, @RequestBody final ApplicationIdModel applicationIdModel) {
-        applicationIdModel.setId(applicationId);
-        return toApplicationIdModelMapper.map(applicationService.putApplication(fromApplicationIdModelMapper.map(applicationIdModel)));
+    public ApplicationIdModel putApplication(@PathVariable final Long applicationId, @RequestBody final ApplicationIdModel application) {
+        application.setId(applicationId);
+        return toApplicationIdModelMapper.map(applicationService.putApplication(fromApplicationIdModelMapper.map(application)));
     }
 
+    @Override
     @PostMapping("/{applicationId}/notes")
-    public NoteIdModel postNote(@PathVariable final Long applicationId, @RequestBody final NoteIdModel noteIdModel) {
-        noteIdModel.setApplicationId(applicationId);
-        noteIdModel.setId(null);
-        return toNoteIdModelMapper.map(noteService.postNote(fromNoteIdModelMapper.map(noteIdModel)));
+    public NoteIdModel postNote(@PathVariable final Long applicationId, @RequestBody final NoteIdModel note) {
+        note.setApplicationId(applicationId);
+        note.setId(null);
+        return toNoteIdModelMapper.map(noteService.postNote(fromNoteIdModelMapper.map(note)));
     }
 
+    @Override
     @PutMapping("/{applicationId}/notes/{noteId}")
     public NoteIdModel putNote(@PathVariable final Long applicationId, @PathVariable Long noteId, @RequestBody final NoteIdModel noteIdModel) {
         noteIdModel.setId(noteId);
         return toNoteIdModelMapper.map(noteService.putNote(fromNoteIdModelMapper.map(noteIdModel)));
     }
 
+    @Override
     @PostMapping("/{applicationId}/promote")
     public ApplicationIdModel promoteApplication(@PathVariable final Long applicationId){
         return toApplicationIdModelMapper.map(applicationService.promoteApplication(applicationId));
     }
 
+    @Override
     @PostMapping("/{applicationId}/documents")
-    public DocumentIdModel postApplication(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId, @RequestParam("author") final String author, @RequestParam("creationDate") final String creationDate, @RequestParam("title") final String title) {
+    public DocumentIdModel postDocument(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId, @RequestParam("author") final String author, @RequestParam("creationDate") final String creationDate, @RequestParam("title") final String title) {
         final DocumentIdModel documentIdModel = new DocumentIdModel();
         documentIdModel.setTitle(title);
         documentIdModel.setCreationDate(creationDate);
@@ -121,11 +130,13 @@ public class ApplicationRestController {
         return toDocumentIdModelMapper.map(documentService.postDocument(applicationId, fromDocumentIdModelMapper.map(documentIdModel), file));
     }
 
+    @Override
     @GetMapping("/{applicationId}/documents")
     public List<DocumentIdModel> getDocuments(@PathVariable final Long applicationId) {
         return toDocumentIdModelMapper.map(documentService.getDocuments(applicationId));
     }
 
+    @Override
     @GetMapping("/{applicationId}/documents/{documentId}")
     public ResponseEntity<Resource> getFile(@PathVariable final UUID documentId, @PathVariable final Long applicationId) {
         final Resource file = documentService.getDocument(documentId);

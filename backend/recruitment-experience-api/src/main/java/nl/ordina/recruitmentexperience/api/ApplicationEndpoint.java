@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The purpose of this interface, is purely to make sure that {@link ApplicationRestController} doesn't get cluttered with Swagger annotations
+ */
 public interface ApplicationEndpoint {
 
     @ApiOperation(value = "Find all applications, optionally filter by state")

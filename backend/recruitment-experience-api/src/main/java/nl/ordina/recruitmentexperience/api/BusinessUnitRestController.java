@@ -1,9 +1,8 @@
 package nl.ordina.recruitmentexperience.api;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.api.mapper.ToBusinessUnitModelMapper;
-import nl.ordina.recruitmentexperience.api.model.BusinessUnitModel;
 import nl.ordina.recruitmentexperience.core.BusinessUnitService;
+import nl.ordina.recruitmentexperience.data.application.model.BusinessUnitEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,15 +17,13 @@ public class BusinessUnitRestController {
 
     private final BusinessUnitService businessUnitService;
 
-    private final ToBusinessUnitModelMapper toBusinessUnitModelMapper;
-
     @GetMapping
-    public List<BusinessUnitModel> getBusinessUnits() {
-        return toBusinessUnitModelMapper.map(businessUnitService.getBusinessUnits());
+    public List<BusinessUnitEntity> getBusinessUnits() {
+        return businessUnitService.getBusinessUnits();
     }
 
     @GetMapping("/{businessUnitId}")
-    public BusinessUnitModel getBusinessUnit(@PathVariable final Long businessUnitId){
-        return toBusinessUnitModelMapper.mapNullSafe(businessUnitService.getBusinessUnit(businessUnitId));
+    public BusinessUnitEntity getBusinessUnit(@PathVariable final Long businessUnitId){
+        return businessUnitService.getBusinessUnit(businessUnitId);
     }
 }

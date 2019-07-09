@@ -1,9 +1,8 @@
 package nl.ordina.recruitmentexperience.api;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.api.mapper.ToDepartmentModelMapper;
-import nl.ordina.recruitmentexperience.api.model.DepartmentModel;
 import nl.ordina.recruitmentexperience.core.DepartmentService;
+import nl.ordina.recruitmentexperience.data.application.model.DepartmentEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,15 +17,13 @@ public class DepartmentRestController {
 
     private final DepartmentService departmentService;
 
-    private final ToDepartmentModelMapper toDepartmentModelMapper;
-
     @GetMapping()
-    public List<DepartmentModel> getDepartments() {
-        return toDepartmentModelMapper.map(departmentService.getDepartments());
+    public List<DepartmentEntity> getDepartments() {
+        return departmentService.getDepartments();
     }
 
     @GetMapping("/{departmentId}")
-    public DepartmentModel getDepartment(@PathVariable final Long departmentId){
-        return toDepartmentModelMapper.mapNullSafe(departmentService.getDepartment(departmentId));
+    public DepartmentEntity getDepartment(@PathVariable final Long departmentId){
+        return departmentService.getDepartment(departmentId);
     }
 }

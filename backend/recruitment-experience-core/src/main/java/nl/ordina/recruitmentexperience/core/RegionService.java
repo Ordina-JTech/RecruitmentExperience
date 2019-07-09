@@ -1,8 +1,7 @@
 package nl.ordina.recruitmentexperience.core;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.core.mapper.FromRegionEntityMapper;
-import nl.ordina.recruitmentexperience.core.model.Region;
+import nl.ordina.recruitmentexperience.data.application.model.RegionEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.RegionRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +13,11 @@ public class RegionService {
 
     private final RegionRepository regionRepository;
 
-    private final FromRegionEntityMapper fromRegionEntityMapper;
-
-    public List<Region> getRegions() {
-        return fromRegionEntityMapper.map(regionRepository.findAll());
+    public List<RegionEntity> getRegions() {
+        return regionRepository.findAll();
     }
 
-    public Region getRegion(final Long id) {
-        return fromRegionEntityMapper.mapNullSafe(regionRepository.findOneById(id));
+    public RegionEntity getRegion(final Long id) {
+        return regionRepository.findOneById(id);
     }
 }

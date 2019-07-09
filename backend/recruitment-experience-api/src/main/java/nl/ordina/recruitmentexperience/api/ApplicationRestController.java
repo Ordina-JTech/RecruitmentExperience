@@ -1,20 +1,12 @@
 package nl.ordina.recruitmentexperience.api;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.api.mapper.FromApplicationIdModelMapper;
-import nl.ordina.recruitmentexperience.api.mapper.FromApplicationStateModelMapper;
-import nl.ordina.recruitmentexperience.api.mapper.FromDocumentIdModelMapper;
-import nl.ordina.recruitmentexperience.api.mapper.FromNoteIdModelMapper;
-import nl.ordina.recruitmentexperience.api.mapper.ToApplicationIdModelMapper;
-import nl.ordina.recruitmentexperience.api.mapper.ToDocumentIdModelMapper;
-import nl.ordina.recruitmentexperience.api.mapper.ToNoteIdModelMapper;
-import nl.ordina.recruitmentexperience.api.model.ApplicationIdModel;
-import nl.ordina.recruitmentexperience.api.model.ApplicationStateModel;
-import nl.ordina.recruitmentexperience.api.model.DocumentIdModel;
-import nl.ordina.recruitmentexperience.api.model.NoteIdModel;
 import nl.ordina.recruitmentexperience.core.ApplicationService;
 import nl.ordina.recruitmentexperience.core.DocumentService;
 import nl.ordina.recruitmentexperience.core.NoteService;
+import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
+import nl.ordina.recruitmentexperience.data.application.model.DocumentEntity;
+import nl.ordina.recruitmentexperience.data.application.model.NoteEntity;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -39,101 +31,78 @@ import java.util.UUID;
 public class ApplicationRestController implements ApplicationEndpoint {
 
     private final ApplicationService applicationService;
-
-    private final ToApplicationIdModelMapper toApplicationIdModelMapper;
-
-    private final ToNoteIdModelMapper toNoteIdModelMapper;
-
     private final NoteService noteService;
-
-    private final FromApplicationIdModelMapper fromApplicationIdModelMapper;
-
-    private final FromApplicationStateModelMapper fromApplicationStateModelMapper;
-
-    private final FromNoteIdModelMapper fromNoteIdModelMapper;
-
     private final DocumentService documentService;
-
-    private final FromDocumentIdModelMapper fromDocumentIdModelMapper;
-
-    private final ToDocumentIdModelMapper toDocumentIdModelMapper;
 
     @Override
     @GetMapping
-    public List<ApplicationIdModel> getApplications(@RequestParam(required = false) String state) {
-        ApplicationStateModel stateModel;
-        try {
-            stateModel = ApplicationStateModel.valueOf(state.toUpperCase());
-        } catch (NullPointerException e) {
-            stateModel = null;
-        }
-        return toApplicationIdModelMapper.map(applicationService.getApplications(fromApplicationStateModelMapper.mapNullSafe(stateModel)));
+    public List<ApplicationEntity> getApplications(@RequestParam(required = false) String state) {
+        return applicationService.getApplications();
     }
 
     @Override
     @GetMapping("/{applicationId}")
-    public ApplicationIdModel getApplication(@PathVariable final Long applicationId) {
-        return toApplicationIdModelMapper.map(applicationService.getApplication(applicationId));
+    public ApplicationEntity getApplication(@PathVariable final Long applicationId) {
+        return applicationService.getApplication(applicationId);
     }
 
     @Override
     @GetMapping("/{applicationId}/notes")
-    public List<NoteIdModel> getNotesByApplication(@PathVariable final Long applicationId){
-        return toNoteIdModelMapper.map(noteService.getNotesByApplication(applicationId));
+    public List<NoteEntity> getNotesByApplication(@PathVariable final Long applicationId){
+        return noteService.getNotesByApplication(applicationId);
     }
 
     @Override
     @PostMapping
-    public ApplicationIdModel postDocument(@RequestBody final ApplicationIdModel application) {
+    public ApplicationEntity postDocument(@RequestBody final ApplicationEntity application) {
         application.setId(null);
         application.getApplicant().setId(null);
-        return toApplicationIdModelMapper.map(applicationService.postApplication(fromApplicationIdModelMapper.map(application)));
+        return applicationService.postApplication(application);
     }
 
     @Override
     @PutMapping("/{applicationId}")
-    public ApplicationIdModel putApplication(@PathVariable final Long applicationId, @RequestBody final ApplicationIdModel application) {
+    public ApplicationEntity putApplication(@PathVariable final Long applicationId, @RequestBody final ApplicationEntity application) {
         application.setId(applicationId);
-        return toApplicationIdModelMapper.map(applicationService.putApplication(fromApplicationIdModelMapper.map(application)));
+        return applicationService.putApplication(application);
     }
 
     @Override
     @PostMapping("/{applicationId}/notes")
-    public NoteIdModel postNote(@PathVariable final Long applicationId, @RequestBody final NoteIdModel note) {
-        note.setApplicationId(applicationId);
-        note.setId(null);
-        return toNoteIdModelMapper.map(noteService.postNote(fromNoteIdModelMapper.map(note)));
+    public NoteEntity postNote(@PathVariable final Long applicationId, @RequestBody final NoteEntity noteEntity) {
+        //note.setApplicationId(applicationId);
+        noteEntity.setId(null);
+        return noteService.postNote(noteEntity);
     }
 
     @Override
     @PutMapping("/{applicationId}/notes/{noteId}")
-    public NoteIdModel putNote(@PathVariable final Long applicationId, @PathVariable Long noteId, @RequestBody final NoteIdModel noteIdModel) {
-        noteIdModel.setId(noteId);
-        return toNoteIdModelMapper.map(noteService.putNote(fromNoteIdModelMapper.map(noteIdModel)));
+    public NoteEntity putNote(@PathVariable final Long applicationId, @PathVariable Long noteId, @RequestBody final NoteEntity noteEntity) {
+        noteEntity.setId(noteId);
+        return noteService.putNote(noteEntity);
     }
 
     @Override
     @PostMapping("/{applicationId}/promote")
-    public ApplicationIdModel promoteApplication(@PathVariable final Long applicationId){
-        return toApplicationIdModelMapper.map(applicationService.promoteApplication(applicationId));
+    public ApplicationEntity promoteApplication(@PathVariable final Long applicationId){
+        return applicationService.promoteApplication(applicationId);
     }
 
     @Override
     @PostMapping("/{applicationId}/documents")
-    public DocumentIdModel postDocument(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId, @RequestParam("author") final String author, @RequestParam("creationDate") final String creationDate, @RequestParam("title") final String title) {
-        final DocumentIdModel documentIdModel = new DocumentIdModel();
-        documentIdModel.setTitle(title);
-        documentIdModel.setCreationDate(creationDate);
-        documentIdModel.setApplicationId(applicationId);
-        documentIdModel.setAuthor(author);
-
-        return toDocumentIdModelMapper.map(documentService.postDocument(applicationId, fromDocumentIdModelMapper.map(documentIdModel), file));
+    public DocumentEntity postDocument(@RequestParam("file") final MultipartFile file, @PathVariable final Long applicationId, @RequestParam("author") final String author, @RequestParam("creationDate") final String creationDate, @RequestParam("title") final String title) {
+        final DocumentEntity documentEntity = new DocumentEntity();
+        documentEntity.setTitle(title);
+        documentEntity.setCreationDate(creationDate);
+        //documentEntity.setApplicationId(applicationId);
+        //documentEntity.setAuthor(author);
+        return documentService.postDocument(applicationId, documentEntity, file);
     }
 
     @Override
     @GetMapping("/{applicationId}/documents")
-    public List<DocumentIdModel> getDocuments(@PathVariable final Long applicationId) {
-        return toDocumentIdModelMapper.map(documentService.getDocuments(applicationId));
+    public List<DocumentEntity> getDocuments(@PathVariable final Long applicationId) {
+        return documentService.getDocuments(applicationId);
     }
 
     @Override

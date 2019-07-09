@@ -1,9 +1,6 @@
 package nl.ordina.recruitmentexperience.core;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.core.mapper.FromDocumentEntityMapper;
-import nl.ordina.recruitmentexperience.core.model.Document;
-import nl.ordina.recruitmentexperience.core.model.DocumentId;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
 import nl.ordina.recruitmentexperience.data.application.model.DocumentEntity;
 import nl.ordina.recruitmentexperience.data.application.repository.ApplicationRepository;
@@ -32,24 +29,20 @@ public class DocumentService {
 
     private final DocumentRepository documentRepository;
 
-    private final FromDocumentEntityMapper fromDocumentEntityMapper;
-
-    public final Document postDocument(final Long applicationId, final DocumentId documentId, final MultipartFile file) {
+    public final DocumentEntity postDocument(final Long applicationId, final DocumentEntity documentEntity, final MultipartFile file) {
         final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationId);
 
-        final DocumentEntity documentEntity = DocumentEntity.builder()
+        final DocumentEntity documentEntityNew = DocumentEntity.builder()
                 .id(UUID.randomUUID())
                 .application(applicationEntity)
-                .title(documentId.getTitle())
-                .creationDate(documentId.getCreationDate())
+                .title(documentEntity.getTitle())
+                .creationDate(documentEntity.getCreationDate())
                 .extension(FilenameUtils.getExtension(file.getOriginalFilename()))
                 .build();
 
-        final DocumentEntity savedDocument = documentRepository.save(documentEntity);
-
+        final DocumentEntity savedDocument = documentRepository.save(documentEntityNew);
         store(file, savedDocument.getId());
-
-        return fromDocumentEntityMapper.map(savedDocument);
+        return savedDocument;
     }
 
     public Resource getDocument(final UUID documentId){
@@ -88,7 +81,7 @@ public class DocumentService {
         }
     }
 
-    public List<Document> getDocuments(Long applicationId) {
-        return fromDocumentEntityMapper.map(documentRepository.findAllByApplication_Id(applicationId));
+    public List<DocumentEntity> getDocuments(Long applicationId) {
+        return documentRepository.findAllByApplication_Id(applicationId);
     }
 }

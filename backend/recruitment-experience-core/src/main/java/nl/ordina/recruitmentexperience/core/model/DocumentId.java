@@ -5,13 +5,13 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-@Getter@Builder
-
-public class DocumentId {
-
-    private UUID id;
-    private String title;
-    private String creationDate;
-    private String extension;
-    private Long applicationId;
-}
+//@Getter@Builder
+//
+//public class DocumentId {
+//
+//    private UUID id;
+//    private String title;
+//    private String creationDate;
+//    private String extension;
+//    private Long applicationId;
+//}

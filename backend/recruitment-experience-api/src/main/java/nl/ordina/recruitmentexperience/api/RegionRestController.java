@@ -1,9 +1,8 @@
 package nl.ordina.recruitmentexperience.api;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.api.mapper.ToRegionModelMapper;
-import nl.ordina.recruitmentexperience.api.model.RegionModel;
 import nl.ordina.recruitmentexperience.core.RegionService;
+import nl.ordina.recruitmentexperience.data.application.model.RegionEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,15 +17,13 @@ public class RegionRestController {
 
     private final RegionService regionService;
 
-    private final ToRegionModelMapper toRegionModelMapper;
-
     @GetMapping()
-    public List<RegionModel> getRegions() {
-        return toRegionModelMapper.map(regionService.getRegions());
+    public List<RegionEntity> getRegions() {
+        return regionService.getRegions();
     }
 
     @GetMapping("/{regionId}")
-    public RegionModel getRegion(@PathVariable final Long regionId){
-        return toRegionModelMapper.mapNullSafe(regionService.getRegion(regionId));
+    public RegionEntity getRegion(@PathVariable final Long regionId){
+        return regionService.getRegion(regionId);
     }
 }

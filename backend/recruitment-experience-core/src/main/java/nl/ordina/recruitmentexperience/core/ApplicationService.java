@@ -1,14 +1,7 @@
 package nl.ordina.recruitmentexperience.core;
 
 import lombok.RequiredArgsConstructor;
-import nl.ordina.recruitmentexperience.core.mapper.FromApplicationEntityMapper;
-import nl.ordina.recruitmentexperience.core.mapper.ToApplicantEntityMapper;
-import nl.ordina.recruitmentexperience.core.mapper.ToApplicationEntityMapper;
-import nl.ordina.recruitmentexperience.core.model.Applicant;
-import nl.ordina.recruitmentexperience.core.model.Application;
-import nl.ordina.recruitmentexperience.core.model.ApplicationId;
 import nl.ordina.recruitmentexperience.core.model.state.ApplicationState;
-import nl.ordina.recruitmentexperience.core.model.state.State;
 import nl.ordina.recruitmentexperience.core.video.VideoRenderingService;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicantEntity;
 import nl.ordina.recruitmentexperience.data.application.model.ApplicationEntity;
@@ -31,114 +24,91 @@ import java.util.Map;
 public class ApplicationService {
 
     private final ApplicationRepository applicationRepository;
-
-    private final FromApplicationEntityMapper fromApplicationEntityMapper;
-
     private final RegionRepository regionRepository;
-
     private final DepartmentRepository departmentRepository;
-
     private final BusinessUnitRepository businessUnitRepository;
-
     private final BusinessUnitManagerRepository businessUnitManagerRepository;
-
     private final ApplicantRepository applicantRepository;
-
-    private final ToApplicantEntityMapper toApplicantEntityMapper;
-
-    private final ToApplicationEntityMapper toApplicationEntityMapper;
-
     private VideoRenderingService videoRenderingService;
 
-    public List<Application> getApplications(final State stateFilter) {
-        final List<ApplicationEntity> applicationEntities;
-
-        if(stateFilter != null) {
-            applicationEntities = applicationRepository.findAllByState(stateFilter.toEnum().name());
-        } else {
-            applicationEntities = applicationRepository.findAll();
-        }
-
-        return fromApplicationEntityMapper.map(applicationEntities);
+    public List<ApplicationEntity> getApplications() {
+        return applicationRepository.findAll();
     }
 
-    public Application getApplication(final Long id) {
-        return fromApplicationEntityMapper.map(applicationRepository.findOneById(id));
+    public ApplicationEntity getApplication(final Long id) {
+        return applicationRepository.findOneById(id);
     }
 
     public Map<String, Long> getApplicationStateCount() {
         Map<String, Long> counts = new HashMap<>();
-
         Arrays.stream(ApplicationState.values()).map(Enum::name).forEach(state -> counts.put(state, applicationRepository.countByState(state)));
-
         return counts;
     }
 
-    public Application postApplication(final ApplicationId applicationId) {
-        final Applicant applicant = applicationId.getApplicant();
+    public ApplicationEntity postApplication(final ApplicationEntity applicationEntity) {
+        //final ApplicantEntity applicantEntity = applicationId.getApplicant();
 
-        final ApplicantEntity savedApplicant = applicantRepository.save(toApplicantEntityMapper.map(applicant));
+        //final ApplicantEntity savedApplicant = applicantRepository.save(toApplicantEntityMapper.map(applicant));
 
-        final OffsetDateTime firstInterviewDateTime = applicationId.getFirstInterviewDateTime();
-        final OffsetDateTime secondInterviewDateTime = applicationId.getSecondInterviewDateTime();
+        final OffsetDateTime firstInterviewDateTime = OffsetDateTime.parse(applicationEntity.getFirstInterviewDateTime());
+        final OffsetDateTime secondInterviewDateTime = OffsetDateTime.parse(applicationEntity.getSecondInterviewDateTime());
 
-        final ApplicationEntity applicationEntity = ApplicationEntity.builder()
-                .id(applicationId.getId())
-                .applicant(savedApplicant)
+        final ApplicationEntity applicationEntityToSave = ApplicationEntity.builder()
+                //.id(applicationEntity.getId())
+                //.applicant(savedApplicant)
                 .firstInterviewDateTime(firstInterviewDateTime == null ? null : firstInterviewDateTime.toString())
                 .secondInterviewDateTime(secondInterviewDateTime == null ? null : secondInterviewDateTime.toString())
-                .motivationLetterLink(applicationId.getMotivationLetterLink())
-                .title(applicationId.getTitle())
-                .state(applicationId.getState().toEnum().name())
-                .region(regionRepository.findOneById(applicationId.getRegionId()))
-                .department(departmentRepository.findOneById(applicationId.getDepartmentId()))
-                .businessUnit(businessUnitRepository.findOneById(applicationId.getBusinessUnitId()))
-                .businessUnitManager(businessUnitManagerRepository.findOneById(applicationId.getBusinessUnitManagerId()))
+                .motivationLetterLink(applicationEntity.getMotivationLetterLink())
+                .title(applicationEntity.getTitle())
+                //.state(applicationEntity.getState().toEnum().name())
+                .region(regionRepository.findOneById(applicationEntity.getRegion().getId()))
+                .department(departmentRepository.findOneById(applicationEntity.getDepartment().getId()))
+                .businessUnit(businessUnitRepository.findOneById(applicationEntity.getBusinessUnit().getId()))
+                .businessUnitManager(businessUnitManagerRepository.findOneById(applicationEntity.getBusinessUnitManager().getId()))
                 .build();
 
-        final ApplicationEntity savedApplication = applicationRepository.save(applicationEntity);
-
-        return fromApplicationEntityMapper.map(savedApplication);
+        return applicationRepository.save(applicationEntityToSave);
     }
 
-    public Application putApplication(final ApplicationId applicationId) {
-        final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationId.getId());
+    public ApplicationEntity putApplication(final ApplicationEntity appEntity) {
+        final ApplicationEntity applicationEntity = applicationRepository.findOneById(appEntity.getId());
 
-        final ApplicantEntity applicantEntity = applicantRepository.findOneById(applicationId.getApplicant().getId());
-        applicantEntity.setEmail(applicationId.getApplicant().getEmail());
-        applicantEntity.setFirstName(applicationId.getApplicant().getFirstName());
-        applicantEntity.setPrefix(applicationId.getApplicant().getPrefix());
-        applicantEntity.setLastName(applicationId.getApplicant().getLastName());
-        applicantEntity.setPhoneNumber(applicationId.getApplicant().getPhoneNumber());
-        applicantEntity.setResumeLink(applicationId.getApplicant().getResumeLink());
-        applicantEntity.setEmail(applicationId.getApplicant().getEmail());
+        final ApplicantEntity applicantEntity = applicantRepository.findOneById(appEntity.getApplicant().getId());
+        applicantEntity.setEmail(appEntity.getApplicant().getEmail());
+        applicantEntity.setFirstName(appEntity.getApplicant().getFirstName());
+        applicantEntity.setPrefix(appEntity.getApplicant().getPrefix());
+        applicantEntity.setLastName(appEntity.getApplicant().getLastName());
+        applicantEntity.setPhoneNumber(appEntity.getApplicant().getPhoneNumber());
+        applicantEntity.setResumeLink(appEntity.getApplicant().getResumeLink());
+        applicantEntity.setEmail(appEntity.getApplicant().getEmail());
 
         final ApplicantEntity savedApplicant = applicantRepository.save(applicantEntity);
 
-        final OffsetDateTime firstInterviewDateTime = applicationId.getFirstInterviewDateTime();
-        final OffsetDateTime secondInterviewDateTime = applicationId.getSecondInterviewDateTime();
+        final OffsetDateTime firstInterviewDateTime = OffsetDateTime.parse(appEntity.getFirstInterviewDateTime());
+        final OffsetDateTime secondInterviewDateTime = OffsetDateTime.parse(appEntity.getSecondInterviewDateTime());
 
         applicationEntity.setApplicant(savedApplicant);
         applicationEntity.setFirstInterviewDateTime(firstInterviewDateTime == null ? null : firstInterviewDateTime.toString());
         applicationEntity.setSecondInterviewDateTime(secondInterviewDateTime == null ? null : secondInterviewDateTime.toString());
-        applicationEntity.setMotivationLetterLink(applicationId.getMotivationLetterLink());
-        applicationEntity.setTitle(applicationId.getTitle());
-        applicationEntity.setState(applicationId.getState().toEnum().name());
-        applicationEntity.setRegion(regionRepository.findOneById(applicationId.getRegionId()));
-        applicationEntity.setDepartment(departmentRepository.findOneById(applicationId.getDepartmentId()));
-        applicationEntity.setBusinessUnit(businessUnitRepository.findOneById(applicationId.getBusinessUnitId()));
-        applicationEntity.setBusinessUnitManager(businessUnitManagerRepository.findOneById(applicationId.getBusinessUnitManagerId()));
+        applicationEntity.setMotivationLetterLink(appEntity.getMotivationLetterLink());
+        applicationEntity.setTitle(appEntity.getTitle());
+        //applicationEntity.setState(appEntity.getState().toEnum().name());
+        applicationEntity.setRegion(regionRepository.findOneById(appEntity.getRegion().getId()));
+        applicationEntity.setDepartment(departmentRepository.findOneById(appEntity.getDepartment().getId()));
+        applicationEntity.setBusinessUnit(businessUnitRepository.findOneById(appEntity.getBusinessUnit().getId()));
+        applicationEntity.setBusinessUnitManager(businessUnitManagerRepository.findOneById(appEntity.getBusinessUnitManager().getId()));
 
         final ApplicationEntity savedApplication = applicationRepository.save(applicationEntity);
 
-        return fromApplicationEntityMapper.map(savedApplication);
+        return savedApplication;
     }
 
-    public Application promoteApplication(final Long applicationid) {
-        final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationid);
-        final Application application = fromApplicationEntityMapper.map(applicationEntity);
-        application.getState().toNextState(application);
-        final ApplicationEntity savedApplication = applicationRepository.save(toApplicationEntityMapper.map(application));
-        return fromApplicationEntityMapper.map(savedApplication);
+    public ApplicationEntity promoteApplication(final Long applicationid) {
+        //final ApplicationEntity applicationEntity = applicationRepository.findOneById(applicationid);
+        //final Application application = fromApplicationEntityMapper.map(applicationEntity);
+        //application.getState().toNextState(application);
+        //final ApplicationEntity savedApplication = applicationRepository.save(toApplicationEntityMapper.map(application));
+        //return fromApplicationEntityMapper.map(savedApplication);
+        return null;
     }
 }

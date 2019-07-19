@@ -32,6 +32,8 @@ export class ApplicationListComponent implements OnInit {
      'bum',
     'title',
   ];
+  private pageNumber = 1;
+  private pageSize = 10;
 
   get filterState(): string {
     return this._filterState;
@@ -39,11 +41,11 @@ export class ApplicationListComponent implements OnInit {
   set filterState(value: string) {
     this._filterState = value.toUpperCase();
 
-    this.loadApplications();
+    this.loadApplications(1);
   }
 
-  async loadApplications() {
-    this.applications = await this.applicationService.getApplications(this.filterState).toPromise();
+  async loadApplications(pageNo: number) {
+    this.applications = await this.applicationService.getApplications(this.filterState, this.pageSize, pageNo).toPromise();
   }
 
   ngOnInit() {
@@ -88,5 +90,19 @@ export class ApplicationListComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  //Paginations
+  public canLoadMore(): boolean {
+    return this.applications.length == 10;
+  } 
+
+  public canGoBack(): boolean {
+    return this.pageNumber > 1;
+  } 
+
+  public navigate(numberOfPages: number) {
+    this.pageNumber += numberOfPages;
+    this.loadApplications(this.pageNumber);
   }
 }

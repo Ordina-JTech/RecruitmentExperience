@@ -29,8 +29,8 @@ export class ApplicationService {
     return this.api.get(`application-states`);
   }
 
-  getApplications(state: string): Observable<Application[]> {
-    return this.api.get<Application[]>(`applications?state=${state}`);
+  getApplications(state: string, pageSize: number, pageNum: number): Observable<Application[]> {
+    return this.api.get<Application[]>(`applications?state=${state}&size=${pageSize}&pageNo=${pageNum}`);
   }
 
   getApplication(applicationId: number): Observable<Application> {

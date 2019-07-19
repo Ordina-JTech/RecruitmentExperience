@@ -29,4 +29,6 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row class="row" [routerLink]="row.id" *matRowDef="let row; columns: displayedColumns;" ></tr>
   </table>
+  <button (click)="navigate(-1)" *ngIf="canGoBack()">Previous page</button>
+    <button (click)="navigate(1)" *ngIf="canLoadMore()">Next page</button>
 </div>

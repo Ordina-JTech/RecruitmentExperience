@@ -50,11 +50,11 @@ public class ApplicationService {
 
     private VideoRenderingService videoRenderingService;
 
-    public List<Application> getApplications(final State stateFilter) {
+    public List<Application> getApplications(final State stateFilter, int size, int pageNo) {
         final List<ApplicationEntity> applicationEntities;
 
         if(stateFilter != null) {
-            applicationEntities = applicationRepository.findAllByState(stateFilter.toEnum().name());
+            applicationEntities = applicationRepository.findAllByState(stateFilter.toEnum().name(),((pageNo * size) - size), size);
         } else {
             applicationEntities = applicationRepository.findAll();
         }

@@ -18,7 +18,8 @@ import java.util.UUID;
 public interface ApplicationEndpoint {
 
     @ApiOperation(value = "Find all applications, optionally filter by state")
-    List<ApplicationIdModel> getApplications(@ApiParam(value = "Optional parameter to filter applications by state") String state);
+    List<ApplicationIdModel> getApplications(@ApiParam(value = "Optional parameter to filter applications by state") String state,
+    @ApiParam(value = "size of the data") int size, @ApiParam(value = "page number") int pageNo);
 
     @ApiOperation(value = "Get a single application")
     ApplicationIdModel getApplication(@ApiParam(value = "Id of the requested application") Long applicationId);

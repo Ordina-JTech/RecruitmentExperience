@@ -18,4 +18,7 @@ public interface ApplicationRepository extends JpaRepository<ApplicationEntity, 
     List<ApplicationEntity> findAllByState(final String state, int offset, int size);
 
     Long countByState(final String state);
+
+    @Query(value = "select * from application where applicant_id IN (:applicantIds)", nativeQuery = true)
+    List<ApplicationEntity> searchApplicationsBasedOnApplicantIds(List<Long> applicantIds);
 }

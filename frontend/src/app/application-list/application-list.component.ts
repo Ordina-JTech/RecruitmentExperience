@@ -34,7 +34,8 @@ export class ApplicationListComponent implements OnInit {
   ];
   private pageNumber = 1;
   private pageSize = 10;
-
+  searchQuery: string;
+  
   get filterState(): string {
     return this._filterState;
   }
@@ -45,6 +46,7 @@ export class ApplicationListComponent implements OnInit {
   }
 
   async loadApplications(pageNo: number) {
+    this.pageNumber = pageNo;
     this.applications = await this.applicationService.getApplications(this.filterState, this.pageSize, pageNo).toPromise();
   }
 
@@ -52,7 +54,6 @@ export class ApplicationListComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.filterState = params.state;
     });
-
     this.getDepartments();
     this.getBusinessUnitManager();
   }
@@ -95,6 +96,7 @@ export class ApplicationListComponent implements OnInit {
   //Paginations
   public canLoadMore(): boolean {
     return this.applications.length == 10;
+    
   } 
 
   public canGoBack(): boolean {
@@ -104,5 +106,21 @@ export class ApplicationListComponent implements OnInit {
   public navigate(numberOfPages: number) {
     this.pageNumber += numberOfPages;
     this.loadApplications(this.pageNumber);
+  }
+
+  //Search Applicants
+  public searchApplicants(pageNum){
+    if(this.searchQuery.length === 0) {
+      this.resetSearch();
+      return;
+    }
+    this.applicationService.searchApplication(this.searchQuery, pageNum, this.pageSize, this.filterState).subscribe(searchApplications => {
+      this.applications = searchApplications;
+    });
+  }
+
+  public resetSearch(){
+    this.searchQuery = '';
+    this.loadApplications(1);
   }
 }

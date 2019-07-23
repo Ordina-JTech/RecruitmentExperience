@@ -61,6 +61,7 @@ public class ApplicationRestController implements ApplicationEndpoint {
     @Override
     @GetMapping
     public List<ApplicationIdModel> getApplications(@RequestParam(required = false) String state,
+                                                    @RequestParam(required = false) String query,
                                                     @RequestParam int size, @RequestParam int pageNo) {
         ApplicationStateModel stateModel;
         try {
@@ -68,7 +69,7 @@ public class ApplicationRestController implements ApplicationEndpoint {
         } catch (NullPointerException e) {
             stateModel = null;
         }
-        return toApplicationIdModelMapper.map(applicationService.getApplications(fromApplicationStateModelMapper.mapNullSafe(stateModel), size, pageNo));
+        return toApplicationIdModelMapper.map(applicationService.getApplications(fromApplicationStateModelMapper.mapNullSafe(stateModel), size, pageNo, query));
     }
 
     @Override

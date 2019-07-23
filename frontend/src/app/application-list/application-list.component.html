@@ -1,8 +1,13 @@
 <div class="container">
   <div class="title">
-    <h2>{{filterState | formatState}}</h2>
+    <h2 class = "title-h2">{{filterState | formatState}}</h2>
+    <input *ngIf="filterState != 'NEW'" (keyup.enter)="searchApplicants(1)" class= "searchtextbox"
+           [(ngModel)]="searchQuery" type="text" placeholder="Zoeken op naam">
+    <button *ngIf="filterState != 'NEW'" (click)="searchApplicants(1)"
+           class="go-button" type="submit"><i class="fas fa-search"></i></button>
     <button mat-button *ngIf="filterState === 'NEW'" (click)="handleAddClick()">Toevoegen</button>
   </div>
+
   <table mat-table [dataSource]="applications" class="mat-elevation-z8">
     <ng-container matColumnDef="applicant">
       <th class="name-col" mat-header-cell *matHeaderCellDef> Naam </th>
@@ -30,6 +35,7 @@
     <tr mat-row class="row" [routerLink]="row.id" *matRowDef="let row; columns: displayedColumns;" ></tr>
   </table>
   <br>
-  <button (click)="navigate(-1)" *ngIf="canGoBack()">Previous page</button>
-  <button (click)="navigate(1)" *ngIf="canLoadMore()">Next page</button>
-</div>
+  <button class= "previous-button" (click)="navigate(-1)" *ngIf="canGoBack()">Previous page</button>
+  <button class= "next-button" (click)="navigate(1)" *ngIf="canLoadMore()">Next page</button>
+  </div>
+

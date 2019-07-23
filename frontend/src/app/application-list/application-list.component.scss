@@ -10,6 +10,10 @@
   justify-content: space-between;
 }
 
+.title-h2{
+  width: 30%;
+}
+
 .department-col {
   min-width: 100px;
 }
@@ -29,3 +33,22 @@
 .row {
   cursor: pointer;
 }
+.searchtextbox{
+  width: 350px;
+  height: 40px;
+  margin-top: 11px;
+  font-size: 14px;
+}
+
+.go-button{
+  width: 8%;
+  height: 44px;
+  margin-top: 11px;
+}
+.next-button{
+  margin-left: auto;
+}
+.previous-button{
+  margin-right: auto;
+}
+

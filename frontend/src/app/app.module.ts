@@ -31,7 +31,8 @@ import { ApplicationNotesComponent } from './application-notes/application-notes
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { EditDialogComponent } from './dialogs/edit-dialog/edit-dialog.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule , FormsModule} from '@angular/forms';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 // import * as Sentry from '@sentry/browser';
 
@@ -81,6 +82,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     MatDialogModule,
     ReactiveFormsModule,
+    FormsModule,
+    AngularFontAwesomeModule
   ],
   // providers: [{provide: ErrorHandler, useClass: SentryErrorHandler}],
   bootstrap: [AppComponent],

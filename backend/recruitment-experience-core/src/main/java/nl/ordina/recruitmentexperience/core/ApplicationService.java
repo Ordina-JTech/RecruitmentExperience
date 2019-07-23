@@ -50,16 +50,30 @@ public class ApplicationService {
 
     private VideoRenderingService videoRenderingService;
 
-    public List<Application> getApplications(final State stateFilter, int size, int pageNo) {
+    public List<Application> getApplications(final State stateFilter, int size, int pageNo, String searchQuery) {
         final List<ApplicationEntity> applicationEntities;
 
-        if(stateFilter != null) {
-            applicationEntities = applicationRepository.findAllByState(stateFilter.toEnum().name(),((pageNo * size) - size), size);
-        } else {
+        if(stateFilter != null && null == searchQuery) {
+            applicationEntities = applicationRepository.findAllByState(stateFilter.toEnum().name(),
+                    ((pageNo * size) - size), size);
+        }
+        else if(stateFilter != null && checkStringIsEmptyAndNull(searchQuery)) {
+            applicationEntities = applicationRepository.searchApplicationsBasedOnApplicantIds(applicantRepository.searchApplicants(searchQuery));
+        }
+        else {
             applicationEntities = applicationRepository.findAll();
         }
-
         return fromApplicationEntityMapper.map(applicationEntities);
+    }
+
+    /**
+     * This method is used to check whether the string is non empty and non null
+     *
+     * @param value  - string value
+     * @return boolean - based on the null and empty condition
+     */
+    private boolean checkStringIsEmptyAndNull(String value){
+        return (null != value && !value.trim().isEmpty()) ? true : false;
     }
 
     public Application getApplication(final Long id) {

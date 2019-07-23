@@ -49,6 +49,10 @@ export class ApplicationService {
     return this.api.post(`applications/${application.id}/promote`, {});
   }
 
+  public searchApplication(query, pageNum, pageSize, state): Observable<Application[]> {
+  return this.api.get<Application[]>(`applications?state=${state}&query=${query}&size=${pageSize}&pageNo=${pageNum}`);
+  }
+
   async openEditModal(applicationId: number): Promise<Application> {
     const application = await this.openModal(await this.getApplication(applicationId).toPromise());
 

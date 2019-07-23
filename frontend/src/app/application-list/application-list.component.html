@@ -4,7 +4,7 @@
     <input *ngIf="filterState != 'NEW'" (keyup.enter)="searchApplicants(1)" class= "searchtextbox"
            [(ngModel)]="searchQuery" type="text" placeholder="Zoeken op naam">
     <button *ngIf="filterState != 'NEW'" (click)="searchApplicants(1)"
-           class="go-button" type="submit"><i class="fas fa-search"></i></button>
+           class="mat-raised-button search-button" type="submit">Zoek</button>
     <button mat-button *ngIf="filterState === 'NEW'" (click)="handleAddClick()">Toevoegen</button>
   </div>
 

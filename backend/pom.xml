@@ -9,7 +9,6 @@
         <module>recruitment-experience-api</module>
         <module>recruitment-experience-core</module>
         <module>recruitment-experience-data</module>
-        <module>recruitment-experience-common</module>
     </modules>
 
     <parent>

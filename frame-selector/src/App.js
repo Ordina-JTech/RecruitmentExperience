@@ -22,13 +22,18 @@ class App extends React.Component {
   };
 
   render() {
+    const video = this.videoRef.current;
     if (!this.state.done) {
-      return <div className="jemoeder">
-        <video onClick={this.handleFrameClick} src="/movie.mp4" muted  ref={this.videoRef} type="video/mp4" >
+      return <div className="hoi">
+        <video onClick={this.handleFrameClick} src="/movie.mp4" muted ref={this.videoRef} type="video/mp4" >
         </video>
         {this.renderDots()}
         <p>{this.state.currentState}</p>
-        <button onClick={this.showNextFrame}>Next frame</button>
+        <div>
+          {video && Math.floor(video.currentTime / video.duration * 100)}
+          {!this.isFirstFrame() && <button onClick={this.skipFrame}>Skip frame</button>}
+          <button onClick={this.showNextFrame}>Next frame</button>
+        </div>
       </div>;
     } else {
       return <pre>{JSON.stringify(this.state.frameData)}</pre>
@@ -77,6 +82,28 @@ class App extends React.Component {
     }
   }
 
+  skipFrame = () => {
+    const video = this.videoRef.current;
+    video.currentTime += 1 / FPS;
+
+    const {frameData} = this.state;
+
+    this.setState({
+      frameData: [
+        ...frameData,
+        null,
+      ]
+    });
+
+    if (video.ended) {
+      this.handleDone();
+    }
+  }
+
+  isFirstFrame() {
+    return this.state.frameData.length === 0;
+  }
+
   showNextFrame = () => {
     const video = this.videoRef.current;
     video.currentTime += 1 / FPS;
@@ -93,11 +120,55 @@ class App extends React.Component {
     });
 
     if (video.ended) {
-      console.log(this.state.frameData)
-      this.setState({
-        done: true,
-      })
+      this.handleDone();
     }
+  }
+
+  handleDone = () => {
+    console.log(this.state.frameData)
+    this.setState({
+      done: true,
+    });
+
+    const {frameData} = this.state;
+
+    for (let i = 0; i < frameData.length; i++) {
+      const frame = frameData[i];
+      if (!frame) {
+        const nextFrameIndex = this.findNextFrame(i);
+        frameData[i] = this.interpolateFrame(frameData[i - 1], frameData[nextFrameIndex], nextFrameIndex - i);
+      }
+    }
+
+    this.setState({
+      frameData,
+    })
+  }
+
+  interpolateFrame(previousFrame, nextFrame, stepsBetween) {
+    console.log('itnerpolate', previousFrame, nextFrame, stepsBetween)
+    return Object.keys(STATE).reduce((acc, val) => {
+      console.log(val);
+      return {
+        ...acc,
+        [val]: {
+          x: Math.round(previousFrame[val].x + ((nextFrame[val].x - previousFrame[val].x) / (stepsBetween + 1))),
+          y: Math.round(previousFrame[val].y + ((nextFrame[val].y - previousFrame[val].y) / (stepsBetween + 1))),
+        }
+      }
+    }, {});
+  }
+
+  findNextFrame(index) {
+    const {frameData} = this.state;
+    for (let i = index + 1; i < frameData.length; i++) {
+      if (frameData[i]) {
+        return i;
+      }
+    }
+
+    console.log(JSON.stringify(frameData));
+    throw new Error('mag niet');
   }
 }
 
